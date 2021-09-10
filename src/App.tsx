@@ -5,7 +5,12 @@ import AppHeader from './components/AppHeader/AppHeader';
 
 function App() {
   return (
+      <>
       <AppHeader />
+      <main>
+
+      </main>
+      </>
   );
 }
 

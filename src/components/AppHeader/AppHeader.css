@@ -1,15 +1,4 @@
-.body{
-    font-family: "JetBrains Mono", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 24px;
-    color: #F2F2F3;
-}
 
-li {
-    list-style-type: none; /* Убираем маркеры */
-}
 
 .wrapper{
     max-width: 1920px;
