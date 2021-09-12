@@ -1,38 +1,38 @@
 import React from 'react';
 import {Logo} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/logo';
 import {BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import HeaderStyles from './AppHeader.css';
+import HeaderStyles from './AppHeader.module.css';
 
 function AppHeader() {
     return (
-        <header className="header pt-4 pb-4">
+        <header className={HeaderStyles.header + " pt-4 pb-4"}>
             <div className="container">
-                <div className="header__container">
-                    <nav className="header__nav">
-                        <ul className="header__nav-list">
-                            <li className="header__nav-item mr-2">
-                                <a href="#0" className="header__nav-link pt-4 pb-4 pl-5 pr-5 active">
+                <div className={HeaderStyles.header__container}>
+                    <nav>
+                        <ul className={HeaderStyles.header__nav_list}>
+                            <li className="mr-2">
+                                <a href="#0" className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5 " + HeaderStyles.active }>
                                     <BurgerIcon type={"primary"}/>
                                     <span className="header__nav-name ml-2">Конструктор</span>
                                 </a>
                             </li>
-                            <li className="header__nav-item">
-                                <a href="#0" className="header__nav-link pt-4 pb-4 pl-5 pr-5">
+                            <li>
+                                <a href="#0" className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
                                     <ListIcon type={"secondary"}/>
-                                    <span className="header__nav-name ml-2">Лента заказов</span>
+                                    <span className="ml-2">Лента заказов</span>
                                 </a>
                             </li>
                         </ul>
                     </nav>
-                    <a className="header__logo" href="#">
+                    <a href="#">
                         <Logo/>
                     </a>
-                    <nav className="header__nav">
-                        <ul className="header__nav-list">
-                            <li className="header__nav-item">
-                                <a href="#0" className="header__nav-link pt-4 pb-4 pl-5 pr-5">
+                    <nav>
+                        <ul className={HeaderStyles.header__nav_list}>
+                            <li>
+                                <a href="#0" className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
                                     <ProfileIcon type={"secondary"}/>
-                                    <span className="header__nav-name ml-2">Личный кабинет</span>
+                                    <span className="ml-2">Личный кабинет</span>
                                 </a>
                             </li>
                         </ul>
