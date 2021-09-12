@@ -1,0 +1,76 @@
+.ingredients {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ingredients__content {
+    overflow-y: auto;
+}
+
+.ingredients__nav-list {
+    display: flex;
+}
+
+.ingredients__nav-item {
+    flex: 1 1 auto;
+    color: var(--text-inactive-color);
+    text-align: center;
+    border-bottom: 1px solid var(--background-element);
+    transition: var(--common-transition);
+    cursor: pointer;
+}
+
+.ingredients__nav-item.active,
+.ingredients__nav-item:hover {
+    color: var(--text-primary-color);
+}
+
+.ingredients__nav-item.active {
+    border-width: 2px;
+    border-color: var(--colors-interface-accent);
+}
+
+.ingredients__content-cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ingredients__card {
+    position: relative;
+    flex-grow: 1;
+}
+
+.ingredients__card:not(:last-of-type) {
+    margin-right: calc(var(--offset-base-size)  * 6);
+}
+
+.ingredients__card-image {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.ingredients__card-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--colors-interface-accent);
+}
+
+.ingredients__card-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ingredients__card-name {
+    text-align: center;
+}

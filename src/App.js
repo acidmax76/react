@@ -9,11 +9,15 @@ function App() {
     return (
         <>
             <AppHeader/>
-            <main>
-                <div className="wrapper">
-                    <BurgerIngredients />
-                    <BurgerConstructor />
-                </div>
+            <main className="main">
+                <ul className="container content">
+                    <li className="content__block mr-10">
+                        <BurgerIngredients/>
+                    </li>
+                    <li className="content__block">
+                        <BurgerConstructor/>
+                    </li>
+                </ul>
             </main>
         </>
     );
