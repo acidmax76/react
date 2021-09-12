@@ -6,6 +6,7 @@
 
 .ingredients__content {
     overflow-y: auto;
+    height: 716px;
 }
 
 .ingredients__nav-list {
