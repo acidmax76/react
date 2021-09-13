@@ -8,6 +8,11 @@ function BurgerIngredients(props) {
     let buns = props.data.filter(element=>element.type === "bun");
     let sauce = props.data.filter(element=>element.type === "sauce");
     let main = props.data.filter(element=>element.type === "main");
+    let count=()=>{
+        if (Math.random() >= 0.5){
+            return (<Counter count={1}/>);
+        }
+    }
     return (
         <section className={IngredientStyle.ingredients + " pt-10 pb-10"}>
             <h2 className="ingredients__title text_type_main-large mb-5"> Соберите бургер</h2>
@@ -36,7 +41,7 @@ function BurgerIngredients(props) {
                                         <a className="ingredients__card-link" href="/">
                                             <img className={IngredientStyle.ingredients__card_image} src={item.image}
                                                  alt="картинка товара"/>
-                                            {<Counter count={1}/>}
+                                            {count()}
                                             <p className={IngredientStyle.ingredients__card_price + " mt-1 mb-1"}>
                                                 <span
                                                     className="ingredients__card-price-value text_type_digits-default mr-2">{item.price}</span>
@@ -58,7 +63,7 @@ function BurgerIngredients(props) {
                                         <a className="ingredients__card-link" href="/">
                                             <img className={IngredientStyle.ingredients__card_image} src={item.image}
                                                  alt="картинка товара"/>
-                                            <p className={IngredientStyle.ingredients__card_count + " text_type_digits-default"}>1</p>
+                                            {count()}
                                             <p className={IngredientStyle.ingredients__card_price + " mt-1 mb-1"}>
                                                 <span
                                                     className="ingredients__card-price-value text_type_digits-default mr-2">{item.price}</span>
@@ -80,7 +85,7 @@ function BurgerIngredients(props) {
                                         <a className="ingredients__card-link" href="/">
                                             <img className={IngredientStyle.ingredients__card_image} src={item.image}
                                                  alt="картинка товара"/>
-                                            <p className={IngredientStyle.ingredients__card_count + " text_type_digits-default"}>1</p>
+                                            {count()}
                                             <p className={IngredientStyle.ingredients__card_price + " mt-1 mb-1"}>
                                                 <span
                                                     className="ingredients__card-price-value text_type_digits-default mr-2">{item.price}</span>
