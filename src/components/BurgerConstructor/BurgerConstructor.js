@@ -36,9 +36,11 @@ function BurgerConstructor(props) {
                     <span className="constructor__price-value text_type_digits-medium mr-2">610</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                {<Button type="primary" size="medium">
+                <span className="pt-5 pb-5 pl-10 pr-15">
+                {<Button  type="primary" size="medium">
                     Оформить заказ
                 </Button>}
+                    </span>
             </div>
         </section>
     );
