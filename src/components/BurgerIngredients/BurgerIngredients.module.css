@@ -22,9 +22,9 @@
     cursor: pointer;
 }
 
-.ingredients__nav_item:hover {
-    color: var(--text-primary-color);
-}
+/*.ingredients__nav_item:hover {*/
+/*    color: var(--text-primary-color);*/
+/*}*/
 
 .active {
     border-width: 2px;
@@ -42,9 +42,9 @@
     flex-grow: 1;
 }
 
-.ingredients__card:not(:last-of-type) {
-    margin-right: calc(var(--offset-base-size)  * 6);
-}
+/*.ingredients__card:not(:last-of-type) {*/
+/*    margin-right: calc(var(--offset-base-size)  * 6);*/
+/*}*/
 
 .ingredients__card_image {
     display: block;
