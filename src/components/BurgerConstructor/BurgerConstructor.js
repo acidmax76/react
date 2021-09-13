@@ -1,6 +1,8 @@
 import React from 'react';
 import {CurrencyIcon, DeleteIcon, LockIcon, DragIcon,Button,ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorStyle from './BurgerConstructor.module.css';
+import PropTypes from "prop-types";
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 
 function BurgerConstructor(props) {
     let top = props.data[0];
@@ -41,5 +43,11 @@ function BurgerConstructor(props) {
         </section>
     );
 }
-
+BurgerConstructor.propTypes = {
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    image:PropTypes.string,
+    type:PropTypes.oneOf(['sauce','main','buns']),
+};
 export default BurgerConstructor;
