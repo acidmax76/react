@@ -1,5 +1,5 @@
 import React from 'react';
-import AppStyles from './App.css';
+// import AppStyles from './App.css';
 import AppHeader from './components/AppHeader/AppHeader';
 import BurgerConstructor from "./components/BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "./components/BurgerIngredients/BurgerIngredients";
@@ -12,10 +12,10 @@ function App() {
             <main className="main">
                 <ul className="container content">
                     <li className="content__block mr-10">
-                        <BurgerIngredients/>
+                        <BurgerIngredients data={Data}/>
                     </li>
                     <li className="content__block">
-                        <BurgerConstructor/>
+                        <BurgerConstructor data={Data}/>
                     </li>
                 </ul>
             </main>

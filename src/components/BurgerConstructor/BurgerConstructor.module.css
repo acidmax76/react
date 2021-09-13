@@ -16,6 +16,9 @@
     margin-top: calc(var(--offset-base-size) * 4);
 }
 
+/*.constructor__item{*/
+/*    margin-top: 16px;*/
+/*}*/
 
 .constructor__item .constructor-element {
     width: 100%;
