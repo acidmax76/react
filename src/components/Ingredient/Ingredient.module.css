@@ -1,0 +1,33 @@
+.ingredients__card {
+    position: relative;
+    width: calc(50% - var(--offset-base-size) * 3);
+}
+.ingredients__card_image {
+    display: block;
+    width: 240px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.ingredients__card_count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--colors-interface-accent);
+}
+
+.ingredients__card_price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ingredients__card_name {
+    text-align: center;
+}

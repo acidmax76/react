@@ -1,13 +1,21 @@
 import React from 'react';
-import {CurrencyIcon, DeleteIcon, LockIcon, DragIcon,Button,ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
+import {CurrencyIcon, DragIcon,Button,ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorStyle from './BurgerConstructor.module.css';
 import PropTypes from "prop-types";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 
 function BurgerConstructor(props) {
-    let top = props.data[0];
-    let bottom = props.data[props.data.length - 1];
-
+    const top = {
+        "name":"Краторная булка N-200i (верх)",
+        "price" : 1255,
+        "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png"
+    }
+    const bottom = {
+        "name":"Краторная булка N-200i (низ)",
+        "price" : 1255,
+        "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png"
+    }
+    const item = props.data.filter(item=>item.type !== 'bun');
     return (
         <section className={ConstructorStyle.constructor + " pt-25 pb-10"}>
             <div className="constructor__content pl-4">
@@ -15,7 +23,7 @@ function BurgerConstructor(props) {
                     {<ConstructorElement type="top" isLocked={true} text={top.name} price={top.price} thumbnail={top.image_mobile} />}
                 </div>
                 <ul className={ConstructorStyle.constructor__list + " custom-scroll mt-4 mb-4"}>
-                    {props.data.map(item => {
+                    {item.map(item => {
                          return (<li key={item._id} className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
                                 <div className={ConstructorStyle.constructor__drag + " mr-2"}>
                                     <DragIcon type={"primary"}/>
@@ -45,11 +53,13 @@ function BurgerConstructor(props) {
         </section>
     );
 }
-BurgerConstructor.propTypes = {
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    image:PropTypes.string,
-    type:PropTypes.oneOf(['sauce','main','buns']),
+BurgerIngredients.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        price: PropTypes.number,
+        image_mobile: PropTypes.string,
+        type: PropTypes.oneOf(['sauce', 'main', 'bun']),
+    }))
 };
 export default BurgerConstructor;

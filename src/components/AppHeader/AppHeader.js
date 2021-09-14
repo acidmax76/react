@@ -2,11 +2,12 @@ import React from 'react';
 import {Logo} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/logo';
 import {BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import HeaderStyles from './AppHeader.module.css';
+import AppStyles from '../App/App.module.css';
 
 function AppHeader() {
     return (
         <header className={HeaderStyles.header + " pt-4 pb-4"}>
-            <div className="container">
+            <div className={AppStyles.container}>
                 <div className={HeaderStyles.header__container}>
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>

@@ -10,6 +10,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: none;
+  height: 100vh;
+  font-family: "JetBrains Mono", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  overflow: hidden;
 }
 
 ul, ol {
@@ -61,35 +66,7 @@ button {
   cursor: pointer;
 }
 
-.body {
-  height: 100vh;
-  font-family: "JetBrains Mono", sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  overflow: hidden;
-}
 
-.main {
-  height: calc(100% - 88px);
-  overflow: hidden;
-}
-
-.container {
-  max-width: 1240px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.content {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-}
-
-.content__block {
-  width: 600px;
-  height: 100%;
-}
 
 .button {
   border-radius: 64px;
