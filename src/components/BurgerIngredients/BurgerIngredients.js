@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Ingredient from '../Ingredient/Ingredient';
 
 function BurgerIngredients(props) {
+    console.log(props.data);
     const [currentTab, setCurrentTab] = React.useState("buns");
     const buns = props.data.filter(element => element.type === "bun");
     const sauce = props.data.filter(element => element.type === "sauce");
