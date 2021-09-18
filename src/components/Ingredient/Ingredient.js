@@ -3,31 +3,33 @@ import IngredientStyle from './Ingredient.module.css';
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 
-function Ingredient({image, price, name, count = 0}) {
+function Ingredient(props) {
     return (
-        <div className={IngredientStyle.ingredients__card}>
-            {/*<a className="ingredients__card-link" href="/">*/}
-                <img className={IngredientStyle.ingredients__card_image} src={image}
-                     alt="картинка товара"/>
-                {count > 0 &&
-                    <Counter count={count}/>
+        <div className={IngredientStyle.ingredients__card} onClick={props.onClick}>
+                <img className={IngredientStyle.ingredients__card_image} src={props.data.image_mobile}
+                     alt="картинка товара" />
+                {props.count > 0 &&
+                    <Counter count={props.count}/>
                 }
                 <p className={IngredientStyle.ingredients__card_price + " mt-1 mb-1"}>
                                                 <span
-                                                    className="ingredients__card-price-value text_type_digits-default mr-2">{price}</span>
+                                                    className="ingredients__card-price-value text_type_digits-default mr-2">{props.data.price}</span>
                     <CurrencyIcon type={"primary"}/>
                 </p>
-                <p className={IngredientStyle.ingredients__card_name + " pb-6"}>{name}</p>
-            {/*</a>*/}
+                <p className={IngredientStyle.ingredients__card_name + " pb-6"}>{props.data.name}</p>
         </div>
     );
 }
 
 Ingredient.propTypes =  {
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
-        count: PropTypes.number,
+    count: PropTypes.number,
+    data: PropTypes.shape({
+        _id: PropTypes.string,
+        name: PropTypes.string,
+        price: PropTypes.number,
+        image_mobile: PropTypes.string,
+        type: PropTypes.oneOf(['sauce', 'main', 'bun']),
+    }),
 };
 
 export default Ingredient;

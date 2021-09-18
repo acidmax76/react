@@ -58,7 +58,7 @@ function BurgerConstructor(props) {
                 </Button>}
                     </span>
             </div>
-            {showModal && <Modal header={"тест"} onClose={handleCloseModal}></Modal>}
+            {showModal && <Modal onClose={handleCloseModal}></Modal>}
         </section>
     );
 }

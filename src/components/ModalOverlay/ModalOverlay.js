@@ -1,8 +1,10 @@
+import styles from './ModalOverlay.module.css';
 
-
-const ModalOverlay = (props)=>{
+const ModalOverlay = (props) => {
     return (
-        {props}
+            <div className={styles.back}>
+                {props.children}
+            </div>
     );
 }
 

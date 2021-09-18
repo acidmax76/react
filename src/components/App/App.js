@@ -9,22 +9,24 @@ function App() {
     const [state, setState] = useState({
         Data: [],
         loading: true,
+        needFetch: true
     })
 
-    const getData = async () => {
-        try {
-            setState({...state, loading: true});
-            const res = await fetch(API_URL);
-            const data = await res.json();
-            setState({...state, Data: data.data, loading: false});
-        } catch (e) {
-            console.log(e.message);
-        }
-    };
+
 
     useEffect(() => {
+        const getData = async () => {
+            try {
+                setState({...state, loading: true});
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                setState({...state, Data: data.data, loading: false});
+            } catch (e) {
+                console.log(e.message);
+            }
+        };
         getData();
-    }, []);
+    }, [state.needFetch]);
 
     return (
 
@@ -34,11 +36,13 @@ function App() {
                 <ul className={AppStyles.container + ' ' + AppStyles.content}>
                     <li className={AppStyles.content__block + " mr-10"}>
                         {
+                            !state.loading &&
                             <BurgerIngredients data={state.Data}/>
                         }
                     </li>
                     <li className="{AppStyles.content__block}">
                         {
+                            !state.loading &&
                             <BurgerConstructor data={state.Data}/>
                         }
                     </li>

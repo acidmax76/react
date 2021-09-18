@@ -1,21 +1,24 @@
 import React, {useState} from 'react';
-import {Button, Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import PropTypes from 'prop-types';
 import Ingredient from '../Ingredient/Ingredient';
 import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 function BurgerIngredients(props) {
-
     const [currentTab, setCurrentTab] = useState("buns");
     const [showModal, setShowModal] = useState(false);
+    const [dataForModal,setDataForModal] = useState(null);
     const buns = props.data.filter(element => element.type === "bun");
     const sauce = props.data.filter(element => element.type === "sauce");
     const main = props.data.filter(element => element.type === "main");
 
-    const handleClickIngredients = () => {
+    const handleClickIngredients = (data) => {
         setShowModal(true);
+        setDataForModal(data);
     }
+
     const handleCloseModal = () => {
         setShowModal(false);
     }
@@ -40,11 +43,11 @@ function BurgerIngredients(props) {
                 <ul className="ingredients__content-list">
                     <li className="ingredients__content-item">
                         <h3 className="ingredients__content-title text_type_main-medium mb-6">Булки</h3>
-                        <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"} >
+                        <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>
                             {buns.map(item => {
                                 const count = Math.random() > 0.5 ? 1 : 0;
-                                return <Ingredient key={item._id} image={item.image} price={item.price} name={item.name}
-                                                   count={count} onClick={handleClickIngredients}/>
+                                return <Ingredient key={item._id} data={item} count={count}
+                                                   onClick={() => handleClickIngredients(item)} onClose={handleCloseModal}/>
                             })}
                         </div>
                     </li>
@@ -53,8 +56,7 @@ function BurgerIngredients(props) {
                     {/*    <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>*/}
                     {/*        {sauce.map(item => {*/}
                     {/*            const count = Math.random() > 0.5 ? 1 : 0;*/}
-                    {/*            return <Ingredient key={item._id} image={item.image} price={item.price}*/}
-                    {/*                               name={item.name} count={count}/>*/}
+                    {/*            return <Ingredient key={item._id} data={item} count={count} onClick={handleClickIngredients} onClose={handleCloseModal}/>*/}
                     {/*        })}*/}
                     {/*    </div>*/}
                     {/*</li>*/}
@@ -63,14 +65,16 @@ function BurgerIngredients(props) {
                     {/*    <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>*/}
                     {/*        {main.map(item => {*/}
                     {/*            const count = Math.random() > 0.5 ? 1 : 0;*/}
-                    {/*            return <Ingredient key={item._id} image={item.image} price={item.price}*/}
-                    {/*                               name={item.name} count={count}/>*/}
+                    {/*            return <Ingredient key={item._id} data={item} count={count} onClick={handleClickIngredients} onClose={handleCloseModal}/>*/}
                     {/*        })}*/}
                     {/*    </div>*/}
                     {/*</li>*/}
                 </ul>
             </div>
-            {showModal && <Modal header={"тест"}/>}
+            <div style={{overflow: 'hidden'}}>
+                {showModal &&
+                <Modal header={"Детали ингредиента"} onClose={handleCloseModal}><IngredientDetails data={dataForModal}/></Modal>}
+            </div>
         </section>
 
     );
@@ -81,7 +85,7 @@ BurgerIngredients.propTypes = {
         _id: PropTypes.string,
         name: PropTypes.string,
         price: PropTypes.number,
-        image: PropTypes.string,
+        image_mobile: PropTypes.string,
         type: PropTypes.oneOf(['sauce', 'main', 'bun']),
     }))
 };
