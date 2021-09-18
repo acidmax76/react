@@ -22,6 +22,7 @@ function BurgerIngredients(props) {
     const handleCloseModal = () => {
         setShowModal(false);
     }
+
     return (
         <section className={BurgerIngredientStyle.ingredients + " pt-10 pb-10"}>
             <h2 className="ingredients__title text_type_main-large mb-5"> Соберите бургер</h2>
@@ -51,24 +52,24 @@ function BurgerIngredients(props) {
                             })}
                         </div>
                     </li>
-                    {/*<li className="ingredients__content-item">*/}
-                    {/*    <h3 className="ingredients__content-title text_type_main-medium mb-6">Соусы</h3>*/}
-                    {/*    <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>*/}
-                    {/*        {sauce.map(item => {*/}
-                    {/*            const count = Math.random() > 0.5 ? 1 : 0;*/}
-                    {/*            return <Ingredient key={item._id} data={item} count={count} onClick={handleClickIngredients} onClose={handleCloseModal}/>*/}
-                    {/*        })}*/}
-                    {/*    </div>*/}
-                    {/*</li>*/}
-                    {/*<li className="ingredients__content-item">*/}
-                    {/*    <h3 className="ingredients__content-title text_type_main-medium mb-6">Начинка</h3>*/}
-                    {/*    <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>*/}
-                    {/*        {main.map(item => {*/}
-                    {/*            const count = Math.random() > 0.5 ? 1 : 0;*/}
-                    {/*            return <Ingredient key={item._id} data={item} count={count} onClick={handleClickIngredients} onClose={handleCloseModal}/>*/}
-                    {/*        })}*/}
-                    {/*    </div>*/}
-                    {/*</li>*/}
+                    <li className="ingredients__content-item">
+                        <h3 className="ingredients__content-title text_type_main-medium mb-6">Соусы</h3>
+                        <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>
+                            {sauce.map(item => {
+                                const count = Math.random() > 0.5 ? 1 : 0;
+                                return <Ingredient key={item._id} data={item} count={count} onClick={()=>handleClickIngredients(item)} onClose={handleCloseModal}/>
+                            })}
+                        </div>
+                    </li>
+                    <li className="ingredients__content-item">
+                        <h3 className="ingredients__content-title text_type_main-medium mb-6">Начинка</h3>
+                        <div className={BurgerIngredientStyle.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>
+                            {main.map(item => {
+                                const count = Math.random() > 0.5 ? 1 : 0;
+                                return <Ingredient key={item._id} data={item} count={count} onClick={()=>handleClickIngredients(item)} onClose={handleCloseModal}/>
+                            })}
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div style={{overflow: 'hidden'}}>

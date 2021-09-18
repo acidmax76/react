@@ -4,6 +4,8 @@ import ConstructorStyle from './BurgerConstructor.module.css';
 import PropTypes from "prop-types";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import Modal from "../Modal/Modal";
+import OrderDetails from '../OrderDetails/OrderDetails';
+
 
 function BurgerConstructor(props) {
     const [showModal,setShowModal] = useState(false);
@@ -58,7 +60,7 @@ function BurgerConstructor(props) {
                 </Button>}
                     </span>
             </div>
-            {showModal && <Modal onClose={handleCloseModal}></Modal>}
+            {showModal && <Modal onClose={handleCloseModal}><OrderDetails /></Modal>}
         </section>
     );
 }

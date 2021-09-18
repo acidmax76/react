@@ -9,7 +9,8 @@ function App() {
     const [state, setState] = useState({
         Data: [],
         loading: true,
-        needFetch: true
+        needFetch: true,
+        hasError:false,
     })
 
 
@@ -20,19 +21,21 @@ function App() {
                 setState({...state, loading: true});
                 const res = await fetch(API_URL);
                 const data = await res.json();
-                setState({...state, Data: data.data, loading: false});
+                setState({...state, Data: data.data, loading: false, hasError: false});
             } catch (e) {
+                setState({...state, Data: [], loading: false, hasError: true});
                 console.log(e.message);
             }
         };
-        getData();
-    }, [state.needFetch]);
+        getData(state.needFetch);
+    }, []);
 
     return (
 
         <>
             <AppHeader/>
             <main className={AppStyles.main}>
+                {state.hasError &&
                 <ul className={AppStyles.container + ' ' + AppStyles.content}>
                     <li className={AppStyles.content__block + " mr-10"}>
                         {
@@ -47,6 +50,11 @@ function App() {
                         }
                     </li>
                 </ul>
+                }
+                {
+                    !state.hasError &&
+                        <div className={AppStyles.error}> Что то пошло не так , обновите страницу! </div>
+                }
             </main>
         </>
     );

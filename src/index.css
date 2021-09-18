@@ -14,7 +14,7 @@ body {
   font-family: "JetBrains Mono", sans-serif;
   font-style: normal;
   font-weight: normal;
-  overflow: hidden;
+  overflow: auto;
 }
 
 ul, ol {
