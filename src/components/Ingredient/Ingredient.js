@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 function Ingredient({image, price, name, count = 0}) {
     return (
         <div className={IngredientStyle.ingredients__card}>
-            <a className="ingredients__card-link" href="/">
+            {/*<a className="ingredients__card-link" href="/">*/}
                 <img className={IngredientStyle.ingredients__card_image} src={image}
                      alt="картинка товара"/>
                 {count > 0 &&
@@ -18,7 +18,7 @@ function Ingredient({image, price, name, count = 0}) {
                     <CurrencyIcon type={"primary"}/>
                 </p>
                 <p className={IngredientStyle.ingredients__card_name + " pb-6"}>{name}</p>
-            </a>
+            {/*</a>*/}
         </div>
     );
 }

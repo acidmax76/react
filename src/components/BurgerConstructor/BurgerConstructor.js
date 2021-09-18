@@ -1,10 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {CurrencyIcon, DragIcon,Button,ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorStyle from './BurgerConstructor.module.css';
 import PropTypes from "prop-types";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import Modal from "../Modal/Modal";
 
 function BurgerConstructor(props) {
+    const [showModal,setShowModal] = useState(false);
+    const handleShowModal = () => {
+      setShowModal(true);
+    }
+    const handleCloseModal = () => {
+      setShowModal(false);
+    }
     const top = {
         "name":"Краторная булка N-200i (верх)",
         "price" : 1255,
@@ -45,11 +53,12 @@ function BurgerConstructor(props) {
                     <CurrencyIcon type={"primary"}/>
                 </div>
                 <span className="pt-5 pb-5 pl-10 pr-15">
-                {<Button  type="primary" size="medium">
+                {<Button  type="primary" size="medium" onClick={handleShowModal}>
                     Оформить заказ
                 </Button>}
                     </span>
             </div>
+            {showModal && <Modal header={"тест"} onClose={handleCloseModal}></Modal>}
         </section>
     );
 }

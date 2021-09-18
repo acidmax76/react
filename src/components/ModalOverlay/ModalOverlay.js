@@ -1,7 +1,9 @@
-import React from 'react';
 
-function ModalOverlay(){
 
+const ModalOverlay = (props)=>{
+    return (
+        {props}
+    );
 }
 
 export default ModalOverlay;
