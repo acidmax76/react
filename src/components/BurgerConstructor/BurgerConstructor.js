@@ -33,8 +33,8 @@ function BurgerConstructor(props) {
                     {<ConstructorElement type="top" isLocked={true} text={top.name} price={top.price} thumbnail={top.image_mobile} />}
                 </div>
                 <ul className={ConstructorStyle.constructor__list + " custom-scroll mt-4 mb-4"}>
-                    {item.map(item => {
-                         return (<li key={item._id} className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
+                    {item.map((item,index) => {
+                         return (<li key={index} className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
                                 <div className={ConstructorStyle.constructor__drag + " mr-2"}>
                                     <DragIcon type={"primary"}/>
                                 </div>

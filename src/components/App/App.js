@@ -20,6 +20,9 @@ function App() {
             try {
                 setState({...state, loading: true});
                 const res = await fetch(API_URL);
+                if (!res.ok) {
+                    throw new Error('Ответ сети был не ok.');
+                }
                 const data = await res.json();
                 setState({...state, Data: data.data, loading: false, hasError: false});
             } catch (e) {
