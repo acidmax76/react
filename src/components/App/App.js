@@ -35,7 +35,7 @@ function App() {
         <>
             <AppHeader/>
             <main className={AppStyles.main}>
-                {state.hasError &&
+                {!state.hasError &&
                 <ul className={AppStyles.container + ' ' + AppStyles.content}>
                     <li className={AppStyles.content__block + " mr-10"}>
                         {
@@ -52,7 +52,7 @@ function App() {
                 </ul>
                 }
                 {
-                    !state.hasError &&
+                    state.hasError &&
                         <div className={AppStyles.error}> Что то пошло не так , обновите страницу! </div>
                 }
             </main>
