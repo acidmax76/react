@@ -10,11 +10,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: none;
-  height: 100vh;
   font-family: "JetBrains Mono", sans-serif;
   font-style: normal;
   font-weight: normal;
-  overflow: hidden;
+  overflow: auto;
+  position: relative;
+  height: auto;
+  min-height: 100% !important;
 }
 
 ul, ol {

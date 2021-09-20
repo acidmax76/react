@@ -1,10 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {CurrencyIcon, DragIcon,Button,ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorStyle from './BurgerConstructor.module.css';
 import PropTypes from "prop-types";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import Modal from "../Modal/Modal";
+import OrderDetails from '../OrderDetails/OrderDetails';
+
 
 function BurgerConstructor(props) {
+    const [showModal,setShowModal] = useState(false);
+    const handleShowModal = () => {
+      setShowModal(true);
+    }
+    const handleCloseModal = () => {
+      setShowModal(false);
+    }
     const top = {
         "name":"Краторная булка N-200i (верх)",
         "price" : 1255,
@@ -23,8 +33,8 @@ function BurgerConstructor(props) {
                     {<ConstructorElement type="top" isLocked={true} text={top.name} price={top.price} thumbnail={top.image_mobile} />}
                 </div>
                 <ul className={ConstructorStyle.constructor__list + " custom-scroll mt-4 mb-4"}>
-                    {item.map(item => {
-                         return (<li key={item._id} className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
+                    {item.map((item,index) => {
+                         return (<li key={index} className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
                                 <div className={ConstructorStyle.constructor__drag + " mr-2"}>
                                     <DragIcon type={"primary"}/>
                                 </div>
@@ -45,11 +55,12 @@ function BurgerConstructor(props) {
                     <CurrencyIcon type={"primary"}/>
                 </div>
                 <span className="pt-5 pb-5 pl-10 pr-15">
-                {<Button  type="primary" size="medium">
+                {<Button  type="primary" size="medium" onClick={handleShowModal}>
                     Оформить заказ
                 </Button>}
                     </span>
             </div>
+            {showModal && <Modal onClose={handleCloseModal}><OrderDetails /></Modal>}
         </section>
     );
 }
