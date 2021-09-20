@@ -10,21 +10,23 @@ const modalRoot = document.getElementById("react-modals");
 const Modal = props => {
     const {header, onClose} = props;
     const handleKeyDown = (e) => {
-        if (e.key === 'Escape'){
+        if (e.key === 'Escape') {
             onClose();
         }
     }
 
     useEffect(() => {
-        document.addEventListener('keydown',handleKeyDown);
-        return ()=>{
-            document.removeEventListener('keydown',handleKeyDown);
-    }
-    },[]);
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
 
     return ReactDOM.createPortal(
         (
-            <ModalOverlay onClose={onClose} >
+            <div className={styles.wrapper}>
+                <ModalOverlay onClose={onClose}>
+                </ModalOverlay>
                 <div className={styles.modal + " pt-10 pl-10 pr-10 pb-30"}>
                     <div className={styles.header}>
                         <span className={styles.title}>{header}</span>
@@ -37,7 +39,8 @@ const Modal = props => {
                         {props.children}
                     </div>
                 </div>
-            </ModalOverlay>
+
+            </div>
         ), modalRoot);
 }
 
