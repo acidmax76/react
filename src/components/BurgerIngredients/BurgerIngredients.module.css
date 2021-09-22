@@ -113,8 +113,4 @@
     color: var(--text-primary-color);
 }
 
-.ingredients__content_cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+

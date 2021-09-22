@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {CurrencyIcon, DragIcon,Button,ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorStyle from './BurgerConstructor.module.css';
 import PropTypes from "prop-types";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import Modal from "../Modal/Modal";
 import OrderDetails from '../OrderDetails/OrderDetails';
+import {UserContext} from "../../serivice/userContext";
 
 
 function BurgerConstructor(props) {
@@ -25,7 +26,8 @@ function BurgerConstructor(props) {
         "price" : 1255,
         "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png"
     }
-    const item = props.data.filter(item=>item.type !== 'bun');
+    const {constructor} = useContext(UserContext);
+    const item = constructor.filter(item=>item.type !== 'bun');
     return (
         <section className={ConstructorStyle.constructor + " pt-25 pb-10"}>
             <div className="constructor__content pl-4">
