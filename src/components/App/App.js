@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import AppStyles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
@@ -7,10 +7,14 @@ import {InitialState} from "../../serivice/initialState";
 import {BurgerContext} from "../../serivice/BurgerContext";
 import {reducer} from "../../serivice/reducers/app";
 import {SUCCESS_LOAD_INGREDIENTS,FAILED_LOAD_INGREDIENTS,LOADING_INGREDIENTS} from "../../serivice/actions/app";
+import Modal from "../Modal/Modal";
+import {ErrorMessage} from "../ErrorMessage/ErrorMessage";
 
 function App() {
     const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
     const [state, dispatch] = useReducer(reducer,InitialState);
+    const [textErrorForModal, setTextErrorForModal] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -18,17 +22,25 @@ function App() {
                 dispatch({type:LOADING_INGREDIENTS});
                 const res = await fetch(API_URL);
                 if (!res.ok) {
-                    throw new Error('Ответ сети был не ok.');
+                    setTextErrorForModal('Ответ сети был не ok.');
+                    setShowModal(true);
                 }
                 const data = await res.json();
                 dispatch({type:SUCCESS_LOAD_INGREDIENTS,payload:data.data});
+                setShowModal(false);
+                setTextErrorForModal('');
             } catch (e) {
                 dispatch({type:FAILED_LOAD_INGREDIENTS});
-                console.log(e.message);
+                setTextErrorForModal('Невозможно получить данные ! Ошибка в сети (' + e.message+')');
+                setShowModal(true);
             }
         };
-        getData(state.needFetchIngredients);
-    }, []);
+        getData();
+    }, [state.needFetchIngredients]);
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
 
     return (
 
@@ -47,15 +59,15 @@ function App() {
                         <li className="{AppStyles.content__block}">
                             {
                                 !state.loadingIngredient &&
-                                <BurgerConstructor onDeleteIngredient={dispatch}/>
+                                <BurgerConstructor deleteIngredient={dispatch} addOrder={dispatch}/>
                             }
                         </li>
                     </ul>
                 </BurgerContext.Provider>
                 }
                 {
-                    state.hasErrorLoadIngredient &&
-                    <div className={AppStyles.error}> Что то пошло не так , обновите страницу! </div>
+                    showModal && textErrorForModal !== '' &&
+                    <Modal onClose={handleCloseModal}><ErrorMessage message={textErrorForModal}/></Modal>
                 }
             </main>
         </>

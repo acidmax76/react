@@ -2,7 +2,7 @@ import {
     SUCCESS_LOAD_INGREDIENTS,
     LOADING_INGREDIENTS,
     FAILED_LOAD_INGREDIENTS,
-    ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR
+    ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR, ADD_ORDER
 } from "../../actions/app";
 
 export function reducer(state, action) {
@@ -13,6 +13,19 @@ export function reducer(state, action) {
             return {...state, ingredients: action.payload, loadingIngredient: false, hasErrorLoadIngredient: false};
         case FAILED_LOAD_INGREDIENTS:
             return {...state, ingredients: [], loadingIngredient: false, hasErrorLoadIngredient: true};
+        case ADD_ORDER:{
+            return {
+                ...state,
+                orders:[
+                    ...state.orders,
+                    {
+                        name: action.payload.name,
+                        number: action.payload.order.number,
+                        date: new Date().toLocaleString(),
+                    }
+                ],
+            };
+        }
         case DELETE_INGREDIENT_FROM_CONSTRUCTOR: {
             const index = action.payload;
             const newIngredients = [...state.constructor.ingredients];

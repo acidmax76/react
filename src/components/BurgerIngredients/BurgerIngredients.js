@@ -1,7 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
-import PropTypes from 'prop-types';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {BurgerContext} from '../../serivice/BurgerContext';
@@ -86,13 +85,4 @@ function BurgerIngredients(props) {
     );
 }
 
-// BurgerIngredients.propTypes = {
-//     data: PropTypes.arrayOf(PropTypes.shape({
-//         _id: PropTypes.string,
-//         name: PropTypes.string,
-//         price: PropTypes.number,
-//         image_mobile: PropTypes.string,
-//         type: PropTypes.oneOf(['sauce', 'main', 'bun']),
-//     })),
-// };
 export default BurgerIngredients;

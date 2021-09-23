@@ -7,7 +7,7 @@ export const InitialState = {
         bun: null,
         ingredients: []
     },
-    orders: []
+    orders: [],
 };
 // описание  state :
 // {
