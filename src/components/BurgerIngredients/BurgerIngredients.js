@@ -4,11 +4,12 @@ import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import PropTypes from 'prop-types';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import {UserContext} from '../../serivice/userContext';
+import {BurgerContext} from '../../serivice/BurgerContext';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
+import {ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../serivice/actions/app";
 
-function BurgerIngredients() {
-    const {ingredients} = useContext(UserContext);
+function BurgerIngredients(props) {
+    const {ingredients} = useContext(BurgerContext);
     const [currentTab, setCurrentTab] = useState({
         type: 'buns',
         name: 'Булки',
@@ -36,6 +37,10 @@ function BurgerIngredients() {
     const handleClickIngredients = (data) => {
         setShowModal(true);
         setDataForModal(data);
+        props.onClickIngredient({
+            type:ADD_INGREDIENT_TO_CONSTRUCTOR,
+            payload:data,
+        });
     };
 
     const handleCloseModal = () => {
@@ -81,13 +86,13 @@ function BurgerIngredients() {
     );
 }
 
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        price: PropTypes.number,
-        image_mobile: PropTypes.string,
-        type: PropTypes.oneOf(['sauce', 'main', 'bun']),
-    })),
-};
+// BurgerIngredients.propTypes = {
+//     data: PropTypes.arrayOf(PropTypes.shape({
+//         _id: PropTypes.string,
+//         name: PropTypes.string,
+//         price: PropTypes.number,
+//         image_mobile: PropTypes.string,
+//         type: PropTypes.oneOf(['sauce', 'main', 'bun']),
+//     })),
+// };
 export default BurgerIngredients;
