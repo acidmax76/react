@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import Modal from '../Modal/Modal';
@@ -8,7 +8,7 @@ import {TabIngredients} from '../TabIngredients/TabIngredients';
 import {ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../serivice/actions/app";
 
 function BurgerIngredients(props) {
-    const {ingredients} = useContext(BurgerContext);
+    const {ingredients,constructor} = useContext(BurgerContext);
     const [currentTab, setCurrentTab] = useState({
         type: 'buns',
         name: 'Булки',
@@ -16,6 +16,14 @@ function BurgerIngredients(props) {
     });
     const [showModal, setShowModal] = useState(false);
     const [dataForModal, setDataForModal] = useState(null);
+
+    const count = useMemo(() => {
+        const ingredients = constructor.ingredients.reduce((prev, curr) => (prev[curr._id] = ++prev[curr._id] || 1, prev), {});
+        if (constructor.bun){
+            ingredients[constructor.bun._id]=2;
+        }
+        return ingredients;
+    }, [constructor]);
 
     const handleTabClick = (data) => {
         switch (data) {
@@ -32,7 +40,6 @@ function BurgerIngredients(props) {
                 setCurrentTab({type: 'buns', name: 'Булки', items: buns});
         }
     };
-
     const handleClickIngredients = (data) => {
         setShowModal(true);
         setDataForModal(data);
@@ -41,7 +48,6 @@ function BurgerIngredients(props) {
             payload:data,
         });
     };
-
     const handleCloseModal = () => {
         setShowModal(false);
     };
@@ -69,7 +75,7 @@ function BurgerIngredients(props) {
             <div className={BurgerIngredientStyle.ingredients__content +
             ' custom-scroll'}>
                 <ul className="ingredients__content-list">
-                    <TabIngredients currentTab={currentTab} items={currentTab.items}
+                    <TabIngredients currentTab={currentTab} count={count}
                                     onClick={handleClickIngredients}
                                     onClose={handleCloseModal}/>
                 </ul>
