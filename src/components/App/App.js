@@ -22,8 +22,7 @@ function App() {
                 dispatch({type:LOADING_INGREDIENTS});
                 const res = await fetch(API_URL);
                 if (!res.ok) {
-                    setTextErrorForModal('Ответ сети был не ok.');
-                    setShowModal(true);
+                    throw new Error('Ответ сети был не ok.');
                 }
                 const data = await res.json();
                 dispatch({type:SUCCESS_LOAD_INGREDIENTS,payload:data.data});

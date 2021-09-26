@@ -8,19 +8,35 @@ import {TabIngredients} from '../TabIngredients/TabIngredients';
 import {ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../serivice/actions/app";
 
 function BurgerIngredients(props) {
-    const {ingredients,constructor} = useContext(BurgerContext);
+    const {ingredients, constructor} = useContext(BurgerContext);
     const [currentTab, setCurrentTab] = useState({
         type: 'buns',
         name: 'Булки',
-        items: ingredients.filter(element => element.type === 'bun'),
     });
+    const items = [
+        {
+            name: "Булки",
+            type: "buns",
+            ingredients: ingredients.filter(element => element.type === 'bun')
+        },
+        {
+            name: "Начинки",
+            type: "main",
+            ingredients: ingredients.filter(element => element.type === 'main')
+        },
+        {
+            name: "Соусы",
+            type: "sauce",
+            ingredients: ingredients.filter(element => element.type === 'sauce')
+        }
+    ];
     const [showModal, setShowModal] = useState(false);
     const [dataForModal, setDataForModal] = useState(null);
 
     const count = useMemo(() => {
         const ingredients = constructor.ingredients.reduce((prev, curr) => (prev[curr._id] = ++prev[curr._id] || 1, prev), {});
-        if (constructor.bun){
-            ingredients[constructor.bun._id]=2;
+        if (constructor.bun) {
+            ingredients[constructor.bun._id] = 2;
         }
         return ingredients;
     }, [constructor]);
@@ -28,24 +44,21 @@ function BurgerIngredients(props) {
     const handleTabClick = (data) => {
         switch (data) {
             case 'main':
-                const main = ingredients.filter(element => element.type === 'main');
-                setCurrentTab({type: 'main', name: 'Начинки', items: main});
+                setCurrentTab({type: 'main', name: 'Начинки'});
                 break;
             case 'sauce':
-                const sauce = ingredients.filter(element => element.type === 'sauce');
-                setCurrentTab({type: 'sauce', name: 'Соусы', items: sauce});
+                setCurrentTab({type: 'sauce', name: 'Соусы'});
                 break;
             default:
-                const buns = ingredients.filter(element => element.type === 'bun');
-                setCurrentTab({type: 'buns', name: 'Булки', items: buns});
+                setCurrentTab({type: 'buns', name: 'Булки'});
         }
     };
     const handleClickIngredients = (data) => {
         setShowModal(true);
         setDataForModal(data);
         props.onClickIngredient({
-            type:ADD_INGREDIENT_TO_CONSTRUCTOR,
-            payload:data,
+            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+            payload: data,
         });
     };
     const handleCloseModal = () => {
@@ -74,10 +87,13 @@ function BurgerIngredients(props) {
             </nav>
             <div className={BurgerIngredientStyle.ingredients__content +
             ' custom-scroll'}>
-                <ul className="ingredients__content-list">
-                    <TabIngredients currentTab={currentTab} count={count}
-                                    onClick={handleClickIngredients}
-                                    onClose={handleCloseModal}/>
+                <ul className={BurgerIngredientStyle.ingredients__content_list}>
+                    {items.map((item,index) => {
+                            return <TabIngredients key={index} name={item.name} type={item.type} currentTab={currentTab} ingredients={item.ingredients} count={count}
+                                                   onClick={handleClickIngredients}
+                                                   onClose={handleCloseModal}/>
+                        }
+                    )}
                 </ul>
             </div>
             <div style={{overflow: 'hidden'}}>

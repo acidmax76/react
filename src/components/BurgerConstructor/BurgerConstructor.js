@@ -46,8 +46,7 @@ function BurgerConstructor(props) {
                     };
                     const res = await fetch(API_URL, requestOptions);
                     if (!res.ok) {
-                        setShowModal(true);
-                        setTextErrorForModal('Ответ сети был не ok.');
+                        throw new Error('Ответ сети был не ok.');
                     }
                     const data = await res.json()
                     if (data.success) {
