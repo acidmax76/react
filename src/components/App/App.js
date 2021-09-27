@@ -1,18 +1,20 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AppStyles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import {InitialState} from "../../serivice/initialState";
-import {BurgerContext} from "../../serivice/BurgerContext";
-import {reducer} from "../../serivice/reducers/app";
 import {SUCCESS_LOAD_INGREDIENTS,FAILED_LOAD_INGREDIENTS,LOADING_INGREDIENTS} from "../../serivice/actions/app";
 import Modal from "../Modal/Modal";
 import {ErrorMessage} from "../ErrorMessage/ErrorMessage";
+import {useSelector,useDispatch} from "react-redux";
+
 
 function App() {
-    const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
-    const [state, dispatch] = useReducer(reducer,InitialState);
+
+
+    const ingredients = useSelector(store=>store.ingredients);
+    const dispatch = useDispatch();
+    const [loadIngredients,setLoadIngredients] = useState({loadingIngredient:false,hasErrorLoadIngredient:false,needFetchIngredients:false});
     const [textErrorForModal, setTextErrorForModal] = useState('');
     const [showModal, setShowModal] = useState(false);
 
@@ -42,12 +44,10 @@ function App() {
     }
 
     return (
-
         <>
             <AppHeader/>
             <main className={AppStyles.main}>
                 {!state.hasErrorLoadIngredient &&
-                <BurgerContext.Provider value={state}>
                     <ul className={AppStyles.container + ' ' + AppStyles.content}>
                         <li className={AppStyles.content__block + " mr-10"}>
                             {
@@ -62,7 +62,6 @@ function App() {
                             }
                         </li>
                     </ul>
-                </BurgerContext.Provider>
                 }
                 {
                     showModal && textErrorForModal !== '' &&

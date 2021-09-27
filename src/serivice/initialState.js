@@ -1,8 +1,9 @@
 export const InitialState = {
-    ingredients: [],
-    loadingIngredient: false,
-    hasErrorLoadIngredient: false,
-    needFetchIngredients: false,
+    ingredients: {
+        loadingIngredient:false,
+        hasErrorLoadIngredient:false,
+        items:[],
+    },
     constructor: {
         bun: null,
         ingredients: []
@@ -24,9 +25,6 @@ export const InitialState = {
 //      type: string - тип ингредиента "bun"-булка "sauce"- соус "main"-начинки
 //      __v: number - пока не понятно
 //  }] - список ингредиентов из апи
-//  loadingIngredient: bool - стартовала загрузка ингредиентов из апи
-//  hasErrorLoadIngredient: bool - ошибка при загрузке
-//  needFetchIngredients : bool - надо бы обновить список ингредиентов
 //  constructor:{
 //      bun:{
 //          name: string - имя ингредиента
