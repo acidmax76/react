@@ -1,0 +1,12 @@
+.ingredients__content_cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.first{
+    order: 0;
+}
+
+.last{
+    order: 2;
+}

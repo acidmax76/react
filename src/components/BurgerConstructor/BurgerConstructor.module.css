@@ -43,3 +43,15 @@
     width: 33px;
     height: 33px;
 }
+
+.constructor__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.constructor__ingredient__text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

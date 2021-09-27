@@ -1,62 +1,72 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import AppStyles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import {InitialState} from "../../serivice/initialState";
+import {BurgerContext} from "../../serivice/BurgerContext";
+import {reducer} from "../../serivice/reducers/app";
+import {SUCCESS_LOAD_INGREDIENTS,FAILED_LOAD_INGREDIENTS,LOADING_INGREDIENTS} from "../../serivice/actions/app";
+import Modal from "../Modal/Modal";
+import {ErrorMessage} from "../ErrorMessage/ErrorMessage";
 
 function App() {
     const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
-    const [state, setState] = useState({
-        Data: [],
-        loading: true,
-        needFetch: true,
-        hasError:false,
-    })
-
-
+    const [state, dispatch] = useReducer(reducer,InitialState);
+    const [textErrorForModal, setTextErrorForModal] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
             try {
-                setState({...state, loading: true});
+                dispatch({type:LOADING_INGREDIENTS});
                 const res = await fetch(API_URL);
                 if (!res.ok) {
                     throw new Error('Ответ сети был не ok.');
                 }
                 const data = await res.json();
-                setState({...state, Data: data.data, loading: false, hasError: false});
+                dispatch({type:SUCCESS_LOAD_INGREDIENTS,payload:data.data});
+                setShowModal(false);
+                setTextErrorForModal('');
             } catch (e) {
-                setState({...state, Data: [], loading: false, hasError: true});
-                console.log(e.message);
+                dispatch({type:FAILED_LOAD_INGREDIENTS});
+                setTextErrorForModal('Невозможно получить данные ! Ошибка в сети (' + e.message+')');
+                setShowModal(true);
             }
         };
-        getData(state.needFetch);
-    }, []);
+        getData();
+    }, [state.needFetchIngredients]);
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
 
     return (
 
         <>
             <AppHeader/>
             <main className={AppStyles.main}>
-                {!state.hasError &&
-                <ul className={AppStyles.container + ' ' + AppStyles.content}>
-                    <li className={AppStyles.content__block + " mr-10"}>
-                        {
-                            !state.loading &&
-                            <BurgerIngredients data={state.Data}/>
-                        }
-                    </li>
-                    <li className="{AppStyles.content__block}">
-                        {
-                            !state.loading &&
-                            <BurgerConstructor data={state.Data}/>
-                        }
-                    </li>
-                </ul>
+                {!state.hasErrorLoadIngredient &&
+                <BurgerContext.Provider value={state}>
+                    <ul className={AppStyles.container + ' ' + AppStyles.content}>
+                        <li className={AppStyles.content__block + " mr-10"}>
+                            {
+                                !state.loadingIngredient &&
+                                <BurgerIngredients onClickIngredient={dispatch}/>
+                            }
+                        </li>
+                        <li className="{AppStyles.content__block}">
+                            {
+                                !state.loadingIngredient &&
+                                <BurgerConstructor deleteIngredient={dispatch} addOrder={dispatch}/>
+                            }
+                        </li>
+                    </ul>
+                </BurgerContext.Provider>
                 }
                 {
-                    state.hasError &&
-                        <div className={AppStyles.error}> Что то пошло не так , обновите страницу! </div>
+                    showModal && textErrorForModal !== '' &&
+                    <Modal onClose={handleCloseModal}><ErrorMessage message={textErrorForModal}/></Modal>
                 }
             </main>
         </>
