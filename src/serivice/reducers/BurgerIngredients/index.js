@@ -1,22 +1,18 @@
-import {
-    SUCCESS_LOAD_INGREDIENTS,
-    LOADING_INGREDIENTS,
-    FAILED_LOAD_INGREDIENTS,
-} from "../../actions/app";
-
 import {InitialState} from "./initialState";
+import {ADD_INGREDIENT_TO_MODAL} from "../../actions/app";
 
-export const AppReducer = (state=InitialState, action) => {
-    //console.log(action.type);
+export const BurgerIngredientsReducer = (state=InitialState, action) => {
     switch (action.type) {
-        case LOADING_INGREDIENTS:
-            return {...state, ingredients:{ ...state.ingredients,loadingIngredient: true, hasErrorLoadIngredient: false}};
-        case SUCCESS_LOAD_INGREDIENTS:
-            return {...state, ingredients: {items:action.items, loadingIngredient: false, hasErrorLoadIngredient: false}};
-        case FAILED_LOAD_INGREDIENTS:
-            return {...state, ingredients:{ items:[], loadingIngredient: false, hasErrorLoadIngredient: true}};
-        default:
-            return state;
+        case ADD_INGREDIENT_TO_MODAL:
+            return {
+                ...state,modalIngredient: action.ingredient
+            }
+        // case LOADING_INGREDIENTS:
+        //     return {...state, ingredients:{ ...state.ingredients,loadingIngredient: true, hasErrorLoadIngredient: false}};
+        // case SUCCESS_LOAD_INGREDIENTS:
+        //     return {...state, ingredients: {items:action.items, loadingIngredient: false, hasErrorLoadIngredient: false}};
+        // case FAILED_LOAD_INGREDIENTS:
+        //     return {...state, ingredients:{ items:[], loadingIngredient: false, hasErrorLoadIngredient: true}};
         // case ADD_ORDER:{
         //     return {
         //         ...state,
@@ -64,7 +60,7 @@ export const AppReducer = (state=InitialState, action) => {
         //         }
         //     }
         // }
-        // default:
-        //     throw new Error(`Wrong type of action: ${action.type}`);
+        default:
+            return state;
     }
 }

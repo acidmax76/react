@@ -9,72 +9,75 @@ import {
 } from "../../serivice/actions/app";
 import {v4} from "uuid";
 import {ErrorMessage} from "../ErrorMessage/ErrorMessage";
+import {useSelector} from "react-redux";
 
 function BurgerConstructor(props) {
     const API_URL = 'https://norma.nomoreparties.space/api/orders';
-    const [showModal, setShowModal] = useState(false);
-    const [textErrorForModal, setTextErrorForModal] = useState('');
-    const {constructor, orders} = useContext(BurgerContext);
-    const item = constructor.ingredients.filter(item => item.type !== 'bun');
-    const bun = constructor.bun;
-    const cost = useMemo(() => {
-        const costBan = bun ? bun.price * 2 : 0;
-        const costIngredients = item.reduce((total, value) => total + value.price, 0);
-        return costBan + costIngredients;
-    }, [bun, item]);
-
-
-
-    const handleDeleteIngredient = (data) => {
-        props.deleteIngredient({
-            type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
-            payload: data,
-        });
-
-    }
-    const handleShowModal = () => {
-        if (bun && cost > 0) {
-            const ingredients = item.map(element => element._id);
-            ingredients.push(bun._id);
-            ingredients.push(bun._id);
-            const getOrder = async () => {
-                try {
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({ingredients: ingredients})
-                    };
-                    const res = await fetch(API_URL, requestOptions);
-                    if (!res.ok) {
-                        throw new Error('Ответ сети был не ok.');
-                    }
-                    const data = await res.json()
-                    if (data.success) {
-                        props.addOrder({
-                            type: ADD_ORDER,
-                            payload: data,
-                        });
-                        setShowModal(true);
-                        setTextErrorForModal('');
-                        console.log(orders);
-                    } else {
-                        setShowModal(true);
-                        setTextErrorForModal('Пришел ответ отличный от success=true');
-                    }
-                } catch (e) {
-                    setShowModal(true);
-                    setTextErrorForModal('Невозможно оформить заказ ! Ошибка в сети (' + e.message + ')');
-                }
-            };
-            getOrder();
-        } else {
-            setShowModal(true);
-            setTextErrorForModal('Выберите булку и ингредиенты !');
-        }
-    }
-    const handleCloseModal = () => {
-        setShowModal(false);
-    }
+    const {bun, items} = useSelector(store => store.BurgerConstructorReducer.constructor);
+    //console.log(constructor);
+    // const [showModal, setShowModal] = useState(false);
+    // const [textErrorForModal, setTextErrorForModal] = useState('');
+    // const {constructor, orders} = useContext(BurgerContext);
+    // const item = constructor.ingredients.filter(item => item.type !== 'bun');
+    // const bun = constructor.bun;
+    // const cost = useMemo(() => {
+    //     const costBan = bun ? bun.price * 2 : 0;
+    //     const costIngredients = item.reduce((total, value) => total + value.price, 0);
+    //     return costBan + costIngredients;
+    // }, [bun, item]);
+    //
+    //
+    //
+    // const handleDeleteIngredient = (data) => {
+    //     props.deleteIngredient({
+    //         type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+    //         payload: data,
+    //     });
+    //
+    // }
+    // const handleShowModal = () => {
+    //     if (bun && cost > 0) {
+    //         const ingredients = item.map(element => element._id);
+    //         ingredients.push(bun._id);
+    //         ingredients.push(bun._id);
+    //         const getOrder = async () => {
+    //             try {
+    //                 const requestOptions = {
+    //                     method: 'POST',
+    //                     headers: {'Content-Type': 'application/json'},
+    //                     body: JSON.stringify({ingredients: ingredients})
+    //                 };
+    //                 const res = await fetch(API_URL, requestOptions);
+    //                 if (!res.ok) {
+    //                     throw new Error('Ответ сети был не ok.');
+    //                 }
+    //                 const data = await res.json()
+    //                 if (data.success) {
+    //                     props.addOrder({
+    //                         type: ADD_ORDER,
+    //                         payload: data,
+    //                     });
+    //                     setShowModal(true);
+    //                     setTextErrorForModal('');
+    //                     console.log(orders);
+    //                 } else {
+    //                     setShowModal(true);
+    //                     setTextErrorForModal('Пришел ответ отличный от success=true');
+    //                 }
+    //             } catch (e) {
+    //                 setShowModal(true);
+    //                 setTextErrorForModal('Невозможно оформить заказ ! Ошибка в сети (' + e.message + ')');
+    //             }
+    //         };
+    //         getOrder();
+    //     } else {
+    //         setShowModal(true);
+    //         setTextErrorForModal('Выберите булку и ингредиенты !');
+    //     }
+    // }
+    // const handleCloseModal = () => {
+    //     setShowModal(false);
+    // }
 
     return (
         <section className={ConstructorStyle.constructor + " pt-25 pb-10"}>
@@ -87,19 +90,21 @@ function BurgerConstructor(props) {
                             : <div className={ConstructorStyle.constructor__text}> Выберите булку </div>
                     }
                 </div>
-                {item.length ?
+                {items.length ?
                     <ul className={ConstructorStyle.constructor__list + " custom-scroll mt-4 mb-4"}>
-                        {item.map((item, index) => {
-                        const key = v4();
-                        return (<li key={key}
-                        className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
-                        <div className={ConstructorStyle.constructor__drag + " mr-2"}>
-                        <DragIcon key={key} type={"primary"}/>
-                        </div>
-                        <ConstructorElement key={key} text={item.name} thumbnail={item.image_mobile}
-                        price={item.price}
-                        isLocked={false} handleClose={() => handleDeleteIngredient(index)}/>
-                        </li>)
+                        {items.map((item, index) => {
+                            const key = v4();
+                            return (<li key={key}
+                                        className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
+                                <div className={ConstructorStyle.constructor__drag + " mr-2"}>
+                                    <DragIcon key={key} type={"primary"}/>
+                                </div>
+                                <ConstructorElement key={key} text={item.name} thumbnail={item.image_mobile}
+                                                    price={item.price}
+                                                    isLocked={false}
+                                                    // handleClose={() => handleDeleteIngredient(index)}
+                                />
+                            </li>)
                         })}
                     </ul>
                     :
@@ -120,19 +125,23 @@ function BurgerConstructor(props) {
             </div>
             <div className={ConstructorStyle.constructor__footer + " mt-10"}>
                 <div className={ConstructorStyle.constructor__price + " mr-10"}>
-                    <span className="constructor__price-value text_type_digits-medium mr-2">{cost}</span>
+                    <span className="constructor__price-value text_type_digits-medium mr-2">
+                        {/*{cost}*/}
+                    </span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
                 <span className="pt-5 pb-5 pl-10 pr-15">
-                {<Button type="primary" size="medium" onClick={handleShowModal}>
+                {<Button type="primary" size="medium"
+                         // onClick={handleShowModal}
+                >
                     Оформить заказ
                 </Button>}
                     </span>
             </div>
-            {showModal && textErrorForModal === '' &&
-            <Modal onClose={handleCloseModal}><OrderDetails order={orders[orders.length - 1]}/></Modal>}
-            {showModal && textErrorForModal !== '' &&
-            <Modal onClose={handleCloseModal}><ErrorMessage message={textErrorForModal}/></Modal>}
+            {/*{showModal && textErrorForModal === '' &&*/}
+            {/*<Modal onClose={handleCloseModal}><OrderDetails order={orders[orders.length - 1]}/></Modal>}*/}
+            {/*{showModal && textErrorForModal !== '' &&*/}
+            {/*<Modal onClose={handleCloseModal}><ErrorMessage message={textErrorForModal}/></Modal>}*/}
         </section>
     );
 }

@@ -1,8 +1,10 @@
 import style from './IngredientDetails.module.css';
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
 
 const IngredientDetails = (props) => {
-    const {image_large,calories,proteins,carbohydrates,fat,name} = props.data;
+    const {modalIngredient} = useSelector(store=>store.BurgerIngredientsReducer);
+    const {image_large,calories,proteins,carbohydrates,fat,name} = modalIngredient;
     return (
         <>
             <div className={style.img}>

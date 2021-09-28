@@ -1,14 +1,14 @@
 export const InitialState = {
     ingredients: {
-        loadingIngredient:false,
-        hasErrorLoadIngredient:false,
-        items:[],
+        loadingIngredient: false,
+        hasErrorLoadIngredient: false,
+        items: []
     },
-    constructor: {
-        bun: null,
-        ingredients: []
-    },
-    orders: [],
+    // constructor: {
+    //     bun: null,
+    //     items: []
+    // },
+    // orders: [],
 };
 // описание  state :
 // {

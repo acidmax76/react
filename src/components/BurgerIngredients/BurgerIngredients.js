@@ -5,36 +5,39 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {BurgerContext} from '../../serivice/BurgerContext';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
-import {ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../serivice/actions/app";
+import {ADD_INGREDIENT_TO_MODAL} from "../../serivice/actions/app";
+import {useDispatch, useSelector} from "react-redux";
 
 function BurgerIngredients(props) {
-    const {ingredients, constructor} = useContext(BurgerContext);
+    const {items} = useSelector(store => store.AppReducer.ingredients);
+    const {constructor} = useSelector(store => store.BurgerConstructorReducer);
+    const dispatch = useDispatch();
     const [currentTab, setCurrentTab] = useState({
         type: 'buns',
         name: 'Булки',
     });
-    const items = [
+    const tabs = [
         {
             name: "Булки",
             type: "buns",
-            ingredients: ingredients.filter(element => element.type === 'bun')
+            ingredients: items.filter(element => element.type === 'bun')
         },
         {
             name: "Начинки",
             type: "main",
-            ingredients: ingredients.filter(element => element.type === 'main')
+            ingredients: items.filter(element => element.type === 'main')
         },
         {
             name: "Соусы",
             type: "sauce",
-            ingredients: ingredients.filter(element => element.type === 'sauce')
+            ingredients: items.filter(element => element.type === 'sauce')
         }
     ];
     const [showModal, setShowModal] = useState(false);
-    const [dataForModal, setDataForModal] = useState(null);
+    //const [dataForModal, setDataForModal] = useState(null);
 
     const count = useMemo(() => {
-        const ingredients = constructor.ingredients.reduce((prev, curr) => (prev[curr._id] = ++prev[curr._id] || 1, prev), {});
+        const ingredients = constructor.items.reduce((prev, curr) => (prev[curr._id] = ++prev[curr._id] || 1, prev), {});
         if (constructor.bun) {
             ingredients[constructor.bun._id] = 2;
         }
@@ -55,12 +58,12 @@ function BurgerIngredients(props) {
     };
     const handleClickIngredients = (data) => {
         setShowModal(true);
-        setDataForModal(data);
-        props.onClickIngredient({
-            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-            payload: data,
+        dispatch({
+            type:ADD_INGREDIENT_TO_MODAL,
+            ingredient:data,
         });
     };
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
@@ -72,15 +75,18 @@ function BurgerIngredients(props) {
             <nav className="ingredients__nav mb-10">
                 <ul className={BurgerIngredientStyle.ingredients__nav_list}>
                     <Tab value="buns" active={currentTab.type === 'buns'}
-                         onClick={handleTabClick}>
+                        onClick={handleTabClick}
+                    >
                         Булки
                     </Tab>
                     <Tab value="main" active={currentTab.type === 'main'}
-                         onClick={handleTabClick}>
+                        onClick={handleTabClick}
+                    >
                         Начинки
                     </Tab>
                     <Tab value="sauce" active={currentTab.type === 'sauce'}
-                         onClick={handleTabClick}>
+                        onClick={handleTabClick}
+                    >
                         Соусы
                     </Tab>
                 </ul>
@@ -88,19 +94,23 @@ function BurgerIngredients(props) {
             <div className={BurgerIngredientStyle.ingredients__content +
             ' custom-scroll'}>
                 <ul className={BurgerIngredientStyle.ingredients__content_list}>
-                    {items.map((item,index) => {
-                            return <TabIngredients key={index} name={item.name} type={item.type} currentTab={currentTab} ingredients={item.ingredients} count={count}
-                                                   onClick={handleClickIngredients}
-                                                   onClose={handleCloseModal}/>
+                    {tabs.map((item, index) => {
+                            return <TabIngredients key={index} name={item.name} type={item.type} currentTab={currentTab}
+                                                   ingredients={item.ingredients} count={count}
+                                 onClick={handleClickIngredients}
+                                // onClose={handleCloseModal}
+                            />
                         }
                     )}
                 </ul>
             </div>
             <div style={{overflow: 'hidden'}}>
-                {showModal &&
-                <Modal header={'Детали ингредиента'}
-                       onClose={handleCloseModal}><IngredientDetails
-                    data={dataForModal}/></Modal>}
+                {
+                    showModal &&
+                    <Modal header={'Детали ингредиента'}
+                           onClose={handleCloseModal}><IngredientDetails
+                        /></Modal>
+                }
             </div>
         </section>
 
