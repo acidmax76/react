@@ -1,11 +1,15 @@
 import {InitialState} from "./initialState";
-import {ADD_INGREDIENT_TO_MODAL} from "../../actions/app";
+import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../actions/app";
 
 export const BurgerIngredientsReducer = (state=InitialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT_TO_MODAL:
             return {
                 ...state,modalIngredient: action.ingredient
+            }
+        case DELETE_INGREDIENT_FROM_MODAL :
+            return {
+                ...state,modalIngredient:{}
             }
         // case LOADING_INGREDIENTS:
         //     return {...state, ingredients:{ ...state.ingredients,loadingIngredient: true, hasErrorLoadIngredient: false}};

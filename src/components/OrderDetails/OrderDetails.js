@@ -1,12 +1,25 @@
 import style from './OrderDetails.module.css';
 import graphics from '../../img/graphics.svg';
-import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {getOrder} from "../../serivice/actions/OrderDetails";
+export const ORDER_SUCCESS = 'ORDER_SUCCESS';
+export const ORDER_REQUEST='ORDER_REQUEST';
+export const ORDER_ERROR='ORDER_ERROR'
 
-const OrderDetails = (props) => {
+const OrderDetails = () => {
+    const {OrderDetailsReducer,BurgerConstructorReducer} = useSelector(store=>store);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+            dispatch(getOrder(BurgerConstructorReducer.constructor))
+        },
+        [dispatch]);
+
     return (
         <div className={style.details}>
         <span className={style.digital}>
-          {props.order.number}
+          {OrderDetailsReducer.order.number}
         </span>
             <span className={style.identificator + ' mt-8'}>
           идентификатор заказа
@@ -23,13 +36,5 @@ const OrderDetails = (props) => {
         </div>
     );
 }
-
-OrderDetails.propTypes = {
-    order: PropTypes.shape({
-        name: PropTypes.string,
-        number: PropTypes.number,
-        date: PropTypes.string,
-    })
-};
 
 export default OrderDetails;

@@ -1,93 +1,62 @@
-import React, {useContext, useMemo, useState} from 'react';
+import React, { useMemo, useState} from 'react';
 import {CurrencyIcon, DragIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorStyle from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
 import OrderDetails from '../OrderDetails/OrderDetails';
-import {BurgerContext} from "../../serivice/BurgerContext";
-import {
-    DELETE_INGREDIENT_FROM_CONSTRUCTOR, ADD_ORDER
-} from "../../serivice/actions/app";
+import {DELETE_INGREDIENT_FROM_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../serivice/actions/app";
 import {v4} from "uuid";
-import {ErrorMessage} from "../ErrorMessage/ErrorMessage";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
 
 function BurgerConstructor(props) {
-    const API_URL = 'https://norma.nomoreparties.space/api/orders';
-    const {bun, items} = useSelector(store => store.BurgerConstructorReducer.constructor);
-    //console.log(constructor);
-    // const [showModal, setShowModal] = useState(false);
-    // const [textErrorForModal, setTextErrorForModal] = useState('');
-    // const {constructor, orders} = useContext(BurgerContext);
-    // const item = constructor.ingredients.filter(item => item.type !== 'bun');
-    // const bun = constructor.bun;
-    // const cost = useMemo(() => {
-    //     const costBan = bun ? bun.price * 2 : 0;
-    //     const costIngredients = item.reduce((total, value) => total + value.price, 0);
-    //     return costBan + costIngredients;
-    // }, [bun, item]);
-    //
-    //
-    //
-    // const handleDeleteIngredient = (data) => {
-    //     props.deleteIngredient({
-    //         type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
-    //         payload: data,
-    //     });
-    //
-    // }
-    // const handleShowModal = () => {
-    //     if (bun && cost > 0) {
-    //         const ingredients = item.map(element => element._id);
-    //         ingredients.push(bun._id);
-    //         ingredients.push(bun._id);
-    //         const getOrder = async () => {
-    //             try {
-    //                 const requestOptions = {
-    //                     method: 'POST',
-    //                     headers: {'Content-Type': 'application/json'},
-    //                     body: JSON.stringify({ingredients: ingredients})
-    //                 };
-    //                 const res = await fetch(API_URL, requestOptions);
-    //                 if (!res.ok) {
-    //                     throw new Error('Ответ сети был не ok.');
-    //                 }
-    //                 const data = await res.json()
-    //                 if (data.success) {
-    //                     props.addOrder({
-    //                         type: ADD_ORDER,
-    //                         payload: data,
-    //                     });
-    //                     setShowModal(true);
-    //                     setTextErrorForModal('');
-    //                     console.log(orders);
-    //                 } else {
-    //                     setShowModal(true);
-    //                     setTextErrorForModal('Пришел ответ отличный от success=true');
-    //                 }
-    //             } catch (e) {
-    //                 setShowModal(true);
-    //                 setTextErrorForModal('Невозможно оформить заказ ! Ошибка в сети (' + e.message + ')');
-    //             }
-    //         };
-    //         getOrder();
-    //     } else {
-    //         setShowModal(true);
-    //         setTextErrorForModal('Выберите булку и ингредиенты !');
-    //     }
-    // }
-    // const handleCloseModal = () => {
-    //     setShowModal(false);
-    // }
 
+    const {bun, items} = useSelector(store => store.BurgerConstructorReducer.constructor);
+    const dispatch = useDispatch();
+    const [showModal, setShowModal] = useState(false);
+    const cost = useMemo(() => {
+        const costBan = bun ? bun.price * 2 : 0;
+        const costIngredients = items.reduce((total, value) => total + value.price, 0);
+        return costBan + costIngredients;
+    }, [bun, items]);
+    const handleDeleteIngredient = (data) => {
+        props.deleteIngredient({
+            type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+            payload: data,
+        });
+
+    }
+    const handleShowModal = () => {
+        if (bun && cost > 0) {
+            setShowModal(true);
+        }
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+
+    const handleDrop = (item) => {
+        dispatch({
+            type:ADD_INGREDIENT_TO_CONSTRUCTOR,
+            item:item
+        });
+    };
+
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(item) {
+            handleDrop(item);
+        },
+    });
     return (
         <section className={ConstructorStyle.constructor + " pt-25 pb-10"}>
-            <div className="constructor__content pl-4">
+            <div ref={dropTarget} className="constructor__content pl-4" >
                 <div className={ConstructorStyle.constructor__item + " mr-4 pl-8"}>
                     {
                         bun ?
                             <ConstructorElement type="top" isLocked={true} text={bun.name + "(верх)"} price={bun.price}
                                                 thumbnail={bun.image_mobile}/>
-                            : <div className={ConstructorStyle.constructor__text}> Выберите булку </div>
+                            : <div className={ConstructorStyle.constructor__text}> Перетащите сюда булку </div>
                     }
                 </div>
                 {items.length ?
@@ -102,14 +71,14 @@ function BurgerConstructor(props) {
                                 <ConstructorElement key={key} text={item.name} thumbnail={item.image_mobile}
                                                     price={item.price}
                                                     isLocked={false}
-                                                    // handleClose={() => handleDeleteIngredient(index)}
+                                                    handleClose={() => handleDeleteIngredient(index)}
                                 />
                             </li>)
                         })}
                     </ul>
                     :
                     <ul className={ConstructorStyle.constructor__list + ' ' + ConstructorStyle.constructor__ingredient__text + " mt-4 mb-4"}>
-                        <div className={ConstructorStyle.constructor__text}> Выберите начинку</div>
+                        <div className={ConstructorStyle.constructor__text}> Перетащите сюда начинку</div>
                     </ul>
                 }
 
@@ -118,7 +87,7 @@ function BurgerConstructor(props) {
                         bun ?
                             <ConstructorElement type="bottom" isLocked={true} text={bun.name + "(низ)"}
                                                 price={bun.price} thumbnail={bun.image_mobile}/>
-                            : <div className={ConstructorStyle.constructor__text}> Выберите булку </div>
+                            : <div className={ConstructorStyle.constructor__text}> Перетащите сюда булку </div>
                     }
 
                 </div>
@@ -126,22 +95,20 @@ function BurgerConstructor(props) {
             <div className={ConstructorStyle.constructor__footer + " mt-10"}>
                 <div className={ConstructorStyle.constructor__price + " mr-10"}>
                     <span className="constructor__price-value text_type_digits-medium mr-2">
-                        {/*{cost}*/}
+                        {cost}
                     </span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
                 <span className="pt-5 pb-5 pl-10 pr-15">
                 {<Button type="primary" size="medium"
-                         // onClick={handleShowModal}
+                         onClick={handleShowModal}
                 >
                     Оформить заказ
                 </Button>}
                     </span>
             </div>
-            {/*{showModal && textErrorForModal === '' &&*/}
-            {/*<Modal onClose={handleCloseModal}><OrderDetails order={orders[orders.length - 1]}/></Modal>}*/}
-            {/*{showModal && textErrorForModal !== '' &&*/}
-            {/*<Modal onClose={handleCloseModal}><ErrorMessage message={textErrorForModal}/></Modal>}*/}
+            {showModal &&
+            <Modal onClose={handleCloseModal}><OrderDetails /></Modal>}
         </section>
     );
 }

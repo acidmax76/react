@@ -29,40 +29,40 @@ export const BurgerConstructorReducer = (state=InitialState, action) => {
         //         ],
         //     };
         // }
-        // case DELETE_INGREDIENT_FROM_CONSTRUCTOR: {
-        //     const index = action.payload;
-        //     const newIngredients = [...state.constructor.ingredients];
-        //     newIngredients.splice(index,1);
-        //     return {
-        //         ...state,
-        //         constructor: {
-        //             ...state.constructor,
-        //             ingredients: newIngredients
-        //         }
-        //     };
-        // }
-        // case ADD_INGREDIENT_TO_CONSTRUCTOR: {
-        //     const ingredient = action.payload;
-        //     if (ingredient.type === 'bun') {
-        //         return {
-        //             ...state,
-        //             constructor: {
-        //                 ...state.constructor,
-        //                 bun: ingredient,
-        //             }
-        //         };
-        //     }
-        //     return {
-        //         ...state,
-        //         constructor: {
-        //             ...state.constructor,
-        //             ingredients: [
-        //                 ...state.constructor.ingredients,
-        //                 ingredient,
-        //             ]
-        //         }
-        //     }
-        // }
+        case DELETE_INGREDIENT_FROM_CONSTRUCTOR: {
+            const index = action.payload;
+            const newIngredients = [...state.constructor.items];
+            newIngredients.splice(index,1);
+            return {
+                ...state,
+                constructor: {
+                    ...state.constructor,
+                    items: newIngredients
+                }
+            };
+        }
+        case ADD_INGREDIENT_TO_CONSTRUCTOR: {
+            const ingredient = action.item;
+            if (ingredient.type === 'bun') {
+                return {
+                    ...state,
+                    constructor: {
+                        ...state.constructor,
+                        bun: ingredient,
+                    }
+                };
+            }
+            return {
+                ...state,
+                constructor: {
+                    ...state.constructor,
+                    items: [
+                        ...state.constructor.items,
+                        ingredient,
+                    ]
+                }
+            }
+        }
         default:
             return state;
     }

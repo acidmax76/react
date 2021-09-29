@@ -5,7 +5,8 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import {useSelector,useDispatch} from "react-redux";
 import {getIngredients} from "../../serivice/actions/app";
-
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 const App = () => {
     const {hasErrorLoadIngredient,loadingIngredient} = useSelector(store=>store.AppReducer.ingredients);
@@ -19,22 +20,24 @@ const App = () => {
         <>
             <AppHeader/>
             <main className={AppStyles.main}>
+                <DndProvider backend={HTML5Backend}>
                 {!hasErrorLoadIngredient &&
                     <ul className={AppStyles.container + ' ' + AppStyles.content}>
                         <li className={AppStyles.content__block + " mr-10"}>
                             {
                                 !loadingIngredient &&
-                                <BurgerIngredients onClickIngredient={dispatch}/>
+                                <BurgerIngredients />
                             }
                         </li>
                         <li className="{AppStyles.content__block}">
                             {
                                 !loadingIngredient &&
-                                <BurgerConstructor deleteIngredient={dispatch} addOrder={dispatch}/>
+                                <BurgerConstructor />
                             }
                         </li>
                     </ul>
                 }
+                </DndProvider>
             </main>
         </>
     );
