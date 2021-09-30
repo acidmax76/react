@@ -1,34 +1,34 @@
 import {
     ADD_INGREDIENT_TO_CONSTRUCTOR,
     DELETE_INGREDIENT_FROM_CONSTRUCTOR,
-    ADD_ORDER,
-    LOADING_INGREDIENTS,
-    SUCCESS_LOAD_INGREDIENTS, FAILED_LOAD_INGREDIENTS
+   DELETE_ALL_FROM_CONSTRUCTOR,
+    MOVE_CARD
 } from "../../actions/app";
 
 import {InitialState} from "./initialState";
 
 export const BurgerConstructorReducer = (state=InitialState, action) => {
     switch (action.type) {
-        // case LOADING_INGREDIENTS:
-        //     return {...state, ingredients:{ ...state.ingredients,loadingIngredient: true, hasErrorLoadIngredient: false}};
-        // case SUCCESS_LOAD_INGREDIENTS:
-        //     return {...state, ingredients: {items:action.items, loadingIngredient: false, hasErrorLoadIngredient: false}};
-        // case FAILED_LOAD_INGREDIENTS:
-        //     return {...state, ingredients:{ items:[], loadingIngredient: false, hasErrorLoadIngredient: true}};
-        // case ADD_ORDER:{
-        //     return {
-        //         ...state,
-        //         orders:[
-        //             ...state.orders,
-        //             {
-        //                 name: action.payload.name,
-        //                 number: action.payload.order.number,
-        //                 date: new Date().toLocaleString(),
-        //             }
-        //         ],
-        //     };
-        // }
+        case MOVE_CARD:
+            const {dragIndex,hoverIndex,dragCard} = action.item;
+            const items = [...state.constructor.items];
+            items.splice(dragIndex, 1);
+            items.splice(hoverIndex, 0, dragCard);
+            return {
+                ...state,
+                constructor: {
+                    ...state.constructor,
+                    items: items
+                }
+            }
+        case DELETE_ALL_FROM_CONSTRUCTOR:
+            return {
+                ...state,
+                constructor: {
+                    bun:null,
+                    items:[]
+                }
+            };
         case DELETE_INGREDIENT_FROM_CONSTRUCTOR: {
             const index = action.payload;
             const newIngredients = [...state.constructor.items];

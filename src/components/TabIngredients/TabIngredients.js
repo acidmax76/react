@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 export function TabIngredients(props) {
     return (
         <>
-            <h3 className="ingredients__content-title text_type_main-medium mb-6">{props.name}</h3>
+            <h3 className="ingredients__content-title text_type_main-medium mb-6" >{props.name}</h3>
             <div className={style.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>
                 {props.ingredients.map(item => {
                     const count = props.count[item._id];

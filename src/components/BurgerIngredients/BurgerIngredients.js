@@ -1,4 +1,4 @@
-import React, {useMemo, useState, useRef, useCallback} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import Modal from '../Modal/Modal';
@@ -6,6 +6,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
 import {ADD_INGREDIENT_TO_MODAL, DELETE_INGREDIENT_FROM_MODAL} from "../../serivice/actions/app";
 import {useDispatch, useSelector} from "react-redux";
+import {useTopId} from "../../serivice/custom/hooks/useTopId";
 
 
 
@@ -13,58 +14,26 @@ function BurgerIngredients(props) {
     const {items} = useSelector(store => store.AppReducer.ingredients);
     const {constructor} = useSelector(store => store.BurgerConstructorReducer);
     const dispatch = useDispatch();
-
-    const useTopId = () => {
-        const listRef = useRef();
-        const items = useRef({});
-        const [topId, setTopId] = useState('');
-
-        const itemsRef = useCallback((el) => {
-            if (el) items.current[el.id] = el;
-        }, [items])
-
-        const onScroll = useCallback(() => {
-            const listTop = listRef.current.getBoundingClientRect().top;
-            let id = '';
-            let minDiff = Number.MAX_VALUE;
-            for (let item in items.current) {
-                const diff = Math.abs(items.current[item].getBoundingClientRect().top - listTop);
-                if (diff >= 0 && minDiff > diff) {
-                    minDiff = diff;
-                    id = items.current[item].id;
-                }
-            }
-            if (id && id !== topId) setTopId(id);
-            console.log(topId);
-        }, [topId])
-
-        return {listRef, itemsRef, onScroll, topId}
-    }
-
-    const [currentTab, setCurrentTab] = useState({
-        type: 'buns',
-        name: 'Булки',
-    });
     const tabs = [
         {
             name: "Булки",
             type: "buns",
             ingredients: items.filter(element => element.type === 'bun')
         },
+
+        {
+            name: "Соусы",
+            type: "sauce",
+            ingredients: items.filter(element => element.type === 'sauce')
+        },
         {
             name: "Начинки",
             type: "main",
             ingredients: items.filter(element => element.type === 'main')
         },
-        {
-            name: "Соусы",
-            type: "sauce",
-            ingredients: items.filter(element => element.type === 'sauce')
-        }
     ];
     const [showModal, setShowModal] = useState(false);
-    //const [dataForModal, setDataForModal] = useState(null);
-
+    const [currentTab,setCurrentTab] = useState('buns')
     const count = useMemo(() => {
         const ingredients = constructor.items.reduce((prev, curr) => (prev[curr._id] = ++prev[curr._id] || 1, prev), {});
         if (constructor.bun) {
@@ -72,19 +41,6 @@ function BurgerIngredients(props) {
         }
         return ingredients;
     }, [constructor]);
-
-    // const handleTabClick = (data) => {
-    //     switch (data) {
-    //         case 'main':
-    //             setCurrentTab({type: 'main', name: 'Начинки'});
-    //             break;
-    //         case 'sauce':
-    //             setCurrentTab({type: 'sauce', name: 'Соусы'});
-    //             break;
-    //         default:
-    //             setCurrentTab({type: 'buns', name: 'Булки'});
-    //     }
-    // };
     const handleClickIngredients = (data) => {
         setShowModal(true);
         dispatch({
@@ -92,55 +48,61 @@ function BurgerIngredients(props) {
             ingredient: data,
         });
     };
-
     const handleCloseModal = () => {
         setShowModal(false);
         dispatch({
             type: DELETE_INGREDIENT_FROM_MODAL,
         });
     };
+    const sauceRef = useRef();
+    const bunsRef = useRef();
+    const mainRef = useRef();
+    const selectedDiv = useRef();
 
+    const  handleTabs = () => {
+        const topDivFrame = selectedDiv.current.offsetTop;
+        const bunsClientRect = bunsRef.current.getBoundingClientRect().top;
+        const sauceClientRect = sauceRef.current.getBoundingClientRect().top;
+        const mainClientRect = mainRef.current.getBoundingClientRect().top;
+        if (topDivFrame >= bunsClientRect && topDivFrame <= sauceClientRect) {
+            setCurrentTab('buns');
+        } else if (topDivFrame >= sauceClientRect  && topDivFrame <= mainClientRect) {
+            setCurrentTab('sauce');
+        } else if (topDivFrame >= mainClientRect) {
+            setCurrentTab('main');
+        }
+    }
+    const handleTabClick = (data)=>{
+        setCurrentTab(data.name);
+        data.ref.current.scrollIntoView();
+    }
     return (
         <section className={BurgerIngredientStyle.ingredients + ' pt-10 pb-10'}>
             <h2 className="ingredients__title text_type_main-large mb-5"> Соберите
                 бургер</h2>
             <nav className="ingredients__nav mb-10">
                 <ul className={BurgerIngredientStyle.ingredients__nav_list}>
-                    <Tab value="buns"
-                         active={true}
-                        //  active={currentTab.type === 'buns'}
-                        // onClick={handleTabClick}
-                    >
+                    <Tab value="buns" active={currentTab === 'buns'} onClick={() => handleTabClick({name:"buns",ref:bunsRef})}>
                         Булки
                     </Tab>
-                    <Tab value="main"
-                         active={false}
-                        //  active={currentTab.type === 'main'}
-                        // onClick={handleTabClick}
-                    >
+                    <Tab value="main" active={currentTab === 'main'} onClick={() => handleTabClick({name:"main",ref:mainRef})}>
                         Начинки
                     </Tab>
-                    <Tab value="sauce"
-                         active={false}
-                        //  active={currentTab.type === 'sauce'}
-                        // onClick={handleTabClick}
-                    >
+                    <Tab value="sauce" active={currentTab === 'sauce'} onClick={() => handleTabClick({name:"sauce",ref:sauceRef})}>
                         Соусы
                     </Tab>
                 </ul>
             </nav>
-            <div  className={BurgerIngredientStyle.ingredients__content +
-            ' custom-scroll'} >
+            <div ref={selectedDiv} className={BurgerIngredientStyle.ingredients__content +
+            ' custom-scroll'} onScroll={handleTabs}>
                 <ul className={BurgerIngredientStyle.ingredients__content_list}>
                     {tabs.map((item, index) => {
                             return (
-                            <li key={index}>
+                            <li key={index} ref={item.type === 'buns' ? bunsRef : item.type === 'main' ? mainRef : sauceRef} data-tab-id={item.type}>
                                 <TabIngredients
                                     key={index} name={item.name} type={item.type}
-                                    // currentTab={currentTab}
                                     ingredients={item.ingredients} count={count}
                                     onClick={handleClickIngredients}
-                                    // onClose={handleCloseModal}
                                 />
                             </li>
                             )
@@ -151,9 +113,9 @@ function BurgerIngredients(props) {
             <div style={{overflow: 'hidden'}}>
                 {
                     showModal &&
-                    <Modal header={'Детали ингредиента'}
-                           onClose={handleCloseModal}><IngredientDetails
-                    /></Modal>
+                    <Modal header={'Детали ингредиента'} onClose={handleCloseModal}>
+                        <IngredientDetails />
+                    </Modal>
                 }
             </div>
         </section>

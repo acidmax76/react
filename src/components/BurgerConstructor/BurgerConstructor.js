@@ -1,14 +1,15 @@
-import React, { useMemo, useState} from 'react';
-import {CurrencyIcon, DragIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useMemo, useState,useCallback} from 'react';
+import {CurrencyIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorStyle from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
 import OrderDetails from '../OrderDetails/OrderDetails';
-import {DELETE_INGREDIENT_FROM_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../serivice/actions/app";
+import {DELETE_INGREDIENT_FROM_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/actions/app";
 import {v4} from "uuid";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
+import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
 
-function BurgerConstructor(props) {
+const BurgerConstructor = () => {
 
     const {bun, items} = useSelector(store => store.BurgerConstructorReducer.constructor);
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function BurgerConstructor(props) {
         return costBan + costIngredients;
     }, [bun, items]);
     const handleDeleteIngredient = (data) => {
-        props.deleteIngredient({
+        dispatch({
             type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
             payload: data,
         });
@@ -30,24 +31,40 @@ function BurgerConstructor(props) {
             setShowModal(true);
         }
     }
-
     const handleCloseModal = () => {
         setShowModal(false);
+        dispatch({
+            type:DELETE_ALL_FROM_CONSTRUCTOR
+        });
     }
-
     const handleDrop = (item) => {
+        const newItem = {...item};
+        newItem.key=v4();
         dispatch({
             type:ADD_INGREDIENT_TO_CONSTRUCTOR,
-            item:item
+            item:newItem
         });
     };
-
     const [, dropTarget] = useDrop({
         accept: "ingredient",
         drop(item) {
             handleDrop(item);
         },
     });
+
+    const moveCard = useCallback((dragIndex, hoverIndex) => {
+        const dragCard = items[dragIndex];
+            dispatch({
+                    type: MOVE_CARD,
+                    item:{
+                        dragIndex:dragIndex,
+                        hoverIndex:hoverIndex,
+                        dragCard:dragCard
+                    }
+                }
+            );
+    }, [items]);
+
     return (
         <section className={ConstructorStyle.constructor + " pt-25 pb-10"}>
             <div ref={dropTarget} className="constructor__content pl-4" >
@@ -62,18 +79,7 @@ function BurgerConstructor(props) {
                 {items.length ?
                     <ul className={ConstructorStyle.constructor__list + " custom-scroll mt-4 mb-4"}>
                         {items.map((item, index) => {
-                            const key = v4();
-                            return (<li key={key}
-                                        className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
-                                <div className={ConstructorStyle.constructor__drag + " mr-2"}>
-                                    <DragIcon key={key} type={"primary"}/>
-                                </div>
-                                <ConstructorElement key={key} text={item.name} thumbnail={item.image_mobile}
-                                                    price={item.price}
-                                                    isLocked={false}
-                                                    handleClose={() => handleDeleteIngredient(index)}
-                                />
-                            </li>)
+                            return <ConstructorIngredient key={index} index={index} item={item} moveCard={moveCard} deleteCard={()=>handleDeleteIngredient(index)}/>
                         })}
                     </ul>
                     :
