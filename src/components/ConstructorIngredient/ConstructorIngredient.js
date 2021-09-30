@@ -2,12 +2,14 @@ import styles from './ConstructorIngredient.module.css'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useRef} from "react";
 import {useDrag, useDrop} from "react-dnd";
+import PropTypes from "prop-types";
+
 
 export function ConstructorIngredient(props) {
     const {index, moveCard, item, deleteCard} = props;
     const {name, image_mobile, price, key} = item;
     const ref = useRef();
-    const [isDragging, constructorRef] = useDrag({
+    const [{isDragging}, constructorRef] = useDrag({
         type: "constructor",
         item: () => {
             return {key, index};
@@ -62,3 +64,15 @@ export function ConstructorIngredient(props) {
         </li>
     );
 }
+
+ConstructorIngredient.propTypes = {
+    index: PropTypes.number.isRequired,
+    item:  PropTypes.shape({
+            key: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            price: PropTypes.number.isRequired,
+            image_mobile: PropTypes.string,
+        }
+    ),
+};
+

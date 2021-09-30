@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = props => {
+const Modal = (props) => {
     const {header, onClose} = props;
     const handleKeyDown = (e) => {
         if (e.key === 'Escape') {

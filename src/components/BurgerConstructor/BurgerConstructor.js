@@ -1,13 +1,17 @@
 import React, { useMemo, useState,useCallback} from 'react';
 import {CurrencyIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import ConstructorStyle from './BurgerConstructor.module.css';
+import styles from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
 import OrderDetails from '../OrderDetails/OrderDetails';
-import {DELETE_INGREDIENT_FROM_CONSTRUCTOR, ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/actions/app";
 import {v4} from "uuid";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
+
+export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
+export const DELETE_INGREDIENT_FROM_CONSTRUCTOR = 'DELETE_INGREDIENT_FROM_CONSTRUCTOR';
+export const DELETE_ALL_FROM_CONSTRUCTOR = 'DELETE_ALL_FROM_CONSTRUCTOR';
+export const MOVE_CARD = 'MOVE_CARD';
 
 const BurgerConstructor = () => {
 
@@ -51,7 +55,6 @@ const BurgerConstructor = () => {
             handleDrop(item);
         },
     });
-
     const moveCard = useCallback((dragIndex, hoverIndex) => {
         const dragCard = items[dragIndex];
             dispatch({
@@ -66,25 +69,25 @@ const BurgerConstructor = () => {
     }, [items]);
 
     return (
-        <section className={ConstructorStyle.constructor + " pt-25 pb-10"}>
+        <section className={styles.constructor + " pt-25 pb-10"}>
             <div ref={dropTarget} className="constructor__content pl-4" >
-                <div className={ConstructorStyle.constructor__item + " mr-4 pl-8"}>
+                <div className={styles.constructor__item + " mr-4 pl-8"}>
                     {
                         bun ?
                             <ConstructorElement type="top" isLocked={true} text={bun.name + "(верх)"} price={bun.price}
                                                 thumbnail={bun.image_mobile}/>
-                            : <div className={ConstructorStyle.constructor__text}> Перетащите сюда булку </div>
+                            : <div className={styles.constructor__text}> Перетащите сюда булку </div>
                     }
                 </div>
                 {items.length ?
-                    <ul className={ConstructorStyle.constructor__list + " custom-scroll mt-4 mb-4"}>
+                    <ul className={styles.constructor__list + " custom-scroll mt-4 mb-4"}>
                         {items.map((item, index) => {
                             return <ConstructorIngredient key={index} index={index} item={item} moveCard={moveCard} deleteCard={()=>handleDeleteIngredient(index)}/>
                         })}
                     </ul>
                     :
-                    <ul className={ConstructorStyle.constructor__list + ' ' + ConstructorStyle.constructor__ingredient__text + " mt-4 mb-4"}>
-                        <div className={ConstructorStyle.constructor__text}> Перетащите сюда начинку</div>
+                    <ul className={styles.constructor__list + ' ' + styles.constructor__ingredient__text + " mt-4 mb-4"}>
+                        <div className={styles.constructor__text}> Перетащите сюда начинку</div>
                     </ul>
                 }
 
@@ -93,13 +96,13 @@ const BurgerConstructor = () => {
                         bun ?
                             <ConstructorElement type="bottom" isLocked={true} text={bun.name + "(низ)"}
                                                 price={bun.price} thumbnail={bun.image_mobile}/>
-                            : <div className={ConstructorStyle.constructor__text}> Перетащите сюда булку </div>
+                            : <div className={styles.constructor__text}> Перетащите сюда булку </div>
                     }
 
                 </div>
             </div>
-            <div className={ConstructorStyle.constructor__footer + " mt-10"}>
-                <div className={ConstructorStyle.constructor__price + " mr-10"}>
+            <div className={styles.constructor__footer + " mt-10"}>
+                <div className={styles.constructor__price + " mr-10"}>
                     <span className="constructor__price-value text_type_digits-medium mr-2">
                         {cost}
                     </span>

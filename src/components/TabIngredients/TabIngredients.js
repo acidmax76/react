@@ -1,18 +1,20 @@
-import style from "./TabIngredients.module.css";
+import styles from "./TabIngredients.module.css";
 import Ingredient from "../Ingredient/Ingredient";
 import React from "react";
 import PropTypes from "prop-types";
 
 export function TabIngredients(props) {
+    const {name,count,ingredients,onClose} = props;
     return (
         <>
-            <h3 className="ingredients__content-title text_type_main-medium mb-6" >{props.name}</h3>
-            <div className={style.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>
-                {props.ingredients.map(item => {
-                    const count = props.count[item._id];
-                    return <Ingredient key={item._id} data={item} count={count}
+            <h3 className="ingredients__content-title text_type_main-medium mb-6" >{name}</h3>
+            <div className={styles.ingredients__content_cards + " mt-6 mb-10 ml-4 mr-4"}>
+                {
+                    ingredients.map(item => {
+                    const qty = count[item._id];
+                    return <Ingredient key={item._id} data={item} count={qty}
                                        onClick={() => props.onClick(item)}
-                                       onClose={props.onClose}/>
+                                       onClose={onClose}/>
                 })}
             </div>
         </>
@@ -21,7 +23,6 @@ export function TabIngredients(props) {
 
 TabIngredients.propTypes = {
     name: PropTypes.string,
-    typr: PropTypes.string,
     count: PropTypes.shape(),
     ingredients: PropTypes.arrayOf(
         PropTypes.shape({
@@ -32,9 +33,5 @@ TabIngredients.propTypes = {
             type: PropTypes.oneOf(['sauce', 'main', 'bun']),
         })
     ),
-    currentTab: PropTypes.shape({
-        type: PropTypes.oneOf(['buns', 'sauce', 'main']).isRequired,
-        name: PropTypes.string.isRequired,
-    })
 }
 ;

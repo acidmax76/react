@@ -1,4 +1,4 @@
-import style from './OrderDetails.module.css';
+import styles from './OrderDetails.module.css';
 import graphics from '../../img/graphics.svg';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
@@ -14,23 +14,23 @@ const OrderDetails = () => {
     useEffect(()=>{
             dispatch(getOrder(BurgerConstructorReducer.constructor))
         },
-        [dispatch]);
+        [dispatch,BurgerConstructorReducer.constructor]);
 
     return (
-        <div className={style.details}>
-        <span className={style.digital}>
+        <div className={styles.details}>
+        <span className={styles.digital}>
           {OrderDetailsReducer.order.number}
         </span>
-            <span className={style.identificator + ' mt-8'}>
+            <span className={styles.identificator + ' mt-8'}>
           идентификатор заказа
         </span>
             <span className={'mt-15'}>
           <img src={graphics} alt={"checked"}/>
         </span>
-            <span className={style.ready + ' mt-15'}>
+            <span className={styles.ready + ' mt-15'}>
           Ваш заказ начали готовить
         </span>
-            <span className={style.wait + ' mt-2 mb-14'}>
+            <span className={styles.wait + ' mt-2 mb-14'}>
           Дождитесь готовности на орбитальной станции
         </span>
         </div>

@@ -4,12 +4,8 @@ export const InitialState = {
         hasErrorLoadIngredient: false,
         items: []
     },
-    // constructor: {
-    //     bun: null,
-    //     items: []
-    // },
-    // orders: [],
 };
+
 // описание  state :
 // {
 //  ingredients : [{
@@ -42,10 +38,9 @@ export const InitialState = {
 //          id: number - _id в списке ингрединетов
 //      }]- массив выбранных ингредиентов для бургера
 //  } - данные для конструктора
-//  orders:[{
+//  orders:{
 //      name: string - название бургера
 //      number:number - номер заказа
-//      date: date - дата и время заказа
-//  }] - массив заказов
+//  } - последний заказ
 //
 //  }

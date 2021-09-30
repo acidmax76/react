@@ -4,13 +4,14 @@ import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
-import {ADD_INGREDIENT_TO_MODAL, DELETE_INGREDIENT_FROM_MODAL} from "../../serivice/actions/app";
 import {useDispatch, useSelector} from "react-redux";
-import {useTopId} from "../../serivice/custom/hooks/useTopId";
+
+export const ADD_INGREDIENT_TO_MODAL = 'ADD_INGREDIENT_TO_MODAL';
+export const DELETE_INGREDIENT_FROM_MODAL = 'DELETE_INGREDIENT_FROM_MODAL';
 
 
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
     const {items} = useSelector(store => store.AppReducer.ingredients);
     const {constructor} = useSelector(store => store.BurgerConstructorReducer);
     const dispatch = useDispatch();
@@ -58,7 +59,6 @@ function BurgerIngredients(props) {
     const bunsRef = useRef();
     const mainRef = useRef();
     const selectedDiv = useRef();
-
     const  handleTabs = () => {
         const topDivFrame = selectedDiv.current.offsetTop;
         const bunsClientRect = bunsRef.current.getBoundingClientRect().top;
