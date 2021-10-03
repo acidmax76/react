@@ -11,22 +11,12 @@
     background: #1C1C21;
 }
 
-.constructor__item +
-.constructor__item {
-    margin-top: calc(var(--offset-base-size) * 4);
-}
 
-/*.constructor__item{*/
-/*    margin-top: 16px;*/
-/*}*/
 
 .constructor__item .constructor-element {
     width: 100%;
 }
 
-.constructor__drag {
-    cursor: grab;
-}
 
 .constructor__footer {
     display: flex;

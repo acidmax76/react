@@ -1,14 +1,11 @@
 export const InitialState = {
-    ingredients: [],
-    loadingIngredient: false,
-    hasErrorLoadIngredient: false,
-    needFetchIngredients: false,
-    constructor: {
-        bun: null,
-        ingredients: []
+    ingredients: {
+        loadingIngredient: false,
+        hasErrorLoadIngredient: false,
+        items: []
     },
-    orders: [],
 };
+
 // описание  state :
 // {
 //  ingredients : [{
@@ -24,9 +21,6 @@ export const InitialState = {
 //      type: string - тип ингредиента "bun"-булка "sauce"- соус "main"-начинки
 //      __v: number - пока не понятно
 //  }] - список ингредиентов из апи
-//  loadingIngredient: bool - стартовала загрузка ингредиентов из апи
-//  hasErrorLoadIngredient: bool - ошибка при загрузке
-//  needFetchIngredients : bool - надо бы обновить список ингредиентов
 //  constructor:{
 //      bun:{
 //          name: string - имя ингредиента
@@ -44,10 +38,9 @@ export const InitialState = {
 //          id: number - _id в списке ингрединетов
 //      }]- массив выбранных ингредиентов для бургера
 //  } - данные для конструктора
-//  orders:[{
+//  orders:{
 //      name: string - название бургера
 //      number:number - номер заказа
-//      date: date - дата и время заказа
-//  }] - массив заказов
+//  } - последний заказ
 //
 //  }

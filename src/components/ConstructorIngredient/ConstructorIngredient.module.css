@@ -1,0 +1,15 @@
+.constructor__drag {
+    cursor: grab;
+}
+
+.constructor__item {
+    margin-top: calc(var(--offset-base-size) * 4);
+}
+
+.opacity__off{
+    opacity: 50%;
+}
+
+.opacity__on{
+    opacity: 1;
+}

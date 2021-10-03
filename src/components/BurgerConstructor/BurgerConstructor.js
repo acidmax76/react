@@ -1,32 +1,26 @@
-import React, {useContext, useMemo, useState} from 'react';
-import {CurrencyIcon, DragIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
-import ConstructorStyle from './BurgerConstructor.module.css';
+import React, { useMemo, useState,useCallback} from 'react';
+import {CurrencyIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
 import OrderDetails from '../OrderDetails/OrderDetails';
-import {BurgerContext} from "../../serivice/BurgerContext";
-import {
-    DELETE_INGREDIENT_FROM_CONSTRUCTOR, ADD_ORDER
-} from "../../serivice/actions/app";
 import {v4} from "uuid";
-import {ErrorMessage} from "../ErrorMessage/ErrorMessage";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
+import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
+import {ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/actions/BurgerConstructor";
 
-function BurgerConstructor(props) {
-    const API_URL = 'https://norma.nomoreparties.space/api/orders';
+const BurgerConstructor = () => {
+
+    const {bun, items} = useSelector(store => store.BurgerConstructorReducer.constructor);
+    const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
-    const [textErrorForModal, setTextErrorForModal] = useState('');
-    const {constructor, orders} = useContext(BurgerContext);
-    const item = constructor.ingredients.filter(item => item.type !== 'bun');
-    const bun = constructor.bun;
     const cost = useMemo(() => {
         const costBan = bun ? bun.price * 2 : 0;
-        const costIngredients = item.reduce((total, value) => total + value.price, 0);
+        const costIngredients = items.reduce((total, value) => total + value.price, 0);
         return costBan + costIngredients;
-    }, [bun, item]);
-
-
-
+    }, [bun, items]);
     const handleDeleteIngredient = (data) => {
-        props.deleteIngredient({
+        dispatch({
             type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
             payload: data,
         });
@@ -34,77 +28,63 @@ function BurgerConstructor(props) {
     }
     const handleShowModal = () => {
         if (bun && cost > 0) {
-            const ingredients = item.map(element => element._id);
-            ingredients.push(bun._id);
-            ingredients.push(bun._id);
-            const getOrder = async () => {
-                try {
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({ingredients: ingredients})
-                    };
-                    const res = await fetch(API_URL, requestOptions);
-                    if (!res.ok) {
-                        throw new Error('Ответ сети был не ok.');
-                    }
-                    const data = await res.json()
-                    if (data.success) {
-                        props.addOrder({
-                            type: ADD_ORDER,
-                            payload: data,
-                        });
-                        setShowModal(true);
-                        setTextErrorForModal('');
-                        console.log(orders);
-                    } else {
-                        setShowModal(true);
-                        setTextErrorForModal('Пришел ответ отличный от success=true');
-                    }
-                } catch (e) {
-                    setShowModal(true);
-                    setTextErrorForModal('Невозможно оформить заказ ! Ошибка в сети (' + e.message + ')');
-                }
-            };
-            getOrder();
-        } else {
             setShowModal(true);
-            setTextErrorForModal('Выберите булку и ингредиенты !');
         }
     }
     const handleCloseModal = () => {
         setShowModal(false);
+        dispatch({
+            type:DELETE_ALL_FROM_CONSTRUCTOR
+        });
     }
+    const handleDrop = (item) => {
+        const newItem = {...item};
+        newItem.key=v4();
+        dispatch({
+            type:ADD_INGREDIENT_TO_CONSTRUCTOR,
+            item:newItem
+        });
+    };
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop(item) {
+            handleDrop(item);
+        },
+    });
+    const moveCard = useCallback((dragIndex, hoverIndex) => {
+        const dragCard = items[dragIndex];
+            dispatch({
+                    type: MOVE_CARD,
+                    item:{
+                        dragIndex:dragIndex,
+                        hoverIndex:hoverIndex,
+                        dragCard:dragCard
+                    }
+                }
+            );
+    }, // eslint-disable-next-line
+        [items]);
 
     return (
-        <section className={ConstructorStyle.constructor + " pt-25 pb-10"}>
-            <div className="constructor__content pl-4">
-                <div className={ConstructorStyle.constructor__item + " mr-4 pl-8"}>
+        <section className={styles.constructor + " pt-25 pb-10"}>
+            <div ref={dropTarget} className="constructor__content pl-4" >
+                <div className={styles.constructor__item + " mr-4 pl-8"}>
                     {
                         bun ?
                             <ConstructorElement type="top" isLocked={true} text={bun.name + "(верх)"} price={bun.price}
                                                 thumbnail={bun.image_mobile}/>
-                            : <div className={ConstructorStyle.constructor__text}> Выберите булку </div>
+                            : <div className={styles.constructor__text}> Перетащите сюда булку </div>
                     }
                 </div>
-                {item.length ?
-                    <ul className={ConstructorStyle.constructor__list + " custom-scroll mt-4 mb-4"}>
-                        {item.map((item, index) => {
-                        const key = v4();
-                        return (<li key={key}
-                        className={ConstructorStyle.constructor__item + " constructor-element__row mb-2"}>
-                        <div className={ConstructorStyle.constructor__drag + " mr-2"}>
-                        <DragIcon key={key} type={"primary"}/>
-                        </div>
-                        <ConstructorElement key={key} text={item.name} thumbnail={item.image_mobile}
-                        price={item.price}
-                        isLocked={false} handleClose={() => handleDeleteIngredient(index)}/>
-                        </li>)
+                {items.length ?
+                    <ul className={styles.constructor__list + " custom-scroll mt-4 mb-4"}>
+                        {items.map((item, index) => {
+                            return <ConstructorIngredient key={index} index={index} item={item} moveCard={moveCard} deleteCard={()=>handleDeleteIngredient(index)}/>
                         })}
                     </ul>
                     :
-                    <ul className={ConstructorStyle.constructor__list + ' ' + ConstructorStyle.constructor__ingredient__text + " mt-4 mb-4"}>
-                        <div className={ConstructorStyle.constructor__text}> Выберите начинку</div>
+                    <ul className={styles.constructor__list + ' ' + styles.constructor__ingredient__text + " mt-4 mb-4"}>
+                        <div className={styles.constructor__text}> Перетащите сюда начинку</div>
                     </ul>
                 }
 
@@ -113,26 +93,28 @@ function BurgerConstructor(props) {
                         bun ?
                             <ConstructorElement type="bottom" isLocked={true} text={bun.name + "(низ)"}
                                                 price={bun.price} thumbnail={bun.image_mobile}/>
-                            : <div className={ConstructorStyle.constructor__text}> Выберите булку </div>
+                            : <div className={styles.constructor__text}> Перетащите сюда булку </div>
                     }
 
                 </div>
             </div>
-            <div className={ConstructorStyle.constructor__footer + " mt-10"}>
-                <div className={ConstructorStyle.constructor__price + " mr-10"}>
-                    <span className="constructor__price-value text_type_digits-medium mr-2">{cost}</span>
+            <div className={styles.constructor__footer + " mt-10"}>
+                <div className={styles.constructor__price + " mr-10"}>
+                    <span className="constructor__price-value text_type_digits-medium mr-2">
+                        {cost}
+                    </span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
                 <span className="pt-5 pb-5 pl-10 pr-15">
-                {<Button type="primary" size="medium" onClick={handleShowModal}>
+                {<Button type="primary" size="medium"
+                         onClick={handleShowModal}
+                >
                     Оформить заказ
                 </Button>}
                     </span>
             </div>
-            {showModal && textErrorForModal === '' &&
-            <Modal onClose={handleCloseModal}><OrderDetails order={orders[orders.length - 1]}/></Modal>}
-            {showModal && textErrorForModal !== '' &&
-            <Modal onClose={handleCloseModal}><ErrorMessage message={textErrorForModal}/></Modal>}
+            {showModal &&
+            <Modal onClose={handleCloseModal}><OrderDetails /></Modal>}
         </section>
     );
 }
