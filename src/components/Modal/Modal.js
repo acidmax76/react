@@ -20,7 +20,8 @@ const Modal = (props) => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         }
-    }, []);
+    }, // eslint-disable-next-line
+        []);
 
     return ReactDOM.createPortal(
         (

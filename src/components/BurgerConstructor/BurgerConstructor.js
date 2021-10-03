@@ -7,11 +7,7 @@ import {v4} from "uuid";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
-
-export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
-export const DELETE_INGREDIENT_FROM_CONSTRUCTOR = 'DELETE_INGREDIENT_FROM_CONSTRUCTOR';
-export const DELETE_ALL_FROM_CONSTRUCTOR = 'DELETE_ALL_FROM_CONSTRUCTOR';
-export const MOVE_CARD = 'MOVE_CARD';
+import {ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/actions/BurgerConstructor";
 
 const BurgerConstructor = () => {
 
@@ -66,7 +62,8 @@ const BurgerConstructor = () => {
                     }
                 }
             );
-    }, [items]);
+    }, // eslint-disable-next-line
+        [items]);
 
     return (
         <section className={styles.constructor + " pt-25 pb-10"}>

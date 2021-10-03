@@ -1,5 +1,5 @@
 import {InitialState} from "./initialState";
-import {ORDER_ERROR,ORDER_REQUEST,ORDER_SUCCESS} from "../../../components/OrderDetails/OrderDetails";
+import {ORDER_ERROR,ORDER_REQUEST,ORDER_SUCCESS} from "../../actions/OrderDetails";
 export const OrderDetailsReducer = (state=InitialState, action) => {
     switch (action.type){
         case ORDER_REQUEST:

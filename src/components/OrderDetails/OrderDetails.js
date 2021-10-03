@@ -3,9 +3,6 @@ import graphics from '../../img/graphics.svg';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getOrder} from "../../serivice/actions/OrderDetails";
-export const ORDER_SUCCESS = 'ORDER_SUCCESS';
-export const ORDER_REQUEST='ORDER_REQUEST';
-export const ORDER_ERROR='ORDER_ERROR'
 
 const OrderDetails = () => {
     const {OrderDetailsReducer,BurgerConstructorReducer} = useSelector(store=>store);

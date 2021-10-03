@@ -5,11 +5,7 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
 import {useDispatch, useSelector} from "react-redux";
-
-export const ADD_INGREDIENT_TO_MODAL = 'ADD_INGREDIENT_TO_MODAL';
-export const DELETE_INGREDIENT_FROM_MODAL = 'DELETE_INGREDIENT_FROM_MODAL';
-
-
+import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../serivice/actions/BurgerIngredients";
 
 function BurgerIngredients() {
     const {items} = useSelector(store => store.AppReducer.ingredients);
@@ -36,6 +32,7 @@ function BurgerIngredients() {
     const [showModal, setShowModal] = useState(false);
     const [currentTab,setCurrentTab] = useState('buns')
     const count = useMemo(() => {
+        // eslint-disable-next-line
         const ingredients = constructor.items.reduce((prev, curr) => (prev[curr._id] = ++prev[curr._id] || 1, prev), {});
         if (constructor.bun) {
             ingredients[constructor.bun._id] = 2;
@@ -85,11 +82,11 @@ function BurgerIngredients() {
                     <Tab value="buns" active={currentTab === 'buns'} onClick={() => handleTabClick({name:"buns",ref:bunsRef})}>
                         Булки
                     </Tab>
-                    <Tab value="main" active={currentTab === 'main'} onClick={() => handleTabClick({name:"main",ref:mainRef})}>
-                        Начинки
-                    </Tab>
                     <Tab value="sauce" active={currentTab === 'sauce'} onClick={() => handleTabClick({name:"sauce",ref:sauceRef})}>
                         Соусы
+                    </Tab>
+                    <Tab value="main" active={currentTab === 'main'} onClick={() => handleTabClick({name:"main",ref:mainRef})}>
+                        Начинки
                     </Tab>
                 </ul>
             </nav>

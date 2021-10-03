@@ -1,4 +1,4 @@
-import {DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD,DELETE_ALL_FROM_CONSTRUCTOR,ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../../components/BurgerConstructor/BurgerConstructor";
+import {DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD,DELETE_ALL_FROM_CONSTRUCTOR,ADD_INGREDIENT_TO_CONSTRUCTOR} from "../../actions/BurgerConstructor";
 
 import {InitialState} from "./initialState";
 

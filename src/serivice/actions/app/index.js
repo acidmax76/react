@@ -1,5 +1,6 @@
-import {LOADING_INGREDIENTS,FAILED_LOAD_INGREDIENTS,SUCCESS_LOAD_INGREDIENTS} from "../../../components/App/App";
-
+export const LOADING_INGREDIENTS = 'LOADING_INGREDIENTS';
+export const SUCCESS_LOAD_INGREDIENTS = 'SUCCESS_LOAD_INGREDIENTS';
+export const FAILED_LOAD_INGREDIENTS = 'FAILED_LOAD_INGREDIENTS';
 const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
 export function getIngredients() {

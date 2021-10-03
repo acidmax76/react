@@ -1,5 +1,5 @@
 import {InitialState} from "./initialState";
-import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../../components/BurgerIngredients/BurgerIngredients";
+import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../actions/BurgerIngredients";
 
 export const BurgerIngredientsReducer = (state=InitialState, action) => {
     switch (action.type) {
