@@ -1,4 +1,4 @@
-import React, { useMemo, useState,useCallback} from 'react';
+import React, { useState,useCallback} from 'react';
 import {CurrencyIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './BurgerConstructor.module.css';
 import Modal from "../Modal/Modal";
@@ -8,17 +8,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
 import {ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/BurgerConstructor/actions";
+import {getConstructorItems, getCost} from "../../serivice/BurgerConstructor/selectors";
 
 const BurgerConstructor = () => {
 
-    const {bun, items} = useSelector(store => store.BurgerConstructorReducer.constructor);
+    const {bun, items} = useSelector(getConstructorItems);
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
-    const cost = useMemo(() => {
-        const costBan = bun ? bun.price * 2 : 0;
-        const costIngredients = items.reduce((total, value) => total + value.price, 0);
-        return costBan + costIngredients;
-    }, [bun, items]);
+    const cost =useSelector(getCost);
     const handleDeleteIngredient = (data) => {
         dispatch({
             type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
