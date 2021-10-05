@@ -5,7 +5,7 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../serivice/actions/BurgerIngredients";
+import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../serivice/BurgerIngredients/actions";
 
 function BurgerIngredients() {
     const {items} = useSelector(store => store.AppReducer.ingredients);

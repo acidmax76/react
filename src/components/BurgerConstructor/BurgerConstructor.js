@@ -7,7 +7,7 @@ import {v4} from "uuid";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
-import {ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/actions/BurgerConstructor";
+import {ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/BurgerConstructor/actions";
 
 const BurgerConstructor = () => {
 

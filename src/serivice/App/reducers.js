@@ -1,4 +1,4 @@
-import {LOADING_INGREDIENTS,SUCCESS_LOAD_INGREDIENTS,FAILED_LOAD_INGREDIENTS} from "../../actions/app";
+import {LOADING_INGREDIENTS,SUCCESS_LOAD_INGREDIENTS,FAILED_LOAD_INGREDIENTS} from "./actions";
 import {InitialState} from "./initialState";
 
 export const AppReducer = (state=InitialState, action) => {
