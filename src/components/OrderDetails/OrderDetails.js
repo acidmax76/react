@@ -3,20 +3,23 @@ import graphics from '../../img/graphics.svg';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getOrder} from "../../serivice/OrderDetails/actions";
+import {getOrders} from "../../serivice/OrderDetails/selectors";
+import {getConstructorItems} from "../../serivice/BurgerConstructor/selectors";
 
 const OrderDetails = () => {
-    const {OrderDetailsReducer,BurgerConstructorReducer} = useSelector(store=>store);
+    const {order} = useSelector(getOrders);
+    const {bun, items} = useSelector(getConstructorItems);
     const dispatch = useDispatch();
 
     useEffect(()=>{
-            dispatch(getOrder(BurgerConstructorReducer.constructor))
+            dispatch(getOrder({bun,items}))
         },
-        [dispatch,BurgerConstructorReducer.constructor]);
+        [dispatch,bun,items]);
 
     return (
         <div className={styles.details}>
         <span className={styles.digital}>
-          {OrderDetailsReducer.order.number}
+          {order.number}
         </span>
             <span className={styles.identificator + ' mt-8'}>
           идентификатор заказа

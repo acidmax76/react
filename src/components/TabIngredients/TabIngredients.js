@@ -1,5 +1,5 @@
 import styles from "./TabIngredients.module.css";
-import Ingredient from "../Ingredient/Ingredient";
+import {Ingredient} from "../Ingredient/Ingredient";
 import React from "react";
 import PropTypes from "prop-types";
 
