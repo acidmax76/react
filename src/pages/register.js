@@ -23,7 +23,7 @@ export const RegisterPage = ()=>{
                     </div>
                     <div className={styles.footer + " mt-20"}>
                         <div className={"text text_type_main-default text_color_inactive"}>
-                            Уже зарегестрированы ? Войти
+                            Уже зарегестрированы ?  Войти 
                         </div>
                     </div>
                 </div>
