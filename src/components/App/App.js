@@ -1,47 +1,24 @@
-import React, {useEffect} from 'react';
-import styles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import {useSelector,useDispatch} from "react-redux";
-import {getIngredients} from "../../serivice/App/actions";
-import {DndProvider} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
-import {getItems} from "../../serivice/App/selectors";
+import {HomePage} from "../../pages/home";
+import {LoginPage} from "../../pages/login";
+import {RegisterPage} from "../../pages/register";
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
-const App = () => {
-    const ingredients = useSelector(getItems);
-    const {hasErrorLoadIngredient,loadingIngredient} = ingredients;
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getIngredients());
-    }, [dispatch]);
-
+export const App = () => {
     return (
         <>
             <AppHeader/>
-            <main className={styles.main}>
-                <DndProvider backend={HTML5Backend}>
-                {!hasErrorLoadIngredient &&
-                    <ul className={styles.container + ' ' + styles.content}>
-                        <li className={styles.content__block + " mr-10"}>
-                            {
-                                !loadingIngredient &&
-                                <BurgerIngredients />
-                            }
-                        </li>
-                        <li className="{AppStyles.content__block}">
-                            {
-                                !loadingIngredient &&
-                                <BurgerConstructor />
-                            }
-                        </li>
-                    </ul>
-                }
-                </DndProvider>
-            </main>
+            <Router>
+                <Route path="/" exact={true}>
+                    <HomePage/>
+                </Route>
+                <Route path="/login" exact={true}>
+                    <LoginPage/>
+                </Route>
+                <Route path="/register" exact={true}>
+                    <RegisterPage/>
+                </Route>
+            </Router>
         </>
     );
 }
-
-export default App;

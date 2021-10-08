@@ -1,8 +1,9 @@
 import styles from './IngredientDetails.module.css';
 import {useSelector} from "react-redux";
+import {getIngredients} from "../../serivice/IngredientDetails/selector";
 
 const IngredientDetails = () => {
-    const {modalIngredient} = useSelector(store=>store.BurgerIngredientsReducer);
+    const {modalIngredient} = useSelector(getIngredients);
     const {image_large,calories,proteins,carbohydrates,fat,name} = modalIngredient;
     return (
         <>
