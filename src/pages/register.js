@@ -9,7 +9,7 @@ export const RegisterPage = ()=>{
                     <div className={styles.header}>Регистрация</div>
                     <div className={styles.body}>
                         <div className={"mt-6"}>
-                            <Input name={"Имя"} type={"text"}/>
+                            <Input placeholder={"Имя"} type={"text"}/>
                         </div>
                         <div className={"mt-6"}>
                             <EmailInput  name={"Email"}/>
