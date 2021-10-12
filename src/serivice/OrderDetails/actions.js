@@ -21,9 +21,7 @@ export function getOrder(data) {
             };
             const res = await fetch(API_URL, requestOptions);
             if (!res.ok) {
-                dispatch({
-                    type: ORDER_ERROR,
-                });
+
                 throw new Error('Ответ сети был не ok.');
             }
             const order = await res.json()
@@ -33,16 +31,14 @@ export function getOrder(data) {
                     data: order
                 });
             } else {
-                dispatch({
-                    type: ORDER_ERROR,
-                });
+
                 throw new Error('Пришли данные с  success=false.');
             }
         } catch (e) {
             dispatch({
                 type: ORDER_ERROR,
             });
-            throw new Error('Общая ошибка.');
+            throw new Error(e.message);
         }
     }
 }

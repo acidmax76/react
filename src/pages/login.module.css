@@ -14,6 +14,12 @@
     align-items: center;
 }
 
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .footer {
     display: flex;
     flex-direction: column;
@@ -33,4 +39,8 @@
 .login {
     width: 480px;
     margin-top: 200px;
+}
+
+.link{
+    color: #4C4CFF;
 }

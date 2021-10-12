@@ -3,25 +3,31 @@ import {Logo} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/l
 import {BurgerIcon, ListIcon, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import HeaderStyles from './AppHeader.module.css';
 import AppStyles from '../App/App.module.css';
+import {Link,useRouteMatch} from "react-router-dom";
 
-function AppHeader() {
+export const AppHeader=()=> {
+    const isConstructor = useRouteMatch({ path: '/', exact: true});
+    const isOrders = useRouteMatch('/orders');
+    const isProfile = useRouteMatch('/profile');
+
+
     return (
         <header className={HeaderStyles.header + " pt-4 pb-4"}>
             <div className={AppStyles.container}>
                 <div className={HeaderStyles.header__container}>
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>
-                            <li className="mr-2">
-                                <a href="/" className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5 " + HeaderStyles.active }>
-                                    <BurgerIcon type={"primary"}/>
-                                    <span className="header__nav-name ml-2">Конструктор</span>
-                                </a>
+                            <li>
+                                <Link to={"/"}  className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5 "} >
+                                    <BurgerIcon type={isConstructor  ? "primary" : "secondary"}/>
+                                    <span className={isConstructor  ? HeaderStyles.active + " ml-2" : "ml-2"}>Конструктор</span>
+                                </Link>
                             </li>
                             <li>
-                                <a href="/" className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
-                                    <ListIcon type={"secondary"}/>
-                                    <span className="ml-2">Лента заказов</span>
-                                </a>
+                                <Link to={"/orders"}  className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
+                                    <ListIcon type={isOrders ? "primary" : "secondary"}/>
+                                    <span className={isOrders  ? HeaderStyles.active + " ml-2" : "ml-2"}>Лента заказов</span>
+                                </Link>
                             </li>
                         </ul>
                     </nav>
@@ -31,10 +37,10 @@ function AppHeader() {
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>
                             <li>
-                                <a href="/" className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
-                                    <ProfileIcon type={"secondary"}/>
-                                    <span className="ml-2">Личный кабинет</span>
-                                </a>
+                                <Link to={"/profile"} className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"} >
+                                    <ProfileIcon type={isProfile ? "primary" : "secondary"}/>
+                                    <span className={isProfile ? HeaderStyles.active + " ml-2" : "ml-2"}>Личный кабинет</span>
+                                </Link>
                             </li>
                         </ul>
                     </nav>
@@ -43,5 +49,3 @@ function AppHeader() {
         </header>
     );
 }
-
-export default AppHeader;

@@ -12,9 +12,7 @@ export function getIngredients() {
             });
             const res = await fetch(API_URL);
             if (!res.ok) {
-                dispatch({
-                    type: FAILED_LOAD_INGREDIENTS,
-                });
+
                 throw new Error('Ответ сети был не ok.');
             }
             const data = await res.json();
@@ -24,9 +22,7 @@ export function getIngredients() {
                     items: data.data,
                 })
             } else {
-                dispatch({
-                    type: FAILED_LOAD_INGREDIENTS,
-                })
+
                 throw new Error('Данные не содержат success = true ');
             }
         } catch (e) {
