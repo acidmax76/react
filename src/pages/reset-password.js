@@ -42,10 +42,11 @@ export const ResetPassword = () => {
                             <div className={"mt-6"}>
                                 <Input name={"token"} value={state.token} placeholder={"Введите код из письма"} type={"text"} onChange={handleChange}/>
                             </div>
+                            <div className={"mt-6"}>
+                                <Button type={"primary"} size={"medium"}>Сохранить</Button>
+                            </div>
                         </form>
-                        <div className={"mt-6"}>
-                            <Button type={"primary"} size={"medium"} onClick={handleSubmit}>Сохранить</Button>
-                        </div>
+
                     </div>
                     <div className={styles.footer + " mt-20"}>
                         <div className={"text text_type_main-default text_color_inactive"}>

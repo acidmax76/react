@@ -33,7 +33,6 @@ export function getOrder(data) {
             dispatch({
                 type: ORDER_ERROR,
             });
-            throw new Error(e.message);
         }
     }
 }

@@ -30,7 +30,7 @@ export const RegisterPage = () => {
     }
     const handleCloseModal = () => {
         dispatch({
-            type:USER_CLOSE_ERROR
+            type: USER_CLOSE_ERROR
         });
     }
     return (
@@ -52,21 +52,21 @@ export const RegisterPage = () => {
                                 <div className={"mt-6"}>
                                     <PasswordInput name={"password"} value={state.password} onChange={handleChange}/>
                                 </div>
+                                <div className={"mt-6"}>
+                                    <Button type={"primary"} size={"medium"}>Зарегестрироваться</Button>
+                                </div>
                             </form>
-                            <div className={"mt-6"}>
-                                <Button type={"primary"} size={"medium"}
-                                        onClick={handleSubmit}>Зарегестрироваться</Button>
-                            </div>
-                        </div>
-                        <div className={styles.footer + " mt-20"}>
-                            <div className={"text text_type_main-default text_color_inactive"}>
-                                Уже зарегестрированы ? <Link to='/login' className={styles.link}>Войти</Link>
+
+                            <div className={styles.footer + " mt-20"}>
+                                <div className={"text text_type_main-default text_color_inactive"}>
+                                    Уже зарегестрированы ? <Link to='/login' className={styles.link}>Войти</Link>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {userState.errorMessage !== "" &&
+                    <Modal onClose={handleCloseModal}><Error message={userState.errorMessage}/> </Modal>}
                 </div>
-                {userState.errorMessage !== "" &&
-                <Modal onClose={handleCloseModal}><Error message={userState.errorMessage} /> </Modal>}
             </div>
             : <Redirect to={"/login"}/>
     );

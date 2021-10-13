@@ -26,12 +26,11 @@ export const App = () => {
     }, [dispatch]);
 
     const action = history.action;
-    const ingredientModal = location.state && location.state.modal && action==="PUSH";
-
+    const background = action==='PUSH' ? location.state && location.state.modal : location;
     return (
         <>
             <AppHeader/>
-            <Switch location={ingredientModal || location}>
+            <Switch location={background || location}>
                 <Route path="/" exact={true}>
                     <HomePage/>
                 </Route>
@@ -57,10 +56,14 @@ export const App = () => {
                     <NotFoundPage/>
                 </Route>
             </Switch>
-            { ingredientModal && action === 'PUSH' &&
-            <Route path={"/ingredients/:id"} children={ <Modal header={'Детали ингредиента'} onClose={()=>{history.goBack()}}>
+            { background && action === 'PUSH' &&
+            <Route path={"/ingredients/:id"}
+                   children={
+                <Modal header={'Детали ингредиента'} onClose={()=>{history.goBack()}}>
                 <IngredientPage modal={true}/>
-            </Modal>} />}
+                </Modal>}
+            />
+            }
         </>
     );
 }

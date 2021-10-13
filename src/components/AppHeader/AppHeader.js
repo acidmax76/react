@@ -6,9 +6,9 @@ import AppStyles from '../App/App.module.css';
 import {Link,useRouteMatch} from "react-router-dom";
 
 export const AppHeader=()=> {
-    const isConstructor = useRouteMatch({ path: '/', exact: true});
-    const isOrders = useRouteMatch('/orders');
-    const isProfile = useRouteMatch('/profile');
+    const isConstructor = !!useRouteMatch({ path: '/', exact: true});
+    const isOrders = !!useRouteMatch('/orders');
+    const isProfile = !!useRouteMatch('/profile');
 
 
     return (
@@ -31,9 +31,7 @@ export const AppHeader=()=> {
                             </li>
                         </ul>
                     </nav>
-                    <a href="/">
-                        <Logo/>
-                    </a>
+                        <Logo />
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>
                             <li>

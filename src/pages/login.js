@@ -50,10 +50,11 @@ export const LoginPage = () => {
                                 <div className={"mt-6"}>
                                     <PasswordInput name={"password"} value={state.password} onChange={handleChange}/>
                                 </div>
+                                <div className={"mt-6"}>
+                                    <Button type={"primary"} size={"medium"}>Войти</Button>
+                                </div>
                             </form>
-                            <div className={"mt-6"}>
-                                <Button type={"primary"} size={"medium"} onClick={handleSubmit}>Войти</Button>
-                            </div>
+
                         </div>
                         <div className={styles.footer + " mt-20"}>
                             <div className={"text text_type_main-default text_color_inactive"}>

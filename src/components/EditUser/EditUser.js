@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 export const EditUser = ({name, email, password, handleChange, handleSubmit, handleCancel}) => {
     return (
         <div className={styles.main}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
             <div>
                 <Input placeholder={"Имя"} name={"name"} value={name} onChange={handleChange}/>
             </div>
@@ -17,12 +17,13 @@ export const EditUser = ({name, email, password, handleChange, handleSubmit, han
                 <PasswordInput placeholder={"Пароль"} name={"password"} value={password} onChange={handleChange}
                                icon={"EditIcon"}/>
             </div>
-        </form>
             <div className={styles.button_row}>
                 <Button className={"mr-10"} type={"secondary"} size={"medium"}
                         onClick={handleCancel}>Отменить</Button>
-                <Button type={"primary"} size={"medium"} onClick={handleSubmit}>Сохранить</Button>
+                <Button type={"primary"} size={"medium"}>Сохранить</Button>
             </div>
+        </form>
+
         </div>
     );
 }

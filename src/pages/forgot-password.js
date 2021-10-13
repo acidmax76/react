@@ -40,11 +40,10 @@ export const ForgotPassword = () => {
                                     <Input placeholder={"Укажите e-mail "} type={"email"} value={state.email} name={"email"}
                                            onChange={handleChange}/>
                                 </div>
+                                <div className={"mt-6"}>
+                                    <Button type={"primary"} size={"medium"}>Восстановить</Button>
+                                </div>
                             </form>
-                            <div className={"mt-6"}>
-                                <Button type={"primary"} size={"medium"}
-                                        onClick={handleSubmit}>Восстановить</Button>
-                            </div>
                         </div>
                         <div className={styles.footer + " mt-20"}>
                             <div className={"text text_type_main-default text_color_inactive"}>
