@@ -6,11 +6,14 @@ import {EditUser} from "../components/EditUser/EditUser";
 import {Modal} from "../components/Modal/Modal";
 import {Error} from "../components/Error/Error";
 import {getUser} from "../serivice/User/selectors";
+import {Link, useRouteMatch} from "react-router-dom";
 
 export const ProfilePage = () => {
+    const profileMatch = useRouteMatch({path: "/profile", strict: true, sensitive: true});
+    const ordersMatch = useRouteMatch({path: "/profile/orders", strict: true, sensitive: true});
+    const exitMatch = useRouteMatch({path: "/profile/exit", strict: true, sensitive: true});
     const userState = useSelector(getUser);
     const [state, setState] = useState({name: "", email: "", password: ""});
-    const [currentLink, setCurrentLink] = useState("profile");
     const dispatch = useDispatch();
     useEffect(() => {
         if (userState.user.name !== undefined && userState.user.email !== undefined) {
@@ -29,13 +32,6 @@ export const ProfilePage = () => {
             password: ""
         });
     };
-    const handleChangeLink = data => {
-        setCurrentLink(data.name);
-        if (data.name === 'exit') {
-            setState({name: "", email: "", password: ""});
-            dispatch(logoutUser());
-        }
-    };
     const handleSubmit = event => {
         event.preventDefault();
         dispatch(changeUserInfo(state));
@@ -52,30 +48,29 @@ export const ProfilePage = () => {
             type: USER_CLOSE_ERROR
         });
     }
-
+    if (exitMatch?.isExact){
+        dispatch(logoutUser());
+    }
     return (
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.main}>
                     <div className={styles.left}>
-                        <div className={currentLink === 'profile' ? styles.menu : styles.menu + " text_color_inactive"}
-                             onClick={() => handleChangeLink({name: 'profile'})}>
+                        <Link to={"/profile"} className={profileMatch?.isExact ? styles.menu : styles.menu + " text_color_inactive"}>
                             Профиль
-                        </div>
-                        <div className={currentLink === 'orders' ? styles.menu : styles.menu + " text_color_inactive"}
-                             onClick={() => handleChangeLink({name: 'orders'})}>
+                        </Link>
+                        <Link to={"/profile/orders"} className={ordersMatch?.isExact ? styles.menu : styles.menu + " text_color_inactive"}>
                             История заказов
-                        </div>
-                        <div className={currentLink === 'exit' ? styles.menu : styles.menu + " text_color_inactive"}
-                             onClick={() => handleChangeLink({name: 'exit'})}>
+                        </Link>
+                        <Link to={"/profile/exit"} className={exitMatch?.isExact ? styles.menu : styles.menu + " text_color_inactive"}>
                             Выход
-                        </div>
+                        </Link>
                         <div className={styles.description + " text_color_inactive"}>
                             В этом разделе вы можете <br/>изменить свои персональные данные
                         </div>
                     </div>
                     <div className={styles.right}>
-                        {currentLink === "profile" ?
+                        {profileMatch?.isExact ?
                             <EditUser name={state.name} password={state.password} email={state.email}
                                       handleSubmit={handleSubmit} handleChange={handleChange}
                                       handleCancel={handleCancel}/>

@@ -47,7 +47,7 @@ export const App = () => {
                 <Route path="/reset-password" exact={true}>
                     <ResetPassword/>
                 </Route>
-                <ProtectedRoute path="/profile" exact={true}>
+                <ProtectedRoute path="/profile">
                     <ProfilePage/>
                 </ProtectedRoute>
                 <Route path="/ingredients/:id" exact={true}>

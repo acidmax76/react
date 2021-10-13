@@ -36,6 +36,7 @@ export const logoutUser = () => {
                 dispatch({
                     type: LOGOUT_USER,
                 });
+                dispatch(push("/"));
             } catch (e) {
                 dispatch({
                     type: USER_ERROR,
