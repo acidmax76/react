@@ -5,7 +5,7 @@ import {useDrag, useDrop} from "react-dnd";
 import PropTypes from "prop-types";
 
 
-export function ConstructorIngredient(props) {
+export const ConstructorIngredient = (props) => {
     const {index, moveCard, item, deleteCard} = props;
     const {name, image_mobile, price, key} = item;
     const ref = useRef();
@@ -67,7 +67,7 @@ export function ConstructorIngredient(props) {
 
 ConstructorIngredient.propTypes = {
     index: PropTypes.number.isRequired,
-    item:  PropTypes.shape({
+    item: PropTypes.shape({
             key: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             price: PropTypes.number.isRequired,

@@ -4,13 +4,12 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "../serivice/User/selectors";
 import {newPassword, USER_CLOSE_ERROR} from "../serivice/User/actions";
-import Modal from "../components/Modal/Modal";
+import {Modal} from "../components/Modal/Modal";
 import {Error} from "../components/Error/Error";
 import {Redirect} from "react-router-dom";
 
 export const ResetPassword = () => {
     const [state, setState] = useState({password: "", token: ""});
-
     const dispatch = useDispatch();
     const userState = useSelector(getUser);
     const handleCloseModal = () => {
@@ -30,7 +29,7 @@ export const ResetPassword = () => {
         )
     }
     return (
-        userState.resetPassword ?
+        userState.resetPassword && !userState.isAuth ?
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.login}>

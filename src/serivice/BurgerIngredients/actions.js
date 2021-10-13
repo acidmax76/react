@@ -1,4 +1,1 @@
-export const ADD_INGREDIENT_TO_MODAL = 'ADD_INGREDIENT_TO_MODAL';
-export const DELETE_INGREDIENT_FROM_MODAL = 'DELETE_INGREDIENT_FROM_MODAL';
-
 export const name ='AppReducer';

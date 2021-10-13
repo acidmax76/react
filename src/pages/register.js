@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import {registerUser, USER_CLOSE_ERROR} from "../serivice/User/actions";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "../serivice/User/selectors";
-import Modal from "../components/Modal/Modal";
+import {Modal} from "../components/Modal/Modal";
 import {Error} from "../components/Error/Error";
 
 export const RegisterPage = () => {

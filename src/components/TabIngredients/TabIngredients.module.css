@@ -7,6 +7,11 @@
     order: 0;
 }
 
+.ingredients__card {
+    position: relative;
+    width: calc(50% - var(--offset-base-size) * 3);
+}
+
 .last{
     order: 2;
 }

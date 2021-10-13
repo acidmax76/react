@@ -7,24 +7,31 @@ import {ResetPassword} from "../../pages/reset-password";
 import {ProfilePage} from "../../pages/profile";
 import {IngredientPage} from "../../pages/ingredient";
 import {NotFoundPage} from "../../pages/not-found";
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {getIngredients} from "../../serivice/App/actions";
 import {getUser} from "../../serivice/User/actions";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
+import {Modal} from "../Modal/Modal";
 
 export const App = () => {
+    const location = useLocation();
+    const history = useHistory();
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getIngredients());
         dispatch(getUser());
     }, [dispatch]);
 
+    const action = history.action;
+    const ingredientModal = location.state && location.state.modal && action==="PUSH";
+
     return (
         <>
             <AppHeader/>
-            <Switch>
+            <Switch location={ingredientModal || location}>
                 <Route path="/" exact={true}>
                     <HomePage/>
                 </Route>
@@ -43,13 +50,17 @@ export const App = () => {
                 <ProtectedRoute path="/profile" exact={true}>
                     <ProfilePage/>
                 </ProtectedRoute>
-                <Route path="/ingredient" exact={true}>
-                    <IngredientPage/>
+                <Route path="/ingredients/:id" exact={true}>
+                    <IngredientPage modal={false}/>
                 </Route>
                 <Route>
                     <NotFoundPage/>
                 </Route>
             </Switch>
+            { ingredientModal && action === 'PUSH' &&
+            <Route path={"/ingredients/:id"} children={ <Modal header={'Детали ингредиента'} onClose={()=>{history.goBack()}}>
+                <IngredientPage modal={true}/>
+            </Modal>} />}
         </>
     );
 }

@@ -1,7 +1,7 @@
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './forgot-password.module.css';
 import {Link, Redirect} from "react-router-dom";
-import Modal from "../components/Modal/Modal";
+import {Modal} from "../components/Modal/Modal";
 import {Error} from "../components/Error/Error";
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -29,7 +29,7 @@ export const ForgotPassword = () => {
         )
     }
     return (
-        !userState.resetPassword ?
+        !userState.resetPassword  ?
             <div className={styles.container}>
                 <div className={styles.content}>
                     <div className={styles.login}>

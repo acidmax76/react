@@ -1,5 +1,13 @@
 import {deleteCookie, getCookie, setCookie} from "../utils";
 import {push} from "connected-react-router";
+import {fetchWithRefresh} from "../utils";
+
+const API_URL_REGISTER = 'https://norma.nomoreparties.space/api/auth/register';
+const API_URL_LOGIN = 'https://norma.nomoreparties.space/api/auth/login';
+const API_URL_LOGOUT = 'https://norma.nomoreparties.space/api/auth/logout';
+const API_URL_USER = 'https://norma.nomoreparties.space/api/auth/user';
+const API_URL_RESET = 'https://norma.nomoreparties.space/api/password-reset';
+const API_URL_NEW_PASSWORD = 'https://norma.nomoreparties.space/api/password-reset/reset';
 
 export const REGISTER_USER = 'REGISTER_USER';
 export const LOGIN_USER = 'LOGIN_USER';
@@ -9,49 +17,7 @@ export const RESET_USER = 'RESET_USER';
 export const NEW_PASSWORD_USER = 'NEW_PASSWORD_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
-const API_URL_REGISTER = 'https://norma.nomoreparties.space/api/auth/register';
-const API_URL_LOGIN = 'https://norma.nomoreparties.space/api/auth/login';
-const API_URL_LOGOUT = 'https://norma.nomoreparties.space/api/auth/logout';
-const API_URL_TOKEN = 'https://norma.nomoreparties.space/api/auth/token';
-const API_URL_USER = 'https://norma.nomoreparties.space/api/auth/user';
-const API_URL_RESET = 'https://norma.nomoreparties.space/api/password-reset';
-const API_URL_NEW_PASSWORD = 'https://norma.nomoreparties.space/api/password-reset/reset';
-
 export const name = 'RegisterUserReducer';
-
-const checkResponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
-
-const refreshToken = () => {
-    return fetch(API_URL_TOKEN, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify({
-            token: localStorage.getItem("refreshToken"),
-        }),
-    }).then(checkResponse);
-};
-
-const fetchWithRefresh = async (url, options) => {
-    try {
-        const res = await fetch(url, options);
-        return await checkResponse(res);
-    } catch (err) {
-        if (err.message === "jwt expired") {
-            const refreshData = await refreshToken(); //обновляем токен
-            localStorage.setItem("refreshToken", refreshData.refreshToken);
-            setCookie("accessToken", refreshData.accessToken);
-            options.headers.authorization = refreshData.accessToken;
-            const res = await fetch(url, options); //повторяем запрос
-            return await checkResponse(res);
-        } else {
-            return Promise.reject(err);
-        }
-    }
-};
 
 export const logoutUser = () => {
     return async function (dispatch) {
@@ -122,6 +88,7 @@ export const newPassword = (data) => {
             dispatch({
                 type: NEW_PASSWORD_USER,
             });
+            dispatch(push("/login"));
         } catch (e) {
             dispatch({
                 type: USER_ERROR,
@@ -181,7 +148,6 @@ export const getUser = () => {
     }
 }
 
-
 export const loginUser = (data) => {
     return async function (dispatch) {
         try {
@@ -205,7 +171,6 @@ export const loginUser = (data) => {
         }
     }
 }
-
 
 export function registerUser(data) {
     return async function (dispatch) {

@@ -12,7 +12,8 @@ export const Ingredient = (props) => {
         item: props.data
     });
     return (
-        <div ref={dragRef} className={styles.ingredients__card} onClick={onClick}>
+        <div ref={dragRef}
+             onClick={onClick}>
                 <img className={styles.ingredients__card_image} src={image_mobile}
                      alt="картинка товара" />
                 {count > 0 &&

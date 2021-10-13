@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {changeUserInfo, logoutUser, USER_CLOSE_ERROR} from "../serivice/User/actions";
 import {EditUser} from "../components/EditUser/EditUser";
-import Modal from "../components/Modal/Modal";
+import {Modal} from "../components/Modal/Modal";
 import {Error} from "../components/Error/Error";
 import {getUser} from "../serivice/User/selectors";
 
@@ -12,7 +12,6 @@ export const ProfilePage = () => {
     const [state, setState] = useState({name: "", email: "", password: ""});
     const [currentLink, setCurrentLink] = useState("profile");
     const dispatch = useDispatch();
-
     useEffect(() => {
         if (userState.user.name !== undefined && userState.user.email !== undefined) {
             setState({
@@ -22,7 +21,6 @@ export const ProfilePage = () => {
             });
         }
     }, [userState]);
-
     const handleCancel = event => {
         event.preventDefault();
         setState({
@@ -31,7 +29,6 @@ export const ProfilePage = () => {
             password: ""
         });
     };
-
     const handleChangeLink = data => {
         setCurrentLink(data.name);
         if (data.name === 'exit') {
@@ -39,7 +36,6 @@ export const ProfilePage = () => {
             dispatch(logoutUser());
         }
     };
-
     const handleSubmit = event => {
         event.preventDefault();
         dispatch(changeUserInfo(state));

@@ -1,5 +1,6 @@
 import {Input, Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './EditUser.module.css';
+import PropTypes from "prop-types";
 
 export const EditUser = ({name, email, password, handleChange, handleSubmit, handleCancel}) => {
     return (
@@ -25,3 +26,9 @@ export const EditUser = ({name, email, password, handleChange, handleSubmit, han
         </div>
     );
 }
+
+EditUser.propTypes = {
+    name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+};

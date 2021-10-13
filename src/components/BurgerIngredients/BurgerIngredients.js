@@ -1,18 +1,16 @@
 import React, { useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
-import {useDispatch, useSelector} from "react-redux";
-import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../serivice/BurgerIngredients/actions";
+import {useSelector} from "react-redux";
 import {getCounters} from "../../serivice/BurgerConstructor/selectors";
 import {getItems} from "../../serivice/BurgerIngredients/selectors";
+import {useLocation} from "react-router-dom";
 
-function BurgerIngredients() {
+export const BurgerIngredients =()=> {
+    const location = useLocation();
     const {items} = useSelector(getItems);
     const count = useSelector(getCounters)
-    const dispatch = useDispatch();
     const tabs = [
         {
             name: "Булки",
@@ -31,21 +29,7 @@ function BurgerIngredients() {
             ingredients: items.filter(element => element.type === 'main')
         },
     ];
-    const [showModal, setShowModal] = useState(false);
     const [currentTab,setCurrentTab] = useState('buns')
-    const handleClickIngredients = (data) => {
-        setShowModal(true);
-        dispatch({
-            type: ADD_INGREDIENT_TO_MODAL,
-            ingredient: data,
-        });
-    };
-    const handleCloseModal = () => {
-        setShowModal(false);
-        dispatch({
-            type: DELETE_INGREDIENT_FROM_MODAL,
-        });
-    };
     const sauceRef = useRef();
     const bunsRef = useRef();
     const mainRef = useRef();
@@ -93,7 +77,7 @@ function BurgerIngredients() {
                                 <TabIngredients
                                     key={index} name={item.name} type={item.type}
                                     ingredients={item.ingredients} count={count}
-                                    onClick={handleClickIngredients}
+                                    location={location}
                                 />
                             </li>
                             )
@@ -101,17 +85,7 @@ function BurgerIngredients() {
                     )}
                 </ul>
             </div>
-            <div style={{overflow: 'hidden'}}>
-                {
-                    showModal &&
-                    <Modal header={'Детали ингредиента'} onClose={handleCloseModal}>
-                        <IngredientDetails />
-                    </Modal>
-                }
-            </div>
         </section>
 
     );
 }
-
-export default BurgerIngredients;
