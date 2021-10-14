@@ -1,7 +1,4 @@
-.ingredients__card {
-    position: relative;
-    width: calc(50% - var(--offset-base-size) * 3);
-}
+
 .ingredients__card_image {
     display: block;
     width: 240px;

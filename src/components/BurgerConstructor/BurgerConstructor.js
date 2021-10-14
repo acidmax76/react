@@ -1,24 +1,30 @@
-import React, { useMemo, useState,useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {CurrencyIcon, Button, ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './BurgerConstructor.module.css';
-import Modal from "../Modal/Modal";
-import OrderDetails from '../OrderDetails/OrderDetails';
+import {Modal} from "../Modal/Modal";
+import {OrderDetails} from '../OrderDetails/OrderDetails';
 import {v4} from "uuid";
 import {useDispatch, useSelector} from "react-redux";
 import {useDrop} from "react-dnd";
 import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
-import {ADD_INGREDIENT_TO_CONSTRUCTOR,DELETE_ALL_FROM_CONSTRUCTOR,DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD} from "../../serivice/actions/BurgerConstructor";
+import {
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    DELETE_ALL_FROM_CONSTRUCTOR,
+    DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+    MOVE_CARD
+} from "../../serivice/BurgerConstructor/actions";
+import {getConstructorItems, getCost} from "../../serivice/BurgerConstructor/selectors";
+import {getUser} from "../../serivice/User/selectors";
+import {useHistory,useLocation} from "react-router-dom";
 
-const BurgerConstructor = () => {
-
-    const {bun, items} = useSelector(store => store.BurgerConstructorReducer.constructor);
+export const BurgerConstructor = () => {
+    const history = useHistory();
+    const location = useLocation();
+    const userState = useSelector(getUser);
+    const {bun, items} = useSelector(getConstructorItems);
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
-    const cost = useMemo(() => {
-        const costBan = bun ? bun.price * 2 : 0;
-        const costIngredients = items.reduce((total, value) => total + value.price, 0);
-        return costBan + costIngredients;
-    }, [bun, items]);
+    const cost = useSelector(getCost);
     const handleDeleteIngredient = (data) => {
         dispatch({
             type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
@@ -28,21 +34,25 @@ const BurgerConstructor = () => {
     }
     const handleShowModal = () => {
         if (bun && cost > 0) {
-            setShowModal(true);
+            if (userState.isAuth) {
+                setShowModal(true);
+            } else {
+                 history.push({pathname:"/login",state:{from:location}});
+            }
         }
     }
     const handleCloseModal = () => {
         setShowModal(false);
         dispatch({
-            type:DELETE_ALL_FROM_CONSTRUCTOR
+            type: DELETE_ALL_FROM_CONSTRUCTOR
         });
     }
     const handleDrop = (item) => {
         const newItem = {...item};
-        newItem.key=v4();
+        newItem.key = v4();
         dispatch({
-            type:ADD_INGREDIENT_TO_CONSTRUCTOR,
-            item:newItem
+            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+            item: newItem
         });
     };
     const [, dropTarget] = useDrop({
@@ -52,22 +62,21 @@ const BurgerConstructor = () => {
         },
     });
     const moveCard = useCallback((dragIndex, hoverIndex) => {
-        const dragCard = items[dragIndex];
+            const dragCard = items[dragIndex];
             dispatch({
                     type: MOVE_CARD,
-                    item:{
-                        dragIndex:dragIndex,
-                        hoverIndex:hoverIndex,
-                        dragCard:dragCard
+                    item: {
+                        dragIndex: dragIndex,
+                        hoverIndex: hoverIndex,
+                        dragCard: dragCard
                     }
                 }
             );
-    }, // eslint-disable-next-line
+        }, // eslint-disable-next-line
         [items]);
-
     return (
         <section className={styles.constructor + " pt-25 pb-10"}>
-            <div ref={dropTarget} className="constructor__content pl-4" >
+            <div ref={dropTarget} className="constructor__content pl-4">
                 <div className={styles.constructor__item + " mr-4 pl-8"}>
                     {
                         bun ?
@@ -79,7 +88,8 @@ const BurgerConstructor = () => {
                 {items.length ?
                     <ul className={styles.constructor__list + " custom-scroll mt-4 mb-4"}>
                         {items.map((item, index) => {
-                            return <ConstructorIngredient key={index} index={index} item={item} moveCard={moveCard} deleteCard={()=>handleDeleteIngredient(index)}/>
+                            return <ConstructorIngredient key={index} index={index} item={item} moveCard={moveCard}
+                                                          deleteCard={() => handleDeleteIngredient(index)}/>
                         })}
                     </ul>
                     :
@@ -113,10 +123,11 @@ const BurgerConstructor = () => {
                 </Button>}
                     </span>
             </div>
-            {showModal &&
-            <Modal onClose={handleCloseModal}><OrderDetails /></Modal>}
+            {
+                showModal &&
+                    <Modal onClose={handleCloseModal}><OrderDetails/></Modal>
+
+            }
         </section>
     );
 }
-
-export default BurgerConstructor;

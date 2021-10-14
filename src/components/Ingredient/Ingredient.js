@@ -4,7 +4,7 @@ import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-com
 import PropTypes from 'prop-types';
 import {useDrag} from "react-dnd";
 
-function Ingredient(props) {
+export const Ingredient = (props) => {
     const {data,count,onClick} = props;
     const {image_mobile,price,name} = data;
     const [, dragRef] = useDrag({
@@ -12,7 +12,8 @@ function Ingredient(props) {
         item: props.data
     });
     return (
-        <div ref={dragRef} className={styles.ingredients__card} onClick={onClick}>
+        <div ref={dragRef}
+             onClick={onClick}>
                 <img className={styles.ingredients__card_image} src={image_mobile}
                      alt="картинка товара" />
                 {count > 0 &&
@@ -36,5 +37,3 @@ Ingredient.propTypes =  {
         image_mobile: PropTypes.string,
     }),
 };
-
-export default Ingredient;

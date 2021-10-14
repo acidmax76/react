@@ -1,16 +1,16 @@
-import React, {useMemo, useRef, useState} from 'react';
+import React, { useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
-import {useDispatch, useSelector} from "react-redux";
-import {ADD_INGREDIENT_TO_MODAL,DELETE_INGREDIENT_FROM_MODAL} from "../../serivice/actions/BurgerIngredients";
+import {useSelector} from "react-redux";
+import {getCounters} from "../../serivice/BurgerConstructor/selectors";
+import {getItems} from "../../serivice/BurgerIngredients/selectors";
+import {useLocation} from "react-router-dom";
 
-function BurgerIngredients() {
-    const {items} = useSelector(store => store.AppReducer.ingredients);
-    const {constructor} = useSelector(store => store.BurgerConstructorReducer);
-    const dispatch = useDispatch();
+export const BurgerIngredients =()=> {
+    const location = useLocation();
+    const {items} = useSelector(getItems);
+    const count = useSelector(getCounters)
     const tabs = [
         {
             name: "Булки",
@@ -29,29 +29,7 @@ function BurgerIngredients() {
             ingredients: items.filter(element => element.type === 'main')
         },
     ];
-    const [showModal, setShowModal] = useState(false);
     const [currentTab,setCurrentTab] = useState('buns')
-    const count = useMemo(() => {
-        // eslint-disable-next-line
-        const ingredients = constructor.items.reduce((prev, curr) => (prev[curr._id] = ++prev[curr._id] || 1, prev), {});
-        if (constructor.bun) {
-            ingredients[constructor.bun._id] = 2;
-        }
-        return ingredients;
-    }, [constructor]);
-    const handleClickIngredients = (data) => {
-        setShowModal(true);
-        dispatch({
-            type: ADD_INGREDIENT_TO_MODAL,
-            ingredient: data,
-        });
-    };
-    const handleCloseModal = () => {
-        setShowModal(false);
-        dispatch({
-            type: DELETE_INGREDIENT_FROM_MODAL,
-        });
-    };
     const sauceRef = useRef();
     const bunsRef = useRef();
     const mainRef = useRef();
@@ -99,7 +77,7 @@ function BurgerIngredients() {
                                 <TabIngredients
                                     key={index} name={item.name} type={item.type}
                                     ingredients={item.ingredients} count={count}
-                                    onClick={handleClickIngredients}
+                                    location={location}
                                 />
                             </li>
                             )
@@ -107,17 +85,7 @@ function BurgerIngredients() {
                     )}
                 </ul>
             </div>
-            <div style={{overflow: 'hidden'}}>
-                {
-                    showModal &&
-                    <Modal header={'Детали ингредиента'} onClose={handleCloseModal}>
-                        <IngredientDetails />
-                    </Modal>
-                }
-            </div>
         </section>
 
     );
 }
-
-export default BurgerIngredients;

@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import ReactDOM from "react-dom";
 import styles from './Modal.module.css';
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import {ModalOverlay} from "../ModalOverlay/ModalOverlay";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = (props) => {
+export const Modal = (props) => {
     const {header, onClose} = props;
     const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
@@ -44,8 +44,6 @@ const Modal = (props) => {
             </div>
         ), modalRoot);
 }
-
-export default Modal;
 
 Modal.propTypes = {
     header: PropTypes.string
