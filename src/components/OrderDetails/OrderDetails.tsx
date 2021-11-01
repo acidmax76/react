@@ -1,12 +1,12 @@
 import styles from './OrderDetails.module.css';
 import graphics from '../../img/graphics.svg';
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {FC, useEffect} from "react";
 import {getOrder} from "../../serivice/OrderDetails/actions";
 import {getOrders} from "../../serivice/OrderDetails/selectors";
 import {getConstructorItems} from "../../serivice/BurgerConstructor/selectors";
 
-export const OrderDetails = () => {
+export const OrderDetails:FC = () => {
     const {order} = useSelector(getOrders);
     const {bun, items} = useSelector(getConstructorItems);
     const dispatch = useDispatch();

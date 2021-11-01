@@ -1,11 +1,32 @@
 import styles from "./TabIngredients.module.css";
 import {Ingredient} from "../Ingredient/Ingredient";
-import React from "react";
-import PropTypes from "prop-types";
+import React, {FC} from "react";
 import {Link} from "react-router-dom";
 
-export const TabIngredients = (props) => {
-    const {name, count, ingredients,location} = props;
+export type TIngredient = {
+    calories: number,
+    carbohydrates: number,
+    fat: number,
+    image: string,
+    image_large: string,
+    proteins: number,
+    __v: number,
+    _id: number,
+    name: string,
+    price: number,
+    image_mobile: string,
+    type: 'sauce' | 'main' | 'bun',
+    key:string
+}
+
+type TIngredientProps ={
+    name:string,
+    count:number[],
+    ingredients:TIngredient[],
+    location:Location
+}
+
+export const TabIngredients:FC<TIngredientProps> = ({name, count, ingredients,location}) => {
     return (
         <>
             <h3 className="ingredients__content-title text_type_main-medium mb-6">{name}</h3>
@@ -14,8 +35,7 @@ export const TabIngredients = (props) => {
                     ingredients.map(item => {
                         const qty = count[item._id];
                         return <Link key={item._id} className={styles.ingredients__card} to={{pathname:"/ingredients/"+item._id, state: {modal:location}}}>
-                            <Ingredient key={item._id} data={item} count={qty}
-                            />
+                            <Ingredient key={item._id} data={item} count={qty}/>
                         </Link>
 
                     })}
@@ -23,18 +43,3 @@ export const TabIngredients = (props) => {
         </>
     );
 }
-
-TabIngredients.propTypes = {
-    name: PropTypes.string,
-    count: PropTypes.shape(),
-    ingredients: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string,
-            name: PropTypes.string,
-            price: PropTypes.number,
-            image_mobile: PropTypes.string,
-            type: PropTypes.oneOf(['sauce', 'main', 'bun']),
-        })
-    ),
-}
-;

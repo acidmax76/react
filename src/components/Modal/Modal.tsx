@@ -1,28 +1,31 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import ReactDOM from "react-dom";
 import styles from './Modal.module.css';
 import {ModalOverlay} from "../ModalOverlay/ModalOverlay";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+
+type TModalProps = {
+    header: string,
+    onClose: () => void
+}
 
 const modalRoot = document.getElementById("react-modals");
 
-export const Modal = (props) => {
-    const {header, onClose} = props;
-    const handleKeyDown = (e) => {
+export const Modal: FC<TModalProps> = ({header, onClose, children}) => {
+    const handleKeyDown = (e:KeyboardEvent) => {
         if (e.key === 'Escape') {
             onClose();
         }
     }
 
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        }
-    }, // eslint-disable-next-line
+            document.addEventListener('keydown', handleKeyDown);
+            return () => {
+                document.removeEventListener('keydown', handleKeyDown);
+            }
+        }, // eslint-disable-next-line
         []);
-
+    if (!modalRoot) return null;
     return ReactDOM.createPortal(
         (
             <div className={styles.wrapper}>
@@ -37,7 +40,7 @@ export const Modal = (props) => {
                     </div>
 
                     <div className={styles.ingredient}>
-                        {props.children}
+                        {children}
                     </div>
                 </div>
 
@@ -45,6 +48,4 @@ export const Modal = (props) => {
         ), modalRoot);
 }
 
-Modal.propTypes = {
-    header: PropTypes.string
-};
+;

@@ -1,14 +1,19 @@
 import styles from './ConstructorIngredient.module.css'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useRef} from "react";
-import {useDrag, useDrop} from "react-dnd";
-import PropTypes from "prop-types";
+import React, {FC, useRef} from "react";
+import {DropTargetMonitor, useDrag, useDrop} from "react-dnd";
+import {TIngredient} from "../TabIngredients/TabIngredients";
 
+type TIngredientProps = {
+    index: number,
+    item: TIngredient,
+    moveCard: (dragIndex: number, hoverIndex: number) => void,
+    deleteCard: () => void
+}
 
-export const ConstructorIngredient = (props) => {
-    const {index, moveCard, item, deleteCard} = props;
+export const ConstructorIngredient: FC<TIngredientProps> = ({index, moveCard, item, deleteCard}) => {
     const {name, image_mobile, price, key} = item;
-    const ref = useRef();
+    const ref = useRef<HTMLLIElement>(null);
     const [{isDragging}, constructorRef] = useDrag({
         type: "constructor",
         item: () => {
@@ -25,7 +30,7 @@ export const ConstructorIngredient = (props) => {
                 handlerId: monitor.getHandlerId(),
             };
         },
-        hover(item, monitor) {
+        hover(item: { index: number }, monitor: DropTargetMonitor) {
             if (!ref.current) {
                 return;
             }
@@ -34,9 +39,12 @@ export const ConstructorIngredient = (props) => {
             if (dragIndex === hoverIndex) {
                 return;
             }
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
+            const hoverBoundingRect = ref.current.getBoundingClientRect();
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             const clientOffset = monitor.getClientOffset();
+            if (!clientOffset){
+                return;
+            }
             const hoverClientY = clientOffset.y - hoverBoundingRect.top;
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
@@ -65,14 +73,4 @@ export const ConstructorIngredient = (props) => {
     );
 }
 
-ConstructorIngredient.propTypes = {
-    index: PropTypes.number.isRequired,
-    item: PropTypes.shape({
-            key: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            price: PropTypes.number.isRequired,
-            image_mobile: PropTypes.string,
-        }
-    ),
-};
 

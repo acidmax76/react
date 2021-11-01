@@ -1,19 +1,26 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './Ingredient.module.css';
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
 import {useDrag} from "react-dnd";
 
-export const Ingredient = (props) => {
-    const {data,count,onClick} = props;
+type TIngredientProps = {
+    count:number,
+    data:{
+        name:string,
+        price:number,
+        image_mobile:string
+    },
+//    onClick:()=>void
+}
+
+export const Ingredient:FC<TIngredientProps> = ({data,count}) => {
     const {image_mobile,price,name} = data;
     const [, dragRef] = useDrag({
         type: "ingredient",
-        item: props.data
+        item: data
     });
     return (
-        <div ref={dragRef}
-             onClick={onClick}>
+        <div ref={dragRef}>
                 <img className={styles.ingredients__card_image} src={image_mobile}
                      alt="картинка товара" />
                 {count > 0 &&
@@ -29,11 +36,3 @@ export const Ingredient = (props) => {
     );
 }
 
-Ingredient.propTypes =  {
-    count: PropTypes.number,
-    data: PropTypes.shape({
-        name: PropTypes.string,
-        price: PropTypes.number,
-        image_mobile: PropTypes.string,
-    }),
-};
