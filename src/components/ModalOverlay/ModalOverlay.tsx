@@ -1,11 +1,8 @@
 import styles from './ModalOverlay.module.css';
 import {FC} from "react";
+import {IModalOverlayProps} from "../../serivice/interfaces/IModalOverlayProps";
 
-type TModalOverlayProps = {
-    onClose: () => void
-}
-
-export const ModalOverlay: FC<TModalOverlayProps> = ({onClose}) => {
+export const ModalOverlay: FC<IModalOverlayProps> = ({onClose}) => {
     return (
         <div className={styles.back} onClick={onClose}>
 

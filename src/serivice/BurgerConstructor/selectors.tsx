@@ -1,8 +1,10 @@
-import {createSelector} from "reselect";
+import {createSelector, Selector} from "reselect";
 import {name} from "./actions";
+import {IStore} from "../interfaces/IStore";
+import {IIngredient} from "../interfaces/IIngredient";
 
-const getBun = (store:any) => store[name].constructor.bun;
-const getItems = (store:any) => store[name].constructor.items;
+const getBun:Selector<IStore, IIngredient> = (store) => store[name].constructor.bun;
+const getItems:Selector<IStore, IIngredient[]> = (store) => store[name].constructor.items;
 
 
 export const getConstructorItems = createSelector(getBun, getItems, (bun, items) => ({bun, items}));

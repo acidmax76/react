@@ -2,16 +2,9 @@ import styles from './ConstructorIngredient.module.css'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FC, useRef} from "react";
 import {DropTargetMonitor, useDrag, useDrop} from "react-dnd";
-import {TIngredient} from "../TabIngredients/TabIngredients";
+import {IConstructorIngredientProps} from "../../serivice/interfaces/IConstructorIngredientProps";
 
-type TIngredientProps = {
-    index: number,
-    item: TIngredient,
-    moveCard: (dragIndex: number, hoverIndex: number) => void,
-    deleteCard: () => void
-}
-
-export const ConstructorIngredient: FC<TIngredientProps> = ({index, moveCard, item, deleteCard}) => {
+export const ConstructorIngredient: FC<IConstructorIngredientProps> = ({index, moveCard, item, deleteCard}) => {
     const {name, image_mobile, price, key} = item;
     const ref = useRef<HTMLLIElement>(null);
     const [{isDragging}, constructorRef] = useDrag({

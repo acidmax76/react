@@ -1,17 +1,9 @@
 import {Input, Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './EditUser.module.css';
 import {FC} from "react";
+import {IEditUserProps} from "../../serivice/interfaces/IEditUserProps";
 
-type TEditUserProps = {
-    name:string,
-    email:string,
-    password:string
-    handleChange: ()=>void,
-    handleSubmit: ()=>void,
-    handleCancel: ()=>void,
-}
-
-export const EditUser: FC<TEditUserProps> = ({name, email, password, handleChange, handleSubmit, handleCancel}) => {
+export const EditUser: FC<IEditUserProps> = ({name, email, password, handleChange, handleSubmit, handleCancel}) => {
     return (
         <div className={styles.main}>
         <form className={styles.form} onSubmit={handleSubmit}>

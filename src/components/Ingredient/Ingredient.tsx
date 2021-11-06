@@ -2,18 +2,10 @@ import React, {FC} from 'react';
 import styles from './Ingredient.module.css';
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag} from "react-dnd";
+import {IIngredientProps} from "../../serivice/interfaces/IIngredientProps";
 
-type TIngredientProps = {
-    count:number,
-    data:{
-        name:string,
-        price:number,
-        image_mobile:string
-    },
-//    onClick:()=>void
-}
 
-export const Ingredient:FC<TIngredientProps> = ({data,count}) => {
+export const Ingredient:FC<IIngredientProps> = ({data,count}) => {
     const {image_mobile,price,name} = data;
     const [, dragRef] = useDrag({
         type: "ingredient",

@@ -2,31 +2,9 @@ import styles from "./TabIngredients.module.css";
 import {Ingredient} from "../Ingredient/Ingredient";
 import React, {FC} from "react";
 import {Link} from "react-router-dom";
+import {ITabIngredientProps} from "../../serivice/interfaces/ITabIngredientProps";
 
-export type TIngredient = {
-    calories: number,
-    carbohydrates: number,
-    fat: number,
-    image: string,
-    image_large: string,
-    proteins: number,
-    __v: number,
-    _id: number,
-    name: string,
-    price: number,
-    image_mobile: string,
-    type: 'sauce' | 'main' | 'bun',
-    key:string
-}
-
-type TIngredientProps ={
-    name:string,
-    count:number[],
-    ingredients:TIngredient[],
-    location:Location
-}
-
-export const TabIngredients:FC<TIngredientProps> = ({name, count, ingredients,location}) => {
+export const TabIngredients:FC<ITabIngredientProps> = ({name, count, ingredients,location}) => {
     return (
         <>
             <h3 className="ingredients__content-title text_type_main-medium mb-6">{name}</h3>

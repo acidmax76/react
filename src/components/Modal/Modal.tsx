@@ -3,15 +3,13 @@ import ReactDOM from "react-dom";
 import styles from './Modal.module.css';
 import {ModalOverlay} from "../ModalOverlay/ModalOverlay";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {IModalProps} from "../../serivice/interfaces/IModalProps";
 
-type TModalProps = {
-    header: string,
-    onClose: () => void
-}
+
 
 const modalRoot = document.getElementById("react-modals");
 
-export const Modal: FC<TModalProps> = ({header, onClose, children}) => {
+export const Modal: FC<IModalProps> = ({header, onClose, children}) => {
     const handleKeyDown = (e:KeyboardEvent) => {
         if (e.key === 'Escape') {
             onClose();

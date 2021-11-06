@@ -1,11 +1,8 @@
 import styles from './Error.module.css';
 import {FC} from "react";
+import {IErrorProps} from "../../serivice/interfaces/IErrorProps";
 
-type TErrorProps ={
-    message:string
-}
-
-export const Error:FC<TErrorProps> = ({message}) =>{
+export const Error:FC<IErrorProps> = ({message}) =>{
     return (
     <div className={styles.error}>
         {message}
