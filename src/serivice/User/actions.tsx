@@ -2,6 +2,8 @@ import {deleteCookie, getCookie, setCookie} from "../utils";
 import {push} from "connected-react-router";
 import {fetchWithRefresh} from "../utils";
 import {Dispatch} from "redux";
+import {IResponseBody} from "../interfaces/IResponseBody";
+import {IUser} from "../interfaces/IUser";
 
 
 const API_URL_REGISTER = 'https://norma.nomoreparties.space/api/auth/register';
@@ -69,7 +71,7 @@ export const changeUserInfo = (data: { name?: string, email?: string, password?:
                 body: JSON.stringify(data)
             };
 
-            const fetch = await fetchWithRefresh(API_URL_USER, requestOptions);
+            const fetch:IResponseBody<IUser> = await fetchWithRefresh(API_URL_USER, requestOptions);
             dispatch({
                 type: LOGIN_USER,
                 data: fetch.user,
@@ -148,7 +150,7 @@ export const getUser = () => {
                     method: 'GET',
                     headers: headers,
                 };
-                const fetch = await fetchWithRefresh(API_URL_USER, requestOptions);
+                const fetch:IResponseBody<IUser> = await fetchWithRefresh(API_URL_USER, requestOptions);
                 dispatch({
                     type: LOGIN_USER,
                     data: fetch.user
@@ -195,7 +197,7 @@ export function registerUser(data: { name: string, email: string, password: stri
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             };
-            const user = await fetchWithRefresh(API_URL_REGISTER, requestOptions);
+            const user:IResponseBody<IUser> = await fetchWithRefresh(API_URL_REGISTER, requestOptions);
             dispatch({
                 type: REGISTER_USER,
                 data: user.user
