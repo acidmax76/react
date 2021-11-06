@@ -16,7 +16,7 @@ export const ProfilePage = () => {
     const [state, setState] = useState({name: "", email: "", password: ""});
     const dispatch = useDispatch();
     useEffect(() => {
-        if (userState.user.name !== undefined && userState.user.email !== undefined) {
+        if ("name" in userState.user && "email" in userState.user && userState.user.name !== undefined && userState.user.email !== undefined) {
             setState({
                 name: userState.user.name,
                 email: userState.user.email,
@@ -27,11 +27,13 @@ export const ProfilePage = () => {
     const handleCancel = (event: SyntheticEvent<Element,Event>) => {
         console.log(event);
         event.preventDefault();
-        setState({
-            name: userState.user.name,
-            email: userState.user.email,
-            password: ""
-        });
+        if ("name" in userState.user && "email" in userState.user) {
+            setState({
+                name: userState.user.name,
+                email: userState.user.email,
+                password: ""
+            });
+        }
     };
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

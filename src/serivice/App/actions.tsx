@@ -2,6 +2,7 @@ import {fetchWithRefresh} from "../utils";
 import {Dispatch} from "redux";
 import {IResponseBody} from "../interfaces/IResponseBody";
 import {IIngredient} from "../interfaces/IIngredient";
+import {IRequestOptions} from "../interfaces/IRequestOptions";
 
 const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
@@ -16,7 +17,7 @@ export function getIngredients() {
             dispatch({
                 type: LOADING_INGREDIENTS,
             });
-            const requestOptions = {
+            const requestOptions:IRequestOptions = {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ export const OrderDetails: FC = () => {
             [dispatch, bun, items]);
 
     return (
-            order.number ?
+            "number" in order && order.number ?
                     <div className={styles.details}>
                             <span className={styles.digital}>
                               {order.number}

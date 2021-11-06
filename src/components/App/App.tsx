@@ -15,11 +15,11 @@ import {getUser} from "../../serivice/User/actions";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
 import {Modal} from "../Modal/Modal";
 import {ILocationState} from "../../serivice/interfaces/ILocationState";
+import {Dispatch} from "redux";
 
 export const App = () => {
     const location = useLocation<ILocationState>();
     const history = useHistory();
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getIngredients());

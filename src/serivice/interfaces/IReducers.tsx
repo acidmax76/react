@@ -16,7 +16,7 @@ export interface IAppReducer {
 
 export interface IBurgerConstructorReducer {
     constructor: {
-        bun: IIngredient,
+        bun: IIngredient | null,
         items: IIngredient[]
     }
 }
@@ -25,14 +25,14 @@ export interface IOrderDetailsReducer {
     order: {
         name: string,
         number: number
-    }
+    } | {}
 }
 
 export interface IRegisterOrderReducer {
     user: {
         email:string,
         name:string
-    },
+    } | {},
     isAuth:boolean,
     errorMessage:string,
     resetPassword:boolean

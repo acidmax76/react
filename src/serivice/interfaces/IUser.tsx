@@ -5,7 +5,7 @@ export interface IUser {
 }
 
 export interface IUserState  {
-    user: IUser
+    user: IUser | {}
     isAuth:boolean,
     errorMessage:string,
     resetPassword:boolean

@@ -3,7 +3,7 @@ import {name} from "./actions";
 import {IStore} from "../interfaces/IStore";
 import {IIngredient} from "../interfaces/IIngredient";
 
-const getBun:Selector<IStore, IIngredient> = (store) => store[name].constructor.bun;
+const getBun:Selector<IStore, IIngredient | null> = (store) => store[name].constructor.bun;
 const getItems:Selector<IStore, IIngredient[]> = (store) => store[name].constructor.items;
 
 

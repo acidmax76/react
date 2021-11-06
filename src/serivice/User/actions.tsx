@@ -4,6 +4,7 @@ import {fetchWithRefresh} from "../utils";
 import {Dispatch} from "redux";
 import {IResponseBody} from "../interfaces/IResponseBody";
 import {IUser} from "../interfaces/IUser";
+import {IRequestOptions} from "../interfaces/IRequestOptions";
 
 
 const API_URL_REGISTER = 'https://norma.nomoreparties.space/api/auth/register';
@@ -33,7 +34,7 @@ export const logoutUser = () => {
             });
         } else {
             try {
-                const requestOptions = {
+                const requestOptions:IRequestOptions = {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -65,7 +66,7 @@ export const changeUserInfo = (data: { name?: string, email?: string, password?:
             const headers = new Headers();
             headers.set('Content-Type', 'application/json');
             headers.set('authorization', accessToken);
-            const requestOptions = {
+            const requestOptions:IRequestOptions = {
                 method: 'PATCH',
                 headers: headers,
                 body: JSON.stringify(data)
@@ -88,7 +89,7 @@ export const changeUserInfo = (data: { name?: string, email?: string, password?:
 export const newPassword = (data: { password: string, token: string }) => {
     return async function (dispatch: Dispatch) {
         try {
-            const requestOptions = {
+            const requestOptions:IRequestOptions = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,7 +113,7 @@ export const newPassword = (data: { password: string, token: string }) => {
 export const resetPassword = (data: { email: string }) => {
     return async function (dispatch: Dispatch) {
         try {
-            const requestOptions = {
+            const requestOptions:IRequestOptions = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ export const getUser = () => {
             headers.set('Content-Type', 'application/json');
             headers.set('authorization', accessToken);
             try {
-                const requestOptions = {
+                const requestOptions:IRequestOptions = {
                     method: 'GET',
                     headers: headers,
                 };
@@ -168,18 +169,25 @@ export const getUser = () => {
 export const loginUser = (data: { email: string, password: string }) => {
     return async function (dispatch: Dispatch) {
         try {
-            const requestOptions = {
+            const requestOptions:IRequestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             };
-            const user = await fetchWithRefresh(API_URL_LOGIN, requestOptions);
-            localStorage.setItem("refreshToken", user.refreshToken);
-            setCookie("accessToken", user.accessToken);
-            dispatch({
-                type: LOGIN_USER,
-                data: user.user
-            });
+            const user:IResponseBody<IUser> = await fetchWithRefresh(API_URL_LOGIN, requestOptions);
+            if (!user.accessToken || !user.refreshToken){
+                dispatch({
+                    type: USER_ERROR,
+                    error: "Нет accessToken или refreshToken"
+                });
+            } else {
+                localStorage.setItem("refreshToken", user.refreshToken);
+                setCookie("accessToken", user.accessToken);
+                dispatch({
+                    type: LOGIN_USER,
+                    data: user.user
+                });
+            }
         } catch (e: any) {
             dispatch({
                 type: USER_ERROR,
@@ -192,7 +200,7 @@ export const loginUser = (data: { email: string, password: string }) => {
 export function registerUser(data: { name: string, email: string, password: string }) {
     return async function (dispatch: Dispatch) {
         try {
-            const requestOptions = {
+            const requestOptions:IRequestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
