@@ -7,6 +7,7 @@ import {Modal} from "../components/Modal/Modal";
 import {Error} from "../components/Error/Error";
 import {getUser} from "../serivice/User/selectors";
 import {Link, useRouteMatch} from "react-router-dom";
+import {OrdersList} from "../components/OrdersList";
 
 export const ProfilePage = () => {
     const profileMatch = useRouteMatch({path: "/profile", strict: true, sensitive: true});
@@ -78,6 +79,7 @@ export const ProfilePage = () => {
                                       handleSubmit={handleSubmit} handleChange={handleChange}
                                       handleCancel={handleCancel}/>
                             : ""}
+                        {ordersMatch?.isExact ? <OrdersList /> : ""}
                     </div>
                 </div>
             </div>

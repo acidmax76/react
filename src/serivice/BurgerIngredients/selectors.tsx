@@ -4,7 +4,7 @@ import {IStore} from "../interfaces/IStore";
 import {IIngredient} from "../interfaces/IIngredient";
 
 
-const getIngredients: Selector<IStore, IIngredient[]> = (store) => store[name].ingredients.items;
+const getIngredients: Selector<IStore, ReadonlyArray<IIngredient>> = (store) => store[name].ingredients.items;
 
 
 export const getItems = createSelector(getIngredients, items => items);

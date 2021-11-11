@@ -1,8 +1,10 @@
 import {DELETE_INGREDIENT_FROM_CONSTRUCTOR,MOVE_CARD,DELETE_ALL_FROM_CONSTRUCTOR,ADD_INGREDIENT_TO_CONSTRUCTOR} from "./actions";
 import {InitialState} from "./initialState";
 import {IIngredient} from "../interfaces/IIngredient";
+import {TConstructor} from "./interfaces";
+import {IBurgerConstructorReducer} from "../interfaces/IReducers";
 
-export const BurgerConstructorReducer = (state=InitialState, action:any) => {
+export const BurgerConstructorReducer = (state=InitialState, action:TConstructor):IBurgerConstructorReducer => {
     switch (action.type) {
         case MOVE_CARD:
             const {dragIndex,hoverIndex,dragCard} = action.item;

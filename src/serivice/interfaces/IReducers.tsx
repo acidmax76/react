@@ -8,7 +8,7 @@ export interface IRouter {
 
 export interface IAppReducer {
     ingredients: {
-        items: IIngredient[],
+        items: ReadonlyArray<IIngredient>,
         loadingIngredient: boolean,
         hasErrorLoadIngredient: boolean
     }

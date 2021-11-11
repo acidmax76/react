@@ -1,18 +1,17 @@
 import {fetchWithRefresh, getCookie} from "../utils";
 import {IIngredient} from "../interfaces/IIngredient";
-import {Dispatch} from "redux";
 import {IResponseBody} from "../interfaces/IResponseBody";
 import {IOrderData} from "../interfaces/IOrder";
 import {IRequestOptions} from "../interfaces/IRequestOptions";
+import {AppDispatch, AppThunk} from "../types";
 
-export const ORDER_SUCCESS = 'ORDER_SUCCESS';
-export const ORDER_REQUEST = 'ORDER_REQUEST';
-export const ORDER_ERROR = 'ORDER_ERROR'
+export const ORDER_SUCCESS:'ORDER_SUCCESS' = 'ORDER_SUCCESS';
+export const ORDER_REQUEST:'ORDER_REQUEST' = 'ORDER_REQUEST';
+export const ORDER_ERROR:'ORDER_ERROR' = 'ORDER_ERROR'
 export const name = 'OrderDetailsReducer';
 const API_URL = 'https://norma.nomoreparties.space/api/orders';
 
-export function getOrder(data: { bun: IIngredient | null, items: IIngredient[] }) {
-    return async function (dispatch: Dispatch) {
+export const getOrder:AppThunk=(data: { bun: IIngredient | null, items: IIngredient[] }) => async (dispatch: AppDispatch) => {
         try {
             const accessToken = getCookie('accessToken');
             if (!accessToken) {
@@ -40,7 +39,7 @@ export function getOrder(data: { bun: IIngredient | null, items: IIngredient[] }
                 const order:IResponseBody<IOrderData> = await fetchWithRefresh(API_URL, requestOptions);
                 dispatch({
                     type: ORDER_SUCCESS,
-                    data: order
+                    data: order.order
                 });
             }
         } catch (e) {
@@ -49,4 +48,3 @@ export function getOrder(data: { bun: IIngredient | null, items: IIngredient[] }
             });
         }
     }
-}

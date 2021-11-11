@@ -1,7 +1,9 @@
 import {InitialState} from "./initialState";
 import {REGISTER_USER, LOGIN_USER, USER_ERROR, USER_CLOSE_ERROR,RESET_USER,NEW_PASSWORD_USER,LOGOUT_USER} from "./actions";
+import {TUser} from "./interfaces";
+import {IRegisterOrderReducer} from "../interfaces/IReducers";
 
-export const RegisterUserReducer = (state = InitialState, action:any) => {
+export const RegisterUserReducer = (state = InitialState, action:TUser):IRegisterOrderReducer => {
     switch (action.type) {
         case LOGOUT_USER:
             return {

@@ -1,7 +1,9 @@
 import {LOADING_INGREDIENTS,SUCCESS_LOAD_INGREDIENTS,FAILED_LOAD_INGREDIENTS} from "./actions";
 import {InitialState} from "./initialState";
+import {TLoadIngredients} from "./interfaces";
+import {IAppReducer} from "../interfaces/IReducers";
 
-export const AppReducer = (state=InitialState, action:any) => {
+export const AppReducer = (state=InitialState, action:TLoadIngredients):IAppReducer => {
 
     switch (action.type) {
         case LOADING_INGREDIENTS:
