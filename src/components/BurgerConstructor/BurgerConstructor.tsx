@@ -4,8 +4,7 @@ import styles from './BurgerConstructor.module.css';
 import {Modal} from "../Modal/Modal";
 import {OrderDetails} from '../OrderDetails/OrderDetails';
 import {v4} from "uuid";
-import { useSelector} from 'react-redux';
-import {useDispatch} from '../../serivice/types';
+import {useDispatch,useSelector} from '../../serivice/types';
 import {useDrop} from "react-dnd";
 import {ConstructorIngredient} from "../ConstructorIngredient/ConstructorIngredient";
 import {
@@ -18,6 +17,7 @@ import {getConstructorItems, getCost} from "../../serivice/BurgerConstructor/sel
 import {getUser} from "../../serivice/User/selectors";
 import {useHistory,useLocation} from "react-router-dom";
 import {IIngredient} from "../../serivice/interfaces/IIngredient";
+
 
 export const BurgerConstructor = () => {
     const history = useHistory();

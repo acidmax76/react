@@ -1,5 +1,5 @@
 import {Redirect, Route} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../serivice/types";
 import {getUser} from "../../serivice/User/selectors";
 import {IProtectedRouteProps} from "../../serivice/interfaces/IProtectedRouteProps";
 

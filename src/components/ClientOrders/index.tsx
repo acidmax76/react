@@ -1,8 +1,7 @@
 import styles from './index.module.css';
 import React, {useEffect} from "react";
 import {WS_CONNECTION_CLOSE, WS_CONNECTION_START} from "../../serivice/Websocket/actions";
-import {useDispatch} from "../../serivice/types";
-import {useSelector} from "react-redux";
+import {useDispatch,useSelector} from "../../serivice/types";
 import {getWsStore} from "../../serivice/Feed/selectors";
 import {LocationState} from "history";
 import {Link, useLocation} from "react-router-dom";
@@ -15,6 +14,7 @@ export const OrdersList = () => {
     const wsStore = useSelector(getWsStore);
     const location: LocationState = useLocation();
     const orders = "orders" in wsStore.data ? wsStore.data.orders : [];
+
     orders.sort((a,b)=>{
         if (a.number<b.number){
             return 1;
@@ -51,7 +51,7 @@ export const OrdersList = () => {
                             return item.ingredients.indexOf(item2) === index;
                         });
 
-                        const images = uniqueIngredients.map(item => {
+                        const images:string[] = uniqueIngredients.map(item => {
                             const image = ingredients.ingredients.items.find(item2 => item2._id === item);
                             return image ? image.image_mobile : "";
                         });

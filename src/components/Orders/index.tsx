@@ -3,7 +3,7 @@ import React, {FC} from "react";
 import {Order} from "../ClientOrder";
 import styles from "../ClientOrders/index.module.css";
 import {Link, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../serivice/types";
 import {getWsStore} from "../../serivice/Feed/selectors";
 import {LocationState} from "history";
 import {getItems} from "../../serivice/App/selectors";
@@ -35,7 +35,7 @@ export const Orders: FC = () => {
                                             return item.ingredients.indexOf(item2) === index;
                                         });
 
-                                        const images = uniqueIngredients.map(item => {
+                                        const images:string[] = uniqueIngredients.map(item => {
                                             const image = ingredients.ingredients.items.find(item2 => item2._id === item);
                                             return image ? image.image_mobile : "";
                                         });

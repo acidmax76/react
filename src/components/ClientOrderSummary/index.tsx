@@ -1,10 +1,9 @@
 import styles from './index.module.css';
-import {FC, useEffect} from "react";
+import {FC, useEffect, useMemo} from "react";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useParams} from "react-router-dom";
-import {useDispatch} from "../../serivice/types";
+import {useDispatch,useSelector} from "../../serivice/types";
 import {getOrderSummary} from "../../serivice/OrderSummary/actions";
-import {useSelector} from "react-redux";
 import {getSummaryOrders} from "../../serivice/OrderSummary/selectors";
 import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";
@@ -39,7 +38,7 @@ export const OrderSummary: FC<IOrderSummaryProps> = ({modal}) => {
             })
             : [];
     // eslint-disable-next-line
-    const sum = order ? order.ingredients.reduce((acc:{[x:string]:number}, item:string) => (acc[item] = ++ acc[item] || 1, acc),{}) : {};
+    const sum = order ? useMemo(()=>order.ingredients.reduce((acc:{[x:string]:number}, item:string) => (acc[item] = ++ acc[item] || 1, acc),{}),[order.ingredients]) : {};
     useEffect(() => {
                 dispatch(getOrderSummary(id));
             }

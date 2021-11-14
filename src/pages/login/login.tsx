@@ -2,7 +2,7 @@ import styles from './login.module.css';
 import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useLocation} from "react-router-dom";
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch,useSelector} from "../../serivice/types";
 import {loginUser, USER_CLOSE_ERROR} from "../../serivice/User/actions";
 import {getUser} from "../../serivice/User/selectors";
 import {Modal} from "../../components/Modal/Modal";

@@ -1,7 +1,7 @@
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './reset-password.module.css';
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch,useSelector} from "../../serivice/types";
 import {getUser} from "../../serivice/User/selectors";
 import {newPassword, USER_CLOSE_ERROR} from "../../serivice/User/actions";
 import {Modal} from "../../components/Modal/Modal";

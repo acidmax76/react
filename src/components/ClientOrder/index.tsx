@@ -40,8 +40,8 @@ export const Order: FC<IClientOrderProps> = ({item,cost,images},) => {
                 <div className={styles.footer}>
                     <div className={styles.footer_left}>
                         { images &&
-                            images.map((item)=> {
-                            return (<img className={styles.img} src={item} alt={"image"}/>);
+                            images.map((item,index)=> {
+                            return (<img key={index} className={styles.img} src={item} alt={"ingredient"}/>);
                         })
                         }
                     </div>

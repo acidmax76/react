@@ -8,7 +8,7 @@ import {ProfilePage} from "../../pages/profile/profile";
 import {IngredientPage} from "../../pages/ingredient/ingredient";
 import {NotFoundPage} from "../../pages/not-found/not-found";
 import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
-import {useDispatch} from "react-redux";
+import {useDispatch} from "../../serivice/types";
 import {useEffect} from "react";
 import {getIngredients} from "../../serivice/App/actions";
 import {getUser} from "../../serivice/User/actions";

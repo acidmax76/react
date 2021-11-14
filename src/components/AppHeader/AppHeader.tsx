@@ -31,7 +31,9 @@ export const AppHeader=()=> {
                             </li>
                         </ul>
                     </nav>
-                        <Logo />
+                        <Link to={"/"}>
+                            <Logo />
+                        </Link>
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>
                             <li>

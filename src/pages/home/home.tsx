@@ -4,7 +4,7 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 import {BurgerIngredients} from "../../components/BurgerIngredients/BurgerIngredients";
 import {BurgerConstructor} from "../../components/BurgerConstructor/BurgerConstructor";
 import React  from "react";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../serivice/types";
 import {getItems} from "../../serivice/App/selectors";
 
 export const HomePage = () => {

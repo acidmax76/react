@@ -1,6 +1,6 @@
 import styles from './profile.module.css';
 import React, {SyntheticEvent, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch,useSelector} from "../../serivice/types";
 import {changeUserInfo, logoutUser, USER_CLOSE_ERROR} from "../../serivice/User/actions";
 import {EditUser} from "../../components/EditUser/EditUser";
 import {Modal} from "../../components/Modal/Modal";

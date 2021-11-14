@@ -7,6 +7,8 @@ import {Action, ActionCreator, Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
 import {
     useDispatch as dispatchHook,
+    TypedUseSelectorHook,
+    useSelector as selectorHook
 } from "react-redux";
 import {TWebsocket} from "./Websocket/interfaces";
 import {TOrderSummary} from "./OrderSummary/interfaces";
@@ -26,3 +28,4 @@ export type AppThunk<TReturn = void> = ActionCreator<ThunkAction<TReturn, Action
 export type AppDispatch = Dispatch<TApplicationActions>
 
 export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
+export const useSelector: TypedUseSelectorHook<RootState> = selectorHook

@@ -1,6 +1,6 @@
 import styles from './OrderDetails.module.css';
 import graphics from '../../img/graphics.svg';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch,useSelector} from "../../serivice/types";
 import {FC, useEffect} from "react";
 import {getOrder} from "../../serivice/OrderDetails/actions";
 import {getOrders} from "../../serivice/OrderDetails/selectors";

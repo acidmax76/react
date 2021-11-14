@@ -1,6 +1,6 @@
 import styles from "./ingredient.module.css";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../serivice/types";
 import {getItems} from "../../serivice/BurgerIngredients/selectors";
 import {FC} from "react";
 import {IIngredientPageProps} from "../../serivice/interfaces/IIngredientPageProps";

@@ -2,9 +2,8 @@ import styles from './feed.module.css';
 import React, {useEffect} from "react";
 import {Orders} from "../../components/Orders";
 import {OrdersSummary} from "../../components/OrdersSummary";
-import {useDispatch} from "../../serivice/types";
+import {useDispatch,useSelector} from "../../serivice/types";
 import {WS_CONNECTION_CLOSE, WS_CONNECTION_START} from "../../serivice/Websocket/actions";
-import {useSelector} from "react-redux";
 import {getWsStore} from "../../serivice/Feed/selectors";
 
 export const Feed = () => {

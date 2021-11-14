@@ -1,7 +1,7 @@
 import stylesBurger from "../BurgerConstructor/BurgerConstructor.module.css";
 import styles from './index.module.css';
 import React from "react";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../serivice/types";
 import {getCreatedOrders, getDoneOrders, getWsStore} from "../../serivice/Feed/selectors";
 
 export const OrdersSummary = () => {
