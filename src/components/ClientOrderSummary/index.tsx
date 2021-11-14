@@ -1,5 +1,5 @@
 import styles from './index.module.css';
-import {FC, useEffect, useMemo} from "react";
+import {FC, useEffect} from "react";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useParams} from "react-router-dom";
 import {useDispatch,useSelector} from "../../serivice/types";
@@ -38,7 +38,7 @@ export const OrderSummary: FC<IOrderSummaryProps> = ({modal}) => {
             })
             : [];
     // eslint-disable-next-line
-    const sum = order ? useMemo(()=>order.ingredients.reduce((acc:{[x:string]:number}, item:string) => (acc[item] = ++ acc[item] || 1, acc),{}),[order.ingredients]) : {};
+    const sum = order ? order.ingredients.reduce((acc:{[x:string]:number}, item:string) => (acc[item] = ++ acc[item] || 1, acc),{}) : {};
     useEffect(() => {
                 dispatch(getOrderSummary(id));
             }

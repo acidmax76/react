@@ -9,17 +9,16 @@ export const socketMiddleware = (): Middleware => {
 
         return next => (action: TApplicationActions) => {
             const {dispatch} = store;
-            const accessToken = getCookie('accessToken');
-            if (!accessToken) {
-                return;
-            }
+            const accessToken = getCookie('accessToken') ;
             // @ts-ignore
             const {type, payload} = action;
 
             if (type === 'WS_CONNECTION_START') {
-                const wsUrl = payload ? API_ORDER+accessToken.replace("Bearer ","") : API_ORDERS;
+                const wsUrl = payload ? accessToken ? API_ORDER + accessToken.replace("Bearer ", "") : "" : API_ORDERS;
+                if (wsUrl==="") return;
+                socket = new WebSocket(wsUrl)
                 // объект класса WebSocket
-                socket = new WebSocket(wsUrl);
+
             }
             if (socket) {
 
@@ -42,8 +41,8 @@ export const socketMiddleware = (): Middleware => {
                 socket.onclose = event => {
                     dispatch({type: 'WS_CONNECTION_CLOSED', payload: event});
                 };
-                if (type==='WS_CONNECTION_CLOSE'){
-                    socket.close(1000,"Закрыто по требованию");
+                if (type === 'WS_CONNECTION_CLOSE') {
+                    socket.close(1000, "Закрыто по требованию");
                 }
             }
 
