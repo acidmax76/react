@@ -12,7 +12,7 @@ export const TabIngredients:FC<ITabIngredientProps> = ({name, count, ingredients
                 {
                     ingredients.map(item => {
                         const qty = count[item._id];
-                        return <Link key={item._id} className={styles.ingredients__card} to={{pathname:"/ingredients/"+item._id, state: {modal:location}}}>
+                        return <Link key={item._id} className={styles.ingredients__card} to={{pathname:"/ingredients/"+item._id, state: {modal:location,type:"ingredient"}}}>
                             <Ingredient key={item._id} data={item} count={qty}/>
                         </Link>
 

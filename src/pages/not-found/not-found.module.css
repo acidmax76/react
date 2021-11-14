@@ -1,0 +1,16 @@
+.container {
+    composes: container from "../../components/App/App.module.css";
+}
+
+.content {
+    composes: content from "../../components/App/App.module.css";
+    flex-direction: column;
+    align-items: center;
+}
+.main{
+    margin-top: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

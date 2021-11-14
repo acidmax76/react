@@ -1,0 +1,45 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    composes: container from "../../components/App/App.module.css";
+}
+
+.content {
+    composes: content from "../../components/App/App.module.css";
+    flex-direction: column;
+    align-items: center;
+}
+
+.login {
+    width: 480px;
+    margin-top: 200px;
+}
+.link{
+    color: #4C4CFF;
+}

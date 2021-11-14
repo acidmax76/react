@@ -1,21 +1,22 @@
 import {AppHeader} from '../AppHeader/AppHeader';
-import {HomePage} from "../../pages/home";
-import {LoginPage} from "../../pages/login";
-import {RegisterPage} from "../../pages/register";
-import {ForgotPassword} from "../../pages/forgot-password";
-import {ResetPassword} from "../../pages/reset-password";
-import {ProfilePage} from "../../pages/profile";
-import {IngredientPage} from "../../pages/ingredient";
-import {NotFoundPage} from "../../pages/not-found";
+import {HomePage} from "../../pages/home/home";
+import {LoginPage} from "../../pages/login/login";
+import {RegisterPage} from "../../pages/register/register";
+import {ForgotPassword} from "../../pages/forgot-password/forgot-password";
+import {ResetPassword} from "../../pages/reset-password/reset-password";
+import {ProfilePage} from "../../pages/profile/profile";
+import {IngredientPage} from "../../pages/ingredient/ingredient";
+import {NotFoundPage} from "../../pages/not-found/not-found";
 import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
 import {getIngredients} from "../../serivice/App/actions";
 import {getUser} from "../../serivice/User/actions";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
-import {Modal} from "../Modal/Modal";
 import {ILocationState} from "../../serivice/interfaces/ILocationState";
-import {Dispatch} from "redux";
+import {OrderSummary} from "../ClientOrderSummary";
+import {Feed} from "../../pages/feed/feed";
+import {ModalPage} from "../../pages/modal-page/modal-page";
 
 export const App = () => {
     const location = useLocation<ILocationState>();
@@ -25,16 +26,20 @@ export const App = () => {
         dispatch(getIngredients());
         dispatch(getUser());
     }, [dispatch]);
-
     const action = history.action;
     const background = action==='PUSH' ? location.state && location.state.modal : location;
-
     return (
         <>
             <AppHeader/>
             <Switch location={background || location}>
                 <Route path="/" exact={true}>
                     <HomePage/>
+                </Route>
+                <Route path="/feed" exact={true}>
+                    <Feed />
+                </Route>
+                <Route path="/feed/:id" exact={true}>
+                    <OrderSummary modal={false}/>
                 </Route>
                 <Route path="/login" exact={true}>
                     <LoginPage/>
@@ -48,6 +53,9 @@ export const App = () => {
                 <Route path="/reset-password" exact={true}>
                     <ResetPassword/>
                 </Route>
+                <ProtectedRoute path="/profile/orders/:id">
+                    <OrderSummary modal={false}/>
+                </ProtectedRoute>
                 <ProtectedRoute path="/profile">
                     <ProfilePage/>
                 </ProtectedRoute>
@@ -58,13 +66,8 @@ export const App = () => {
                     <NotFoundPage/>
                 </Route>
             </Switch>
-            { background && action === 'PUSH' &&
-            <Route path={"/ingredients/:id"}
-                   children={
-                <Modal header={'Детали ингредиента'} onClose={()=>{history.goBack()}}>
-                <IngredientPage modal={true}/>
-                </Modal>}
-            />
+            { background && action === 'PUSH' && 
+                    <ModalPage history={history} location={location}/>
             }
         </>
     );
