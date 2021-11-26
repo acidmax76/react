@@ -2,7 +2,7 @@ import React, { useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import {TabIngredients} from '../TabIngredients/TabIngredients';
-import {useSelector} from "react-redux";
+import {useSelector} from "../../serivice/types";
 import {getCounters} from "../../serivice/BurgerConstructor/selectors";
 import {getItems} from "../../serivice/BurgerIngredients/selectors";
 import {useLocation} from "react-router-dom";

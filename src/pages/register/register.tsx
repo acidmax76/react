@@ -2,11 +2,11 @@ import styles from './register.module.css';
 import {Input, EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect} from "react-router-dom";
 import React, {useState} from "react";
-import {registerUser, USER_CLOSE_ERROR} from "../serivice/User/actions";
-import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "../serivice/User/selectors";
-import {Modal} from "../components/Modal/Modal";
-import {Error} from "../components/Error/Error";
+import {registerUser, USER_CLOSE_ERROR} from "../../serivice/User/actions";
+import {useDispatch,useSelector} from "../../serivice/types";
+import {getUser} from "../../serivice/User/selectors";
+import {Modal} from "../../components/Modal/Modal";
+import {Error} from "../../components/Error/Error";
 
 export const RegisterPage = () => {
     const dispatch = useDispatch();

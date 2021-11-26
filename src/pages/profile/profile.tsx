@@ -1,12 +1,13 @@
 import styles from './profile.module.css';
 import React, {SyntheticEvent, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {changeUserInfo, logoutUser, USER_CLOSE_ERROR} from "../serivice/User/actions";
-import {EditUser} from "../components/EditUser/EditUser";
-import {Modal} from "../components/Modal/Modal";
-import {Error} from "../components/Error/Error";
-import {getUser} from "../serivice/User/selectors";
+import {useDispatch,useSelector} from "../../serivice/types";
+import {changeUserInfo, logoutUser, USER_CLOSE_ERROR} from "../../serivice/User/actions";
+import {EditUser} from "../../components/EditUser/EditUser";
+import {Modal} from "../../components/Modal/Modal";
+import {Error} from "../../components/Error/Error";
+import {getUser} from "../../serivice/User/selectors";
 import {Link, useRouteMatch} from "react-router-dom";
+import {OrdersList} from "../../components/ClientOrders";
 
 export const ProfilePage = () => {
     const profileMatch = useRouteMatch({path: "/profile", strict: true, sensitive: true});
@@ -25,7 +26,6 @@ export const ProfilePage = () => {
         }
     }, [userState]);
     const handleCancel = (event: SyntheticEvent<Element,Event>) => {
-        console.log(event);
         event.preventDefault();
         if ("name" in userState.user && "email" in userState.user) {
             setState({
@@ -78,6 +78,7 @@ export const ProfilePage = () => {
                                       handleSubmit={handleSubmit} handleChange={handleChange}
                                       handleCancel={handleCancel}/>
                             : ""}
+                        {ordersMatch?.isExact ? <OrdersList /> : ""}
                     </div>
                 </div>
             </div>

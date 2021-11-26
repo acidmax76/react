@@ -5,11 +5,16 @@ import {OrderDetailsReducer} from "./OrderDetails/reducers";
 import {RegisterUserReducer} from "./User/reducers";
 import{connectRouter} from "connected-react-router";
 import { History } from 'history';
+import {OrdersReducer} from "./Orders/reducers";
+import {OrderSummaryReducer} from "./OrderSummary/reducers";
 
 export const RootReducer = (history: History<unknown>)=>combineReducers({
     router: connectRouter(history),
     AppReducer,
     BurgerConstructorReducer,
     OrderDetailsReducer,
-    RegisterUserReducer
+    RegisterUserReducer,
+    OrdersReducer,
+    OrderSummaryReducer
+//    PrivateOrdersReducer
 });

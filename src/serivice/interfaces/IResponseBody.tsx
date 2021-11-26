@@ -6,5 +6,6 @@ export interface IResponseBody<Data> {
     message?:string
     data?:Data,
     user?:Data,
-    order?:Data
+    order?:Data,
+    orders?:Data[]
 }

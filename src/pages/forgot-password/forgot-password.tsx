@@ -1,12 +1,12 @@
 import {Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './forgot-password.module.css';
 import {Link, Redirect} from "react-router-dom";
-import {Modal} from "../components/Modal/Modal";
-import {Error} from "../components/Error/Error";
+import {Modal} from "../../components/Modal/Modal";
+import {Error} from "../../components/Error/Error";
 import React, {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "../serivice/User/selectors";
-import {resetPassword, USER_CLOSE_ERROR} from "../serivice/User/actions";
+import {useDispatch,useSelector} from '../../serivice/types';
+import {getUser} from "../../serivice/User/selectors";
+import {resetPassword, USER_CLOSE_ERROR} from "../../serivice/User/actions";
 
 export const ForgotPassword = () => {
     const [state, setState] = useState({email: ""});

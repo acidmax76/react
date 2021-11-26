@@ -1,9 +1,9 @@
 .container {
-    composes: container from "../components/App/App.module.css";
+    composes: container from "../../components/App/App.module.css";
 }
 
 .content {
-    composes: content from "../components/App/App.module.css";
+    composes: content from "../../components/App/App.module.css";
     flex-direction: column;
     align-items: center;
 }

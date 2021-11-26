@@ -1,6 +1,7 @@
 import {Location} from "history";
 
 export interface ILocationState {
+    type?: string;
     modal?:Location
     from?:Location
     // pathname: string;

@@ -7,7 +7,7 @@ import {Link,useRouteMatch} from "react-router-dom";
 
 export const AppHeader=()=> {
     const isConstructor = !!useRouteMatch({ path: '/', exact: true});
-    const isOrders = !!useRouteMatch('/orders');
+    const isOrders = !!useRouteMatch('/feed');
     const isProfile = !!useRouteMatch('/profile');
 
 
@@ -24,14 +24,16 @@ export const AppHeader=()=> {
                                 </Link>
                             </li>
                             <li>
-                                <Link to={"/orders"}  className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
+                                <Link to={"/feed"}  className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
                                     <ListIcon type={isOrders ? "primary" : "secondary"}/>
                                     <span className={isOrders  ? HeaderStyles.active + " ml-2" : "ml-2"}>Лента заказов</span>
                                 </Link>
                             </li>
                         </ul>
                     </nav>
-                        <Logo />
+                        <Link to={"/"}>
+                            <Logo />
+                        </Link>
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>
                             <li>

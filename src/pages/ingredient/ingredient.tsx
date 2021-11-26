@@ -1,9 +1,9 @@
 import styles from "./ingredient.module.css";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {getItems} from "../serivice/BurgerIngredients/selectors";
+import {useSelector} from "../../serivice/types";
+import {getItems} from "../../serivice/BurgerIngredients/selectors";
 import {FC} from "react";
-import {IIngredientPageProps} from "../serivice/interfaces/IIngredientPageProps";
+import {IIngredientPageProps} from "../../serivice/interfaces/IIngredientPageProps";
 
 export const IngredientPage:FC<IIngredientPageProps> = ({modal}) => {
     const {id} = useParams<{id?: string}>();
