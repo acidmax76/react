@@ -1,7 +1,7 @@
 import {IWSState, TWebsocket} from "../Websocket/interfaces";
 import {WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE} from "../Websocket/actions";
 
-const initialState: IWSState = {
+export const initialState: IWSState = {
     wsConnected: false,
     data: {}
 };
