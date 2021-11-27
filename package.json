@@ -31,13 +31,16 @@
     "web-vitals": "^1.1.2",
     "enzyme-adapter-react-16": "*",
     "fetch-mock": "*",
-    "redux-mock-store": "*"
+    "redux-mock-store": "*",
+    "cypress": "*",
+    "eslint-plugin-cypress": "*"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "./node_modules/.bin/cypress open"
   },
   "eslintConfig": {
     "extends": [
