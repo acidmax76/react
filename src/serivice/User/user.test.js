@@ -79,6 +79,7 @@ describe('Тестирование user reducer',()=>{
             resetPassword: false
         });
     });
+
     it('Тестирование ',()=>{
         expect(RegisterUserReducer(InitialState,{
             type:types.REGISTER_USER,
