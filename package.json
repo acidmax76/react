@@ -33,7 +33,8 @@
     "fetch-mock": "*",
     "redux-mock-store": "*",
     "cypress": "*",
-    "eslint-plugin-cypress": "*"
+    "eslint-plugin-cypress": "*",
+    "@4tw/cypress-drag-drop": "*"
   },
   "scripts": {
     "start": "react-scripts start",

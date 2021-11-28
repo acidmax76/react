@@ -18,26 +18,26 @@ export const AppHeader=()=> {
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>
                             <li>
-                                <Link to={"/"}  className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5 "} >
+                                <Link to={"/"} data-id={"constructor"} className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5 "} >
                                     <BurgerIcon type={isConstructor  ? "primary" : "secondary"}/>
                                     <span className={isConstructor  ? HeaderStyles.active + " ml-2" : "ml-2"}>Конструктор</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link to={"/feed"}  className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
+                                <Link to={"/feed"} data-id={"feed"} className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"}>
                                     <ListIcon type={isOrders ? "primary" : "secondary"}/>
                                     <span className={isOrders  ? HeaderStyles.active + " ml-2" : "ml-2"}>Лента заказов</span>
                                 </Link>
                             </li>
                         </ul>
                     </nav>
-                        <Link to={"/"}>
+                        <Link data-id={"home"} to={"/"}>
                             <Logo />
                         </Link>
                     <nav>
                         <ul className={HeaderStyles.header__nav_list}>
                             <li>
-                                <Link to={"/profile"} className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"} >
+                                <Link to={"/profile"} data-id={"profile"} className={HeaderStyles.header__nav_link + " pt-4 pb-4 pl-5 pr-5"} >
                                     <ProfileIcon type={isProfile ? "primary" : "secondary"}/>
                                     <span className={isProfile ? HeaderStyles.active + " ml-2" : "ml-2"}>Личный кабинет</span>
                                 </Link>

@@ -135,12 +135,12 @@ export const resetPassword: AppThunk = (data: { email: string }) => async (dispa
 
 export const getUser: AppThunk = () => async (dispatch: AppDispatch) => {
     const accessToken = getCookie('accessToken');
-    if (!accessToken) {
-        dispatch({
-            type: USER_ERROR,
-            error: "Не найден accessToken"
-        });
-    } else {
+    if (accessToken) {
+        // dispatch({
+        //     type: USER_ERROR,
+        //     error: "Не найден accessToken"
+        // });
+//    } else {
         const headers = new Headers();
         headers.set('Content-Type', 'application/json');
         headers.set('authorization', accessToken);
