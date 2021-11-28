@@ -14,6 +14,6 @@ describe('Логин',()=>{
         cy.get('button[class^="button_button__"]').first().should('contain.text', 'Войти').click();
     });
     it('Проверяем после успешного логина должны перейти на главную',()=>{
-        cy.url().should('include','/');
+        cy.url().should('include','http://localhost:3000/');
     })
 });
