@@ -53,26 +53,22 @@ describe('Проверяем всю цепочку заказа бургера',
         cy.url().should('include', '/login');
     });
 
-    it('Вводим верный логин и пароль', () => {
+    it('Вводим верный логин и пароль нажимаем кнопку и проверяем есть ли в запросе данные', () => {
         cy.get('[class="input__icon input__icon-action"]').first().click();
         cy.get('input[type="email"]').type("test22@test.ru").should('have.value', 'test22@test.ru');
         cy.get('input[type="password"]').type('password').should('have.value', 'password');
         cy.get('button[class^="button_button__"]').first().should('contain.text', 'Войти').click();
-    });
-
-    it('Проверяем есть ли в запросе данные', () => {
         cy.wait('@login').its('request.body').should('deep.equal', {
             "email": "test22@test.ru",
             "password": "password"
         })
-    })
-
-    it('Нажимаем кнопку оформить заказ', () => {
-        cy.get('[class^="BurgerConstructor_constructor__footer__"]>span>button').click();
+        cy.wait(1000);
 
     });
 
-    it('Проверяем есть ли в запросе данные', () => {
+
+    it('Нажимаем кнопку оформить заказ и проверяем есть ли в запросе данные', () => {
+        cy.get('[class^="BurgerConstructor_constructor__footer__"]>span>button').click();
         cy.wait('@order').its('request.body').should('deep.equal', {
             ingredients: ['3', '1', '1']
         })
