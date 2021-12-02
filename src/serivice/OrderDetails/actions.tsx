@@ -14,11 +14,6 @@ const API_URL = 'https://norma.nomoreparties.space/api/orders';
 export const getOrder:AppThunk=(data: { bun: IIngredient | null, items: IIngredient[] }) => async (dispatch: AppDispatch) => {
         try {
             const accessToken = getCookie('accessToken');
-            if (!accessToken) {
-                dispatch({
-                    type: ORDER_ERROR,
-                });
-            } else {
                 dispatch({
                     type: ORDER_REQUEST,
                 });
@@ -30,7 +25,9 @@ export const getOrder:AppThunk=(data: { bun: IIngredient | null, items: IIngredi
                 }
                 const headers = new Headers();
                 headers.set('Content-Type', 'application/json');
-                headers.set('authorization', accessToken)
+                if (accessToken != null) {
+                     headers.set('authorization', accessToken)
+                }
                 const requestOptions:IRequestOptions = {
                     method: 'POST',
                     headers: headers,
@@ -41,10 +38,10 @@ export const getOrder:AppThunk=(data: { bun: IIngredient | null, items: IIngredi
                     type: ORDER_SUCCESS,
                     data: order.order
                 });
-            }
+
         } catch (e) {
             dispatch({
                 type: ORDER_ERROR,
             });
         }
-    }
+}

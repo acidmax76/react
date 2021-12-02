@@ -4,7 +4,7 @@ import {
     WS_CONNECTION_ERROR,
     WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
-    WS_GET_MESSAGE, WS_SEND_MESSAGE
+    WS_GET_MESSAGE
 } from "./actions";
 import {IClientOrders} from "../interfaces/IClientOrder";
 
@@ -38,16 +38,11 @@ interface IConnectionClosed {
     payload: Event
 }
 
-interface ISendMessage {
-    type: typeof WS_SEND_MESSAGE,
-    payload: Event
-}
-
 
 export interface IWSState {
     wsConnected: boolean,
     data:IClientOrders | {}
-    error?: Event
+    error?: Event | string
 }
 
 
@@ -58,5 +53,4 @@ export type TWebsocket =
         IConnectionError |
         IGetMessage |
         IConnectionClosed |
-        ISendMessage |
         IConnectionClose;

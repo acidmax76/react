@@ -32,7 +32,7 @@ export const Modal: FC<IModalProps> = ({header, onClose, children}) => {
                 <div className={styles.modal + " pt-10 pl-10 pr-10 pb-30"}>
                     <div className={styles.header}>
                         <span className={styles.title}>{header}</span>
-                        <div className={styles.close}>
+                        <div className={styles.close} >
                             <CloseIcon type={"primary"} onClick={onClose}/>
                         </div>
                     </div>
